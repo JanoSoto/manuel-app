@@ -1,0 +1,178 @@
+es:
+  hello: "Hola mundo"
+  date:
+    abbr_day_names:
+    - Dom
+    - Lun
+    - Mar
+    - Mie
+    - Jue
+    - Vie
+    - Sab
+    abbr_month_names:
+    - 
+    - Ene
+    - Feb
+    - Mar
+    - Abr
+    - May
+    - Jun
+    - Jul
+    - Ago
+    - Sep
+    - Oct
+    - Nov
+    - Dic
+    day_names:
+    - Domingo
+    - Lunes
+    - Martes
+    - Miércoles
+    - Jueves
+    - Viernes
+    - Sabado
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d %B %Y"
+      short: "%d %b"
+    month_names:
+    - 
+    - Enero
+    - Febrero
+    - Marzo
+    - Abril
+    - Mayo
+    - Junio
+    - Julio
+    - Agosto
+    - Septiembre
+    - Octubre
+    - Noviembre
+    - Diciembre
+    order:
+    - :day
+    - :month
+    - :year
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: Es necesario definir un nombre.
+            lastname:
+              blank: Es necesario definir un apellido.
+            phone:
+              too_long: El número de teléfono no debe contener mas de 12 símbolos.
+            email:
+              blank: "Es necesario definir un correo electrónico."
+              taken: Este correo electrónico ya se encuentra asociado a una cuenta.
+            password:
+              blank: "Es necesario definir una contraseña."
+              too_short: "La contraseña es demasiado corta."
+            password_confirmation:
+              confirmation: "La contraseña y la confirmación deben ser iguales."
+            phone:
+              too_short: El teléfono es demasiado corto
+        atack_type:
+          attributes:
+            name:
+              blank: Es necesario definir un nombre.
+        company:
+          attributes:
+            name:
+              blank: Es necesario definir un nombre
+            address:
+              blank: Es necesario definir una dirección
+            phone:
+              blank: Es necesario definir un número de teléfono
+        payment:
+          attributes:
+            report:
+              blank: Es necesario definir a qué reporte corresponde este pago
+            reward:
+              blank: Es necesario definir a qué recompensa se asocia este pago
+            amount:
+              not_a_number: Es necesario definir un monto
+              greater_than: El monto debe ser un número superior a 0
+            description:
+              blank: Es necesario definir una descripción
+    attributes:
+      company:
+        name: "Nombre"
+  will_paginate:
+    previous_label: "&#8592; Anterior"
+    next_label: "Siguiente &#8594;"
+    page_gap: "&hellip;"
+  errors:
+    messages:
+     delete_association: "No ha sido posible eliminar este objeto puesto que existen otros que lo referencian."
+  helpers:
+    label:
+      user:
+        table_singular: "Usuario"
+        table_plural: "Usuarios"
+        name: "Nombre"
+        lastname: "Apellido"
+        email: "Correo electrónico"
+        phone: "Teléfono"
+        password: "Contraseña"
+        password_confirmation: "Repetir contraseña"
+        avatar: "Imagen de perfil"
+        created_at: "Fecha de registro"
+        last_sign_in: "Ultimo ingreso al sistema"
+        roles: "Permisos"
+        birthdate: "Fecha de nacimiento"
+      company:
+        name: Nombre
+        description: Descripción
+        avatar: Imágen de perfil
+        address: Dirección
+        phone: Teléfono
+        twitter_url: Twitter
+        linkedin_url: Linkedin
+        rut: RUT Empresa
+      program:
+        company: Empresa
+        is_public: Público
+        name: Título
+        description: Descripción
+      report:
+        caption: Título
+        atack_types: Tipo de ataque
+        url: URL / Ubicación del error
+        affected_users: Usuarios afectados
+        description: Descripción
+        request: Petición HTTP
+        affected_parameters: Parámetros afectados
+        xss_type: Tipo de XSS
+        xss_location: Ubicación del XSS
+        payload: Código de ataque (Payload)
+        concept_proof: Código de pruebas
+        device: Dispositivo
+        platform: Plataforma
+        platform_version: Versión de la plataforma
+        additional_information: Información adicional
+        how_was_found: ¿Cómo has encontrado este error?
+        bug_tools: Herramientas que se utilizaron
+        user: Autor
+        user_id: Autor
+      payment:
+        id: Código
+        report: Reporte
+        report_id: Reporte
+        reward: Recompensa
+        reward_id: Recompensa
+        amount: Monto
+        description: Descripción
+        user: Creado por
+        created_at: Fecha de creación
+        trans: ID transacción
+    submit:
+      create: "Crear nuevo"
+      update: "Guardar"
+    scaffold:
+      new: "Nuevo"
+      edit: "Editar"
+      destroy: "Eliminar"
+      detail: "Detalle"

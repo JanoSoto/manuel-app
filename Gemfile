@@ -34,6 +34,7 @@ end
 
 # Autenticación de usuarios
 gem 'devise'
+gem 'devise-i18n'
 # Paginación con estilo de boostrap
 gem 'will_paginate-bootstrap'
 # Cargado de pagina con estilo de pace
