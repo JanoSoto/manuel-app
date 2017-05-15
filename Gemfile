@@ -32,6 +32,9 @@ source 'https://rails-assets.org/' do
   gem 'rails-assets-adminlte'
 end
 
+# Autenticación de usuarios
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
