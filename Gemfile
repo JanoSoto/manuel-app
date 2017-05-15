@@ -34,7 +34,10 @@ end
 
 # Autenticación de usuarios
 gem 'devise'
-
+# Paginación con estilo de boostrap
+gem 'will_paginate-bootstrap'
+# Cargado de pagina con estilo de pace
+gem 'pace-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

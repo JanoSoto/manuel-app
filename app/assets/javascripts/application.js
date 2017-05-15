@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require bootstrap
 //= require adminlte
+//= require pace/pace
 //= require_tree .

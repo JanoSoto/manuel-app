@@ -13,4 +13,5 @@
  *= require_tree .
  *= require_self
  *= require adminlte
+ *= require pace/blue/pace-theme-flash
  */
