@@ -49,6 +49,10 @@ test:
 #
 production:
   <<: *default
+  # Credenciales temporales
   database: ElPatio_production
-  username: ElPatio
-  password: <%= ENV['ELPATIO_DATABASE_PASSWORD'] %>
+  #username: ElPatio
+  username: root
+  #password: <%= ENV['ELPATIO_DATABASE_PASSWORD'] %>
+  password: oferusdev
+   
