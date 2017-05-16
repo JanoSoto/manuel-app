@@ -45,21 +45,28 @@ gem 'pace-rails'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# Registro de cambios en los modelos (fuente: https://github.com/airblade/paper_trail)
+gem 'paper_trail'
 
 group :development, :test do
+  # Capistrano para despliegue de aplicación en servidor remoto
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano-bundler', '1.1.1'
+  gem 'capistrano-rails', '1.1.3'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   # Variables de entorno en development
   gem 'dotenv-rails'
 
-  # Capistrano para despliegue de aplicación en servidor remoto
-  gem 'capistrano', '~> 3.0'
-  gem 'capistrano-bundler', '1.1.1'
-  gem 'capistrano-rails', '1.1.3'
   # Testing
   gem 'rspec-rails', '~> 3.5'
+
+  # Análisis estático para detección de vulnerabilidades de seguridad (fuente: https://github.com/presidentbeef/brakeman)
+  gem 'brakeman', require: false
+
+  # Análisis estático de código para pautas de estilo de código (fuente: https://github.com/bbatsov/rubocop)
+  gem 'rubocop', require: false
 end
 
 group :development do
