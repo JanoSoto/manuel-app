@@ -49,6 +49,9 @@ gem 'pace-rails'
 # Registro de cambios en los modelos (fuente: https://github.com/airblade/paper_trail)
 gem 'paper_trail'
 
+#Gema para las notificaciones tipo toast
+gem 'toastr-rails'
+
 group :development, :test do
   # Capistrano para despliegue de aplicación en servidor remoto
   gem 'capistrano', '~> 3.0'

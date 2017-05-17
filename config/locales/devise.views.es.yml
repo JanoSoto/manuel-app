@@ -89,7 +89,7 @@ es:
       already_signed_out: Sesión finalizada.
       new:
         sign_in: Iniciar sesión
-      signed_in: Sesión iniciada.
+      signed_in: Has iniciado sesión correctamente.
       signed_out: Sesión finalizada.
     shared:
       links:
