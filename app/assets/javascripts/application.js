@@ -16,4 +16,10 @@
 //= require bootstrap
 //= require adminlte
 //= require pace/pace
+//= require toastr
 //= require_tree .
+
+
+$(document).on("turbolinks:load", function(){
+	$('form').validator();
+});

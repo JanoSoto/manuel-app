@@ -14,4 +14,5 @@
  *= require_self
  *= require adminlte
  *= require pace/blue/pace-theme-flash
+ *= require toastr
  */
