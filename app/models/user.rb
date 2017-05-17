@@ -3,4 +3,14 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  belongs_to :role
+
+  def admin?
+  	return self.role_id == 1
+  end
+
+  def receptionist?
+  	return self.role_id == 2
+  end
 end
