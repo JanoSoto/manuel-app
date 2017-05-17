@@ -6,7 +6,9 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <title>El Patio</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
   <%= csrf_meta_tags %>
 
@@ -122,7 +124,9 @@
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li><a href="<%= new_user_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
+	          	<% if current_user.admin? %>
+	            	<li><a href="<%= new_user_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
+	            <% end %>
 	            <li><a href="#">Link in level 2</a></li>
 	          </ul>
 	        </li>

@@ -2,12 +2,23 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def new_user
-  	@new_user = User.new
+    if current_user.admin?
+      @new_user = User.new
+    else
+      respond_to do |format|
+        format.html {redirect_to root_path, alert: 'No tiene permisos para realizar esta operación'}
+      end
+    end
   end
 
   def create_user
   	user = User.new(user_params)
   	user.password = Devise.friendly_token.first(8)
+    if params[:admin]
+      user.roles_id = 1
+    else
+      user.roles_id = 2
+    end
 
   	respond_to do |format|
   		if user.save

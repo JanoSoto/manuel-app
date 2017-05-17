@@ -7,10 +7,10 @@ class User < ActiveRecord::Base
   belongs_to :role
 
   def admin?
-  	return self.role_id == 1
+  	return self.roles_id == 1
   end
 
   def receptionist?
-  	return self.role_id == 2
+  	return self.roles_id == 2
   end
 end

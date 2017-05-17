@@ -23,4 +23,6 @@
 $(document).on("turbolinks:load", function(){
 	$('input').inputmask();
 	$('form').validator();
+
+	$('.switch').bootstrapToggle();
 });
