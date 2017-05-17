@@ -2,14 +2,14 @@
 lock "3.8.1"
 set :stage, 'production'
 set :application, "RailsBoilerplate"
-set :repo_url, "git@bitbucket.org:oferusdev/rails-boilerplate.git"
+set :repo_url, "git@bitbucket.org:oferusdev/el-patio.git"
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 #set :branch, :develop
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/var/www/html/railsboilerplate"
+set :deploy_to, "/var/www/html/elpatio"
 
 set :deploy_via, :copy
 
@@ -46,8 +46,8 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
+      unless `git rev-parse HEAD` == `git rev-parse origin/develop`
+        puts "WARNING: HEAD is not the same as origin/develop"
         puts "Run `git push` to sync changes."
         exit
       end
