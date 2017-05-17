@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  get 'new_user' => 'users#new_user'
+  post 'users/create_user' => 'users#create_user'
+
   devise_for :users
   get 'dashboard/index'
 

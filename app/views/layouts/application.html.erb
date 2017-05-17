@@ -28,7 +28,7 @@
 	  <header class="main-header">
 
 	    <!-- Logo -->
-	    <a href="index2.html" class="logo">
+	    <a href="<%= root_path %>" class="logo">
 	      <!-- mini logo for sidebar mini 50x50 pixels -->
 	      <span class="logo-mini">
 	      	Logo
@@ -113,7 +113,7 @@
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li><a href="<%= new_user_registration_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
+	            <li><a href="<%= new_user_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
 	            <li><a href="#">Link in level 2</a></li>
 	          </ul>
 	        </li>
@@ -229,8 +229,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
-
+    
 		<%= yield %>		
 
   </div>
