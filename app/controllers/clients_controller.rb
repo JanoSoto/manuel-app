@@ -58,17 +58,21 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   # DELETE /clients/1.json
   def destroy
-    if !@client.disabled
-      @client.disabled = true
-      message = 'El cliente ha sido deshabilitado satisfactoriamente.'
+    if !current_user.admin?
+        redirect_to :back, alert: 'No tiene permisos para realizar esta operación'
     else
-      @client.disabled = false
-      message = 'El cliente ha sido habilitado satisfactoriamente.'
-    end
-    @client.save
-    respond_to do |format|
-      format.html { redirect_to clients_url, notice: message }
-      format.json { head :no_content }
+      if !@client.disabled
+        @client.disabled = true
+        message = 'El cliente ha sido deshabilitado satisfactoriamente.'
+      else
+        @client.disabled = false
+        message = 'El cliente ha sido habilitado satisfactoriamente.'
+      end
+      @client.save
+      respond_to do |format|
+        format.html { redirect_to clients_url, notice: message }
+        format.json { head :no_content }
+      end
     end
   end
 

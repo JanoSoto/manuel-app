@@ -11,8 +11,16 @@
 </section>
 <br>
 <div class="container-fluid box box-primary table-pad">
-  <br>
-  <div class="row">
+   <div class="box-header with-border">
+    <h3>
+      Información cliente
+      <small>Datos personales de cliente</small>
+    </h3>
+    <div class="box-tools pull-right">
+      <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+    </div>
+  </div>
+  <div class="box-body row">
     <div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
       <legend>
         <strong>Rut:</strong>
@@ -42,6 +50,59 @@
       </legend>
     </div>
   </div>
+</div>
+
+<div class="row container-fluid ">
+  <div class="col">
+    <div class="container-fluid box box-warning table-pad">
+      <div class="box-header with-border">
+        <h3>
+          Información de mascotas
+          <small>Listado de las mascotas del cliente registradas en el sistema</small>
+        </h3>
+        <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </div>
+      <div class="box-body row">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere minima quod cum quaerat saepe quam iusto, dolor maxime quia reprehenderit neque possimus, magnam, enim illum sed fugit repellat libero. Asperiores?
+      </div>
+    </div>
+  </div>
+  <div class="col col-lg-6 col-md-6 col-sm-6">
+    <div class="container-fluid box box-info table-pad">
+      <div class="box-header with-border">
+        <h3>
+          Información financiera
+          <small>Estado de cuenta del cliente</small>
+        </h3>
+        <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </div>
+      <div class="box-body row">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere minima quod cum quaerat saepe quam iusto, dolor maxime quia reprehenderit neque possimus, magnam, enim illum sed fugit repellat libero. Asperiores?
+      </div>
+    </div>
+  </div>
+  <div class="col col-lg-6 col-md-6 col-sm-6">
+    <div class="container-fluid box box-success table-pad">
+      <div class="box-header with-border">
+        <h3>
+          Atenciones y servicios consumidos
+          <small>Total de prestaciones que el cliente ha servido</small>
+        </h3>
+        <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </div>
+      <div class="box-body row">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere minima quod cum quaerat saepe quam iusto, dolor maxime quia reprehenderit neque possimus, magnam, enim illum sed fugit repellat libero. Asperiores?
+      </div>
+    </div>  
+  </div>
+</div>
+<div class="container-fluid">
   <%= link_to 'Editar', edit_client_path(@client) %> |
   <%= link_to 'Volver', clients_path %>
 </div>
