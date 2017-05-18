@@ -1,6 +1,7 @@
 <p class="login-box-msg">Ingrese una nueva contraseña</p>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>  
+  <%= f.hidden_field :reset_password_token %>
   <div class="form-group has-feedback">
     <%= f.label :password, "Nueva contraseña" %><br />
     <% if @minimum_password_length %>
@@ -15,9 +16,7 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-6">
-    </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6 col-xs-offset-6">
       <%= f.submit "Cambiar contraseña", class: "btn btn-primary btn-block btn-flat" %>
     </div>        
   </div>
