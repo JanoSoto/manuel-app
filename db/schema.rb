@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518225421) do
+ActiveRecord::Schema.define(version: 20170518233618) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "clientRut",       limit: 255
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 20170518225421) do
 
   add_index "clients", ["clientEmail"], name: "index_clients_on_clientEmail", unique: true, using: :btree
   add_index "clients", ["clientRut"], name: "index_clients_on_clientRut", unique: true, using: :btree
+
+  create_table "payments", force: :cascade do |t|
+    t.string   "description", limit: 255
+    t.integer  "amount",      limit: 4
+    t.date     "pay_date"
+    t.boolean  "verified"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",       limit: 255
