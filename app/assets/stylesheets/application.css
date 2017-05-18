@@ -16,3 +16,9 @@
  *= require pace/blue/pace-theme-flash
  *= require toastr
  */
+.white-text{
+	color: #fff;
+}
+.table-pad{
+	margin-left: 5px;
+}
