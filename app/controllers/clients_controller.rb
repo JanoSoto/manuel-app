@@ -31,6 +31,7 @@ class ClientsController < ApplicationController
         if current_user.receptionist?
           notify_administrators("Ha creado al cliente: " + @client.clientName + " "+ @client.clientLastName)
         end
+        notify_client(@client,"Se han ingresado sus datos en el sistema de El Patio.")
         format.html { redirect_to @client, notice: 'El cliente ha sido creado satisfactoriamente.' }
         format.json { render :show, status: :created, location: @client }
       else
@@ -83,5 +84,12 @@ class ClientsController < ApplicationController
       admins.each do |admin|
         NotificationMailer.notification_email(admin,current_user,message).deliver
       end
+    end
+
+    # Función que notifica al cliente la creación de su registro
+    # * *Args*    :
+    #   - +message+ -> Es el mensaje que se desea que reciban los administradores
+    def notify_client(client,message)
+        NotificationMailer.client_notification_email(client,message).deliver
     end 
 end

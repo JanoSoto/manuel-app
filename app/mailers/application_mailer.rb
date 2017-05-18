@@ -8,4 +8,9 @@ class ApplicationMailer < ActionMailer::Base
     @current_user=current_user
     mail(to: @user.email, subject: 'Notificaciones El Patio')
   end
+  def client_notification_email(client, message)
+    @client = client
+    @message = message
+    mail(to: @client.clientEmail, subject: 'Notificaciones El Patio')
+  end
 end
