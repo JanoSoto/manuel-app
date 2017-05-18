@@ -5,3 +5,13 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+begin
+	Role.create([
+						{id: 1, name: 'Admin'},
+						{id: 2, name: 'Recepcionista'},
+						])
+	puts 'Roles creados con éxito'
+rescue Exception => e
+	puts 'WARNING: Los roles ya están agregados'
+end

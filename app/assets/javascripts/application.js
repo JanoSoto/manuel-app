@@ -15,11 +15,14 @@
 //= require turbolinks
 //= require bootstrap
 //= require adminlte
+//= require jquery.inputmask.bundle.min
 //= require pace/pace
 //= require toastr
 //= require_tree .
 
-
 $(document).on("turbolinks:load", function(){
+	$('input').inputmask();
 	$('form').validator();
+
+	$('.switch').bootstrapToggle();
 });
