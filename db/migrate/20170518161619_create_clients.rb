@@ -5,7 +5,7 @@ class CreateClients < ActiveRecord::Migration
       t.string :clientName
       t.string :clientLastName
       t.string :clientEmail
-      t.integer :clientCellPhone
+      t.string :clientCellPhone
       t.string :clientAddress
 
       t.timestamps null: false

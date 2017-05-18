@@ -18,6 +18,7 @@
 //= require jquery.inputmask.bundle.min
 //= require pace/pace
 //= require toastr
+//= require rutvalidator
 //= require_tree .
 
 $(document).on("turbolinks:load", function(){

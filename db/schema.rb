@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20170518161619) do
     t.string   "clientName",      limit: 255
     t.string   "clientLastName",  limit: 255
     t.string   "clientEmail",     limit: 255
-    t.integer  "clientCellPhone", limit: 4
+    t.string   "clientCellPhone", limit: 255
     t.string   "clientAddress",   limit: 255
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false

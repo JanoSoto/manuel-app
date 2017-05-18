@@ -1,6 +1,14 @@
-<h1>Editing Client</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @client %> |
-<%= link_to 'Back', clients_path %>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Editar Cliente
+		<small>Edite su cliente en el sistema</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="<%= clients_path %>"></i>Clientes</a></li>
+		<li class="active">Editar Cliente</li>
+	</ol>
+	<%= render 'form' %>
+	<%= link_to 'Ver', @client %> |
+	<%= link_to 'Atrás', clients_path %>
+</section>
