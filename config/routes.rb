@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :clients
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'
 
   devise_for :users
   get 'dashboard/index'
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
