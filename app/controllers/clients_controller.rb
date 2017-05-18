@@ -28,7 +28,10 @@ class ClientsController < ApplicationController
     
     respond_to do |format|
       if @client.save
-        format.html { redirect_to @client, notice: 'Client was successfully created.' }
+        if current_user.receptionist?
+          notify_administrators("Ha creado al cliente: " + @client.clientName + " "+ @client.clientLastName)
+        end
+        format.html { redirect_to @client, notice: 'El cliente ha sido creado satisfactoriamente.' }
         format.json { render :show, status: :created, location: @client }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       if @client.update(client_params)
-        format.html { redirect_to @client, notice: 'Client was successfully updated.' }
+        format.html { redirect_to @client, notice: 'El cliente ha sido actualizado satisfactoriamente.' }
         format.json { render :show, status: :ok, location: @client }
       else
         format.html { render :edit }
@@ -56,7 +59,7 @@ class ClientsController < ApplicationController
   def destroy
     @client.destroy
     respond_to do |format|
-      format.html { redirect_to clients_url, notice: 'Client was successfully destroyed.' }
+      format.html { redirect_to clients_url, notice: 'El cliente ha sido eliminado satisfactoriamente.' }
       format.json { head :no_content }
     end
   end
@@ -71,4 +74,14 @@ class ClientsController < ApplicationController
     def client_params
       params.require(:client).permit(:clientRut, :clientName, :clientLastName, :clientEmail, :clientCellPhone, :clientAddress)
     end
+
+    # Función que notifica a los administrares si el usuarios fue creado por recepcionista
+    # * *Args*    :
+    #   - +message+ -> Es el mensaje que se desea que reciban los administradores
+    def notify_administrators(message)
+      admins = User.where(:roles_id => 1).all
+      admins.each do |admin|
+        NotificationMailer.notification_email(admin,current_user,message).deliver
+      end
+    end 
 end
