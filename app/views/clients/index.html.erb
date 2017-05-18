@@ -17,25 +17,41 @@
       <tr>
         <th>RUT</th>
         <th>Nombre</th>
-        <th>Correo</th>
-        <th>Teléfono</th>
-        <th>Dirección</th>
+        <th>Deuda</th>
+        <th>Última atención</th>
+        <th>Número de mascotas</th>
+        <th>Dias de atención</th>
+        <th>¿Habilitado?</th>
         <th></th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <% @clients.each do |client| %>
+      <% @clients.each do |client| 
+        if !client.disabled
+          dis_class= "fa fa-user-times red"
+        else
+          dis_class= "fa fa-user-plus green"
+        end
+      %>
         <tr>
           <td><%= client.clientRut %></td>
           <td><%= client.clientName %> <%= client.clientLastName %></td>
-          <td><%= client.clientEmail %></td>
-          <td><%= client.clientCellPhone %></td>
-          <td><%= client.clientAddress %></td>
-          <td><%= link_to client do %> <i class="fa fa-eye"></i> <% end %></td>
+          <td>Pendiente</td>
+          <td>Pendiente</td>
+          <td>Pendiente</td>
+          <td>Pendiente</td>
+          <td align="center">
+            <% if !client.disabled %>
+              <span class="badge label-success"><i class="fa fa-check"></i></span>
+            <% else %>
+              <span class="badge label-danger"><i class="fa fa-close"></i></span>
+            <% end %>
+          </td>
+          <td><%= link_to client do %> <i class="fa fa-eye blue"></i> <% end %></td>
           <td><%= link_to edit_client_path(client) do %><i class="fa fa-pencil"></i> <% end %></td>
-          <td><%= link_to client, method: :delete, data: { confirm: '¿Estas seguro?' } do %><i class="fa fa-trash"></i>  <% end %></td>
+          <td><%= link_to client, method: :delete, data: { confirm: '¿Estas seguro?' } do %><i class="<%=dis_class%>"></i>  <% end %></td>
         </tr>
       <% end %>
     </tbody>

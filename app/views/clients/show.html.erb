@@ -1,34 +1,47 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Clientrut:</strong>
-  <%= @client.clientRut %>
-</p>
-
-<p>
-  <strong>Clientname:</strong>
-  <%= @client.clientName %>
-</p>
-
-<p>
-  <strong>Clientlastname:</strong>
-  <%= @client.clientLastName %>
-</p>
-
-<p>
-  <strong>Clientemail:</strong>
-  <%= @client.clientEmail %>
-</p>
-
-<p>
-  <strong>Clientcellphone:</strong>
-  <%= @client.clientCellPhone %>
-</p>
-
-<p>
-  <strong>Clientaddress:</strong>
-  <%= @client.clientAddress %>
-</p>
-
-<%= link_to 'Edit', edit_client_path(@client) %> |
-<%= link_to 'Back', clients_path %>
+<section class="content-header">
+  <h1>
+    Datos Cliente
+    <small>Información de su cliente en el sistema</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= clients_path %>"></i>Clientes</a></li>
+    <li class="active">Ver Cliente</li>
+  </ol>
+</section>
+<br>
+<div class="container-fluid box box-primary table-pad">
+  <br>
+  <div class="row">
+    <div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <legend>
+        <strong>Rut:</strong>
+        <%= @client.clientRut %>
+      </legend>
+      <legend>
+        <strong>Nombre:</strong>
+        <%= @client.clientName %>
+      </legend>
+      <legend>
+        <strong>Apellido:</strong>
+        <%= @client.clientLastName %>
+      </legend>
+    </div>
+    <div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <legend>
+        <strong>E-mail:</strong>
+        <%= @client.clientEmail %>
+      </legend>
+      <legend>  
+        <strong>Teléfono:</strong>
+        <%= @client.clientCellPhone %>
+      </legend>
+      <legend>  
+        <strong>Dirección:</strong>
+        <%= @client.clientAddress %>
+      </legend>
+    </div>
+  </div>
+  <%= link_to 'Editar', edit_client_path(@client) %> |
+  <%= link_to 'Volver', clients_path %>
+</div>
