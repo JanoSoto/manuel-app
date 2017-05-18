@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all
+    @clients = Client.paginate(page: params[:page], :per_page => 5).order('created_at DESC')
   end
 
   # GET /clients/1
@@ -58,10 +58,21 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   # DELETE /clients/1.json
   def destroy
-    @client.destroy
-    respond_to do |format|
-      format.html { redirect_to clients_url, notice: 'El cliente ha sido eliminado satisfactoriamente.' }
-      format.json { head :no_content }
+    if !current_user.admin?
+        redirect_to :back, alert: 'No tiene permisos para realizar esta operación'
+    else
+      if !@client.disabled
+        @client.disabled = true
+        message = 'El cliente ha sido deshabilitado satisfactoriamente.'
+      else
+        @client.disabled = false
+        message = 'El cliente ha sido habilitado satisfactoriamente.'
+      end
+      @client.save
+      respond_to do |format|
+        format.html { redirect_to clients_url, notice: message }
+        format.json { head :no_content }
+      end
     end
   end
 
