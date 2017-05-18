@@ -19,6 +19,8 @@
 //= require pace/pace
 //= require toastr
 //= require rutvalidator
+//= require datatables/jquery.dataTables.min
+//= require datatables/dataTables.bootstrap.min
 //= require_tree .
 
 $(document).on("turbolinks:load", function(){
