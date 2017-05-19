@@ -11,11 +11,11 @@
  * file per style scope.
  *
  *= require_tree .
- *= require_self
  *= require adminlte
  *= require pace/blue/pace-theme-flash
  *= require toastr
  *= require dataTables.bootstrap
+ *= require_self
  */
 textarea {
 	resize: vertical;
@@ -25,4 +25,7 @@ textarea {
 }
 .table-pad{
 	margin-left: 5px;
+}
+.content-header{
+	padding: 15px;
 }
