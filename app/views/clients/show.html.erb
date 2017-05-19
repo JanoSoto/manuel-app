@@ -94,6 +94,33 @@
         </div>
       </div>
       <div class="box-body row">
+        <% if @client.pets.empty? %>
+          <p>Este usuario no tiene mascotas registradas</p>
+        <% else %>
+          <table class="table table-striped">
+            <thead>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Género</th>
+              <th>Raza</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <% counter = 1 %>
+              <% @client.pets.each do |pet| %>
+                <tr>
+                  <td><%= counter %></td>
+                  <td><%= pet.name %></td>
+                  <td><%= pet.genre %></td>
+                  <td><%= pet.race.name %></td>
+                  <td><%= link_to pet do %> <i class="fa fa-eye blue"></i> <% end %></td>
+                </tr>
+                <% counter += 1 %>
+              <% end %>              
+            </tbody>
+          </table>
+        <% end %>
+        <br>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
           <i class="fa fa-plus"></i> Agregar mascota
         </button>
@@ -102,13 +129,6 @@
             <%= render 'new_pet_form' %>
           </div>
         </div>
-        <% if @client.pets.empty? %>
-          <p>Este usuario no tiene mascotas registradas</p>
-        <% else %>
-          <% @client.pets.each do |pet| %>
-            <p><%= pet.inspect %></p>
-          <% end %>
-        <% end %>
       </div>
     </div>
   </div>
