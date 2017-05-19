@@ -35,8 +35,10 @@
     <%= f.text_area :observations, class: 'form-control' %>
   </div>
 
-  <%= f.hidden_field(:client_id, value: params[:id]) %>
-  <%= f.submit 'Guardar', class: 'btn btn-primary pull-right' %>
+  <div class="form-group">
+    <%= f.hidden_field(:client_id, value: params[:id]) %>
+    <%= f.submit 'Guardar', class: 'btn btn-primary' %>
+  </div>
   
 <% end %>
 
