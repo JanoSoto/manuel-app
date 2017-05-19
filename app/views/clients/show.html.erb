@@ -95,7 +95,8 @@
         </div>
       </div>
       <div class="box-body row">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere minima quod cum quaerat saepe quam iusto, dolor maxime quia reprehenderit neque possimus, magnam, enim illum sed fugit repellat libero. Asperiores?
+        <p>Abonos</p>
+        <%= number_to_currency(@client.payments_total, precision: 0, unit: "$ ", delimiter: ".")%>
       </div>
     </div>
   </div>
