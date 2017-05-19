@@ -78,6 +78,7 @@ class ClientsController < ApplicationController
     end
   end
 
+  # Agrega una mascota a un cliente usando la función pet_params
   def add_pet
     client = Client.find(params[:pet][:client_id])
     respond_to do |format|
