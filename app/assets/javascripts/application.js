@@ -28,4 +28,8 @@ $(document).on("turbolinks:load", function(){
 	$('form').validator();
 
 	$('.switch').bootstrapToggle();
+	$('select').select2();
+	$('.datepicker').datepicker({
+		language: 'es'
+	});
 });

@@ -17,6 +17,9 @@
  *= require toastr
  *= require dataTables.bootstrap
  */
+textarea {
+	resize: vertical;
+}
 .white-text{
 	color: #fff;
 }

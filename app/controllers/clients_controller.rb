@@ -10,6 +10,8 @@ class ClientsController < ApplicationController
   # GET /clients/1
   # GET /clients/1.json
   def show
+    @pet = Pet.new
+    @races = Race.all.map {|race| [race.name, race.id]}
   end
 
   # GET /clients/new
@@ -76,6 +78,18 @@ class ClientsController < ApplicationController
     end
   end
 
+  # Agrega una mascota a un cliente usando la función pet_params
+  def add_pet
+    client = Client.find(params[:pet][:client_id])
+    respond_to do |format|
+      if Pet.create(pet_params)
+        format.html { redirect_to client, notice: 'Mascota registrada con éxito.' }
+      else
+        format.html { redirect_to client, alert: 'Ha ocurrido un error. Intente nuevamente.' }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_client
@@ -103,4 +117,9 @@ class ClientsController < ApplicationController
     def notify_client(client,message)
         NotificationMailer.client_notification_email(client,message).deliver
     end 
+
+    # Función para restringir los datos de la nueva mascota
+    def pet_params
+      params.require(:pet).permit(:name, :genre, :race_id, :birthdate, :observations, :client_id)
+    end
 end
