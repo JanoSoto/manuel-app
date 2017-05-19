@@ -15,9 +15,14 @@
  *= require adminlte
  *= require pace/blue/pace-theme-flash
  *= require toastr
+ *= require dataTables.bootstrap
  */
-
-
 textarea {
 	resize: vertical;
+}
+.white-text{
+	color: #fff;
+}
+.table-pad{
+	margin-left: 5px;
 }
