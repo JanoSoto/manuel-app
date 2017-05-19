@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 20170519024538) do
     t.text     "observations", limit: 65535
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "races_id",     limit: 4
+    t.integer  "clients_id",   limit: 4
     t.integer  "client_id",    limit: 4
   end
 
