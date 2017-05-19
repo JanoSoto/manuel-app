@@ -11,14 +11,6 @@ RSpec.describe PaymentsController, type: :routing do
       expect(:get => "/payments/new").to route_to("payments#new")
     end
 
-    it "routes to #show" do
-      expect(:get => "/payments/1").to route_to("payments#show", :id => "1")
-    end
-
-    it "routes to #edit" do
-      expect(:get => "/payments/1/edit").to route_to("payments#edit", :id => "1")
-    end
-
     it "routes to #create" do
       expect(:post => "/payments").to route_to("payments#create")
     end

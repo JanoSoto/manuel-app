@@ -22,7 +22,6 @@
         <th>¿Verificado?</th>
         <th></th>
         <th></th>
-        <th></th>
       </tr>
     </thead>
 
@@ -31,7 +30,7 @@
         <tr>
           <td><%= payment.client.clientRut %>: <%= payment.client.clientName %> <%= payment.client.clientLastName %></td>
           <td><%= payment.description %></td>
-          <td><%= payment.amount %></td>
+          <td><%= number_to_currency(payment.amount, precision: 0, unit: "$ ", delimiter: ".")%></td>
           <td><%= payment.pay_date %></td>
           <td>
             <% if payment.verified %>
@@ -40,9 +39,13 @@
               <span class="badge label-danger"><i class="fa fa-close"></i></span>
             <% end %>
           </td>
-          <td><%= link_to 'Show', payment %></td>
-          <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
-          <td><%= link_to 'Destroy', payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to payment_update_verified_path(payment), method: :patch, data: { confirm: '¿Esta seguro?' } do %> <i class="fa fa-check"></i> Aprobar
+            <% end %>
+          </td>
+          <td><%= link_to payment, method: :delete, data: { confirm: '¿Esta seguro?' } do %> 
+              <i class="fa fa-close"></i> Cancelar
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :payments
+  resources :payments do
+    patch :update_verified
+  end
   resources :clients
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'

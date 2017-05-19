@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  before_action :set_payment, only: [:show, :edit, :update, :destroy]
+  before_action :set_payment, only: [:show, :edit, :update_verified, :destroy]
 
   # GET /payments
   # GET /payments.json
@@ -7,19 +7,10 @@ class PaymentsController < ApplicationController
     @payments = Payment.paginate(page: params[:page], :per_page => 20).order('created_at DESC')
   end
 
-  # GET /payments/1
-  # GET /payments/1.json
-  def show
-  end
-
   # GET /payments/new
   def new
     @payment = Payment.new
     @clients = Client.all
-  end
-
-  # GET /payments/1/edit
-  def edit
   end
 
   # POST /payments
@@ -31,7 +22,7 @@ class PaymentsController < ApplicationController
     end
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
+        format.html { redirect_to payments_url, notice: 'El abono ha sido creado satisfactoriamente.' }
         format.json { render :show, status: :created, location: @payment }
       else
         format.html { render :new }
@@ -42,10 +33,16 @@ class PaymentsController < ApplicationController
 
   # PATCH/PUT /payments/1
   # PATCH/PUT /payments/1.json
-  def update
+  def update_verified
+    if current_user.admin? && !@payment.verified
+      @payment.verified = true
+      message = 'El abono ha sido aprobado satisfactoriamente.' 
+    else
+      message = 'El abono no ha podido ser aprobado.' 
+    end
     respond_to do |format|
-      if @payment.update(payment_params)
-        format.html { redirect_to @payment, notice: 'Payment was successfully updated.' }
+      if @payment.save
+        format.html { redirect_to :back, notice: message}
         format.json { render :show, status: :ok, location: @payment }
       else
         format.html { render :edit }
@@ -57,9 +54,14 @@ class PaymentsController < ApplicationController
   # DELETE /payments/1
   # DELETE /payments/1.json
   def destroy
-    @payment.destroy
+    if current_user.admin?
+      @payment.destroy
+      message = 'El abono ha sido cancelado satisfactoriamente.' 
+    else
+      message = 'No tiene los permisos para realizar esta acción.' 
+    end
     respond_to do |format|
-      format.html { redirect_to payments_url, notice: 'Payment was successfully destroyed.' }
+      format.html { redirect_to payments_url, notice: message }
       format.json { head :no_content }
     end
   end
@@ -67,11 +69,15 @@ class PaymentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_payment
-      @payment = Payment.find(params[:id])
+      if(!params[:id].nil?)
+        @payment = Payment.find(params[:id])
+      else
+        @payment = Payment.find(params[:payment_id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-      params.require(:payment).permit(:description, :amount, :pay_date, :verified, :client_id)
+        params.require(:payment).permit(:description, :amount, :pay_date, :verified, :client_id)
     end
 end
