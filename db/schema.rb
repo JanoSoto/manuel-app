@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518161619) do
+ActiveRecord::Schema.define(version: 20170518225107) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "clientRut",       limit: 255
@@ -22,6 +22,25 @@ ActiveRecord::Schema.define(version: 20170518161619) do
     t.string   "clientAddress",   limit: 255
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "pets", force: :cascade do |t|
+    t.string   "name",         limit: 255
+    t.string   "genre",        limit: 255
+    t.integer  "race_id",      limit: 4
+    t.date     "birthdate"
+    t.text     "observations", limit: 65535
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "races_id",     limit: 4
+  end
+
+  add_index "pets", ["race_id"], name: "index_pets_on_race_id", using: :btree
+
+  create_table "races", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -52,4 +71,5 @@ ActiveRecord::Schema.define(version: 20170518161619) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "pets", "races"
 end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :pets
   resources :clients
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'

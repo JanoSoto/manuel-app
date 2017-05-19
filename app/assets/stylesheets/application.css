@@ -16,3 +16,8 @@
  *= require pace/blue/pace-theme-flash
  *= require toastr
  */
+
+
+textarea {
+	resize: vertical;
+}
