@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap
 //= require adminlte
 //= require jquery.inputmask.bundle.min
@@ -21,9 +20,11 @@
 //= require rutvalidator
 //= require datatables/jquery.dataTables.min
 //= require datatables/dataTables.bootstrap.min
+//= require turbolinks
 //= require_tree .
 
 $(document).on("turbolinks:load", function(){
+	$.AdminLTE.layout.activate();
 	$('input').inputmask();
 	$('form').validator();
 

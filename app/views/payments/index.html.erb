@@ -37,7 +37,12 @@
               <span class="badge label-danger"><i class="fa fa-close"></i></span>
             <% end %>
           </td>
-          <td><%= link_to payment_update_verified_path(payment), method: :patch, data: { confirm: '¿Esta seguro?' } do %> <i class="fa fa-check"></i> Aprobar
+          <td>
+            <% if !payment.verified %>
+              <%= link_to payment_update_verified_path(payment), method: :patch, data: { confirm: '¿Esta seguro?' } do %> <i class="fa fa-check"></i> Aprobar
+              <% end %>
+            <% else %>
+              <span class="grey"><i class="fa fa-check"></i> Aprobar</span>
             <% end %>
           </td>
           <td><%= link_to payment, method: :delete, data: { confirm: '¿Esta seguro?' } do %> 
