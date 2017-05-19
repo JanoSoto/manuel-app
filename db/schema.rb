@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518233618) do
+ActiveRecord::Schema.define(version: 20170519024538) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "clientRut",       limit: 255
@@ -31,11 +31,14 @@ ActiveRecord::Schema.define(version: 20170518233618) do
   create_table "payments", force: :cascade do |t|
     t.string   "description", limit: 255
     t.integer  "amount",      limit: 4
-    t.date     "pay_date"
+    t.datetime "pay_date"
     t.boolean  "verified"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "client_id",   limit: 4
   end
+
+  add_index "payments", ["client_id"], name: "index_payments_on_client_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -65,4 +68,5 @@ ActiveRecord::Schema.define(version: 20170518233618) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "payments", "clients"
 end

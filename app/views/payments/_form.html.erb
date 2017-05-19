@@ -16,6 +16,10 @@
               </div>
             <% end %>
             <div class="form-group">
+              <%= f.label :client_id, 'Seleccione cliente' %><br>
+              <%= f.select :client_id, @clients.collect {|u| [u.clientRut, u.id]}, {}, {class: 'form-control', id: "client_select"} %>
+            </div>
+            <div class="form-group">
               <%= f.label :description %><br>
               <%= f.text_field :description, class: 'form-control', required: true  %>
             </div>
@@ -23,16 +27,16 @@
               <%= f.label :amount %><br>
               <%= f.number_field :amount, class: 'form-control', required: true,  min: 1 %>
             </div>
-            <div class="form-group">
+            <div class="form-group hidden">
               <%= f.label :pay_date %><br>
-              <%= f.date_select :pay_date %>
+              <%= f.datetime_select :pay_date %>
             </div>
-            <div class="form-group">
+            <div class="form-group hidden">
               <%= f.label :verified %><br>
               <%= f.check_box :verified %>
             </div>
             <div class="actions">
-              <%= f.submit %>
+              <%= f.submit "Guardar", class: "btn btn-primary btn-block btn-flat"  %>
             </div>
           <% end %>
         </div>

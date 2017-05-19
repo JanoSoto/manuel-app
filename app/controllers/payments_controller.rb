@@ -4,7 +4,7 @@ class PaymentsController < ApplicationController
   # GET /payments
   # GET /payments.json
   def index
-    @payments = Payment.all
+    @payments = Payment.paginate(page: params[:page], :per_page => 20).order('created_at DESC')
   end
 
   # GET /payments/1
@@ -15,6 +15,7 @@ class PaymentsController < ApplicationController
   # GET /payments/new
   def new
     @payment = Payment.new
+    @clients = Client.all
   end
 
   # GET /payments/1/edit
@@ -25,7 +26,9 @@ class PaymentsController < ApplicationController
   # POST /payments.json
   def create
     @payment = Payment.new(payment_params)
-
+    if current_user.admin?
+      @payment.verified = true
+    end
     respond_to do |format|
       if @payment.save
         format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
@@ -69,6 +72,6 @@ class PaymentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-      params.require(:payment).permit(:description, :amount, :pay_date, :verified)
+      params.require(:payment).permit(:description, :amount, :pay_date, :verified, :client_id)
     end
 end
