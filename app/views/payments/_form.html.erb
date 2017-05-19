@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
               <%= f.label :amount %><br>
-              <%= f.number_field :amount, class: 'form-control', required: true,  min: 1 %>
+              <input   id="payment_amount" class='form-control' required='true' name="payment[amount]" data-inputmask="'alias': 'numeric', 'groupSeparator': '.', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0' , 'removeMaskOnSubmit': true,  'radixPoint': '.'" />
             </div>
             <div class="form-group hidden">
               <%= f.label :pay_date %><br>

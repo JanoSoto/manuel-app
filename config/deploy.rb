@@ -63,6 +63,7 @@ namespace :deploy do
         execute :chmod, '777 '+release_path.join('log/').to_s
         execute :rake, 'db:create RAILS_ENV=production'
         execute :rake, 'db:migrate RAILS_ENV=production'
+        execute :rake, 'db:seed RAILS_ENV=production'
         execute :service, 'apache2 restart'
       end
     end
