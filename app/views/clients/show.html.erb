@@ -65,7 +65,21 @@
         </div>
       </div>
       <div class="box-body row">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere minima quod cum quaerat saepe quam iusto, dolor maxime quia reprehenderit neque possimus, magnam, enim illum sed fugit repellat libero. Asperiores?
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fa fa-plus"></i> Agregar mascota
+        </button>
+        <div class="collapse" id="collapseExample">
+          <div class="well">
+            <%= render 'new_pet_form' %>
+          </div>
+        </div>
+        <% if @client.pets.empty? %>
+          <p>Este usuario no tiene mascotas registradas</p>
+        <% else %>
+          <% @client.pets.each do |pet| %>
+            <p><%= pet.inspect %></p>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>

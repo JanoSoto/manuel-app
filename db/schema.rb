@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518225421) do
+ActiveRecord::Schema.define(version: 20170518225588) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "clientRut",       limit: 255
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 20170518225421) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "races_id",     limit: 4
+    t.integer  "clients_id",   limit: 4
+    t.integer  "client_id",    limit: 4
   end
 
   add_index "pets", ["race_id"], name: "index_pets_on_race_id", using: :btree
