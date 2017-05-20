@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   default from: "El Patio"
   layout 'mailer'
-
+  before_action :set_attachments
   def notification_email(user,current_user, message)
     @user = user
     @message = message
@@ -12,5 +12,9 @@ class ApplicationMailer < ActionMailer::Base
     @client = client
     @message = message
     mail(to: @client.clientEmail, subject: 'Notificaciones El Patio')
-  end
+  end 
+  private
+    def set_attachments
+      attachments.inline['logo_elpatio.png'] = File.read(Rails.root+'app/assets/images/logo_elpatio.png')
+    end
 end
