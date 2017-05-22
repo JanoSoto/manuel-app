@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :pets
-  resources :payments do
-    patch :update_verified
-  end
   resources :clients
-  post 'clients/add_pet' => 'clients#add_pet'
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'
   match "/404", :to => "errors#not_found", :via => :all

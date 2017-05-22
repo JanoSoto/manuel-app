@@ -2,14 +2,14 @@
 lock "3.8.1"
 set :stage, 'production'
 set :application, "RailsBoilerplate"
-set :repo_url, "git@bitbucket.org:oferusdev/el-patio.git"
+set :repo_url, "git@bitbucket.org:oferusdev/rails-boilerplate.git"
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 #set :branch, :develop
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/var/www/html/elpatio"
+set :deploy_to, "/var/www/html/RailsBoilerplate"
 
 set :deploy_via, :copy
 
