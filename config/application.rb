@@ -35,6 +35,7 @@ module ElPatio
         password:             Rails.application.secrets.pass_admin,
         authentication:       :plain,
         enable_starttls_auto: true
-    }  
+    }
+    config.exceptions_app = self.routes  
   end
 end
