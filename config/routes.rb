@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   post 'clients/add_pet' => 'clients#add_pet'
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'
-
+  match "/404", :to => "errors#not_found", :via => :all
+  match "/500", :to => "errors#internal_server_error", :via => :all
   devise_for :users
   get 'dashboard/index'
   # The priority is based upon order of creation: first created -> highest priority.

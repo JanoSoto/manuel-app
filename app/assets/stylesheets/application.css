@@ -29,3 +29,25 @@ textarea {
 .content-header{
 	padding: 15px;
 }
+.error-container p {
+	font-size: 1.5rem;
+}
+
+.error-code {
+	margin: 5px 0 20px 0;
+	font-size: 6rem;
+	display: block;
+}
+
+.error-message {
+	font-size: 1.2rem !important;
+	padding-top: 15px;
+}
+
+.error-link {
+	margin: 10px 0;
+}
+
+.error-contact {
+	margin-top: 10%;
+}

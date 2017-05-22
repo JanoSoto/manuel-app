@@ -1,0 +1,29 @@
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" data-turbolinks-permanent>
+	<div class="row">
+		<div class="col s4 offset-s2 error-container">
+			<h3>Error</h3>
+			<div class="error-code">
+				500
+			</div>
+			<p class="error-message">Ha ocurrido un error interno</p>		
+		</div>
+		<div class="col s6">
+			<h5>¿Que prefiere hacer?</h5>
+			<ul>
+				<li class="error-link">
+					<a class="btn btn-submit" href="<%= request.env["HTTP_REFERER"] %>" data-turbolinks="false"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver atrás</a>
+				</li>
+				<li class="error-link">				
+					<a class="btn btn-submit" href="<%= root_path %>" data-turbolinks="false"><i class="fa fa-home" aria-hidden="true"></i> Ir al inicio</a>
+				</li>
+			</ul>
+
+			<div class="error-contact">
+				<h5>¿El error es persistente?</h5>
+				<h6>Si el error es persistente, por favor envíe un correo con los detalles a <a href="mailto:contacto@oferus.com?subject=Error%20en%20Oferus%20Sales">contacto@oferus.com</a></h6>
+				<p>¡Lo solucionaremos lo antes posible!</p>
+			</div>
+		</div>
+	</div>
+</div>
