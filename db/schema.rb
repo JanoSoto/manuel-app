@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519024538) do
+ActiveRecord::Schema.define(version: 20170522141529) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "clientRut",       limit: 255
@@ -36,9 +36,11 @@ ActiveRecord::Schema.define(version: 20170519024538) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "client_id",   limit: 4
+    t.integer  "user_id",     limit: 4
   end
 
   add_index "payments", ["client_id"], name: "index_payments_on_client_id", using: :btree
+  add_index "payments", ["user_id"], name: "index_payments_on_user_id", using: :btree
 
   create_table "pets", force: :cascade do |t|
     t.string   "name",         limit: 255
@@ -48,8 +50,6 @@ ActiveRecord::Schema.define(version: 20170519024538) do
     t.text     "observations", limit: 65535
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.integer  "races_id",     limit: 4
-    t.integer  "clients_id",   limit: 4
     t.integer  "client_id",    limit: 4
   end
 
@@ -90,5 +90,6 @@ ActiveRecord::Schema.define(version: 20170519024538) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "payments", "clients"
+  add_foreign_key "payments", "users"
   add_foreign_key "pets", "races"
 end

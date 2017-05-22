@@ -36,12 +36,17 @@ class PaymentsController < ApplicationController
   def update_verified
     if current_user.admin? && !@payment.verified
       @payment.verified = true
-      message = 'El abono ha sido aprobado satisfactoriamente.' 
+      message = 'El abono ha sido aprobado satisfactoriamente.'
+      email = 'El usuario ' + current_user.user_name + ' ha aprobado su abono, realizado en: ' + @payment.pay_date 
     else
       message = 'El abono no ha podido ser aprobado.' 
     end
+    
     respond_to do |format|
       if @payment.save
+        if !email.nil? && !@payment.user.nil?
+          notify_user(@payment.user,email)
+        end
         format.html { redirect_to :back, notice: message}
         format.json { render :show, status: :ok, location: @payment }
       else
@@ -55,8 +60,13 @@ class PaymentsController < ApplicationController
   # DELETE /payments/1.json
   def destroy
     if current_user.admin?
+      email = 'El usuario ' + current_user.user_name + ' ha rechazado su abono, realizado en: ' + @payment.pay_date
+      user = @payment.user
       @payment.destroy
-      message = 'El abono ha sido cancelado satisfactoriamente.' 
+      message = 'El abono ha sido cancelado satisfactoriamente.'
+      if !email.nil? && !user.nil?
+          notify_user(user,email)
+      end
     else
       message = 'No tiene los permisos para realizar esta acción.' 
     end
@@ -78,6 +88,6 @@ class PaymentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-        params.require(:payment).permit(:description, :amount, :pay_date, :verified, :client_id)
+        params.require(:payment).permit(:description, :amount, :pay_date, :verified, :client_id, :user_id)
     end
 end
