@@ -15,6 +15,7 @@
  *= require pace/blue/pace-theme-flash
  *= require toastr
  *= require dataTables.bootstrap
+ *= require sweetalert2.min
  *= require_self
  */
 textarea {
@@ -53,4 +54,10 @@ textarea {
 }
 .toast{
 	width: 100%!important;
+}
+.select2-selection--single {
+   display: none!important;
+   width: auto;
+   height: auto;
+   margin: auto;
 }

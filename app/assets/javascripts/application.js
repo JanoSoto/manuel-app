@@ -20,6 +20,8 @@
 //= require rutvalidator
 //= require datatables/jquery.dataTables.min
 //= require datatables/dataTables.bootstrap.min
+//= require sweetalert2.min
+//= require core.js
 //= require turbolinks
 //= require_tree .
 
