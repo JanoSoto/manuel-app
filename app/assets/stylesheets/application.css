@@ -51,3 +51,6 @@ textarea {
 .error-contact {
 	margin-top: 10%;
 }
+.toast{
+	width: 100%!important;
+}
