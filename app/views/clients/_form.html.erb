@@ -1,0 +1,50 @@
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= form_for(@client) do |f| %>
+            <% if @client.errors.any? %>
+                <% @client.errors.messages.each do |key, message|%>
+                  <% flash[:error] = message[0] %>
+                <% end %>
+            <% end %>
+            <div class="form-group">
+              <%= f.label "RUT" %><br>
+              <%= f.text_field :clientRut , class: 'form-control', required: true, oninput: "checkRut(this)" %>
+              <span class="help-block with-errors"></span>
+            </div>
+            <div class="form-group">
+              <%= f.label "Nombre" %><br>
+              <%= f.text_field :clientName, class: 'form-control', required: true %>
+              <span class="help-block with-errors"></span>
+            </div>
+            <div class="form-group">
+              <%= f.label "Apellido" %><br>
+              <%= f.text_field :clientLastName, class: 'form-control', required: true %>
+              <span class="help-block with-errors"></span>
+            </div>
+            <div class="form-group">
+              <%= f.label "Correo electrónico" %><br>
+              <%= f.text_field :clientEmail, class: 'form-control', required: true, data: {error: 'El email ingresado no es válido'} %>
+              <span class="help-block with-errors"></span>
+            </div>
+            <div class="form-group">
+              <%= f.label "Teléfono celular" %><br>
+              <%= f.text_field :clientCellPhone, class: 'form-control', required: true, data: {inputmask:'"mask": "+(999) 9999 9999"'} %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Ingrese dirección completa" %><br>
+              <%= f.text_field :clientAddress , class: 'form-control', required: true %>
+              <span class="help-block with-errors"></span>
+            </div>
+            <div class="actions">
+              <%= f.submit "Guardar", class: "btn btn-primary btn-block btn-flat" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

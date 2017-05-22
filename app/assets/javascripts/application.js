@@ -12,8 +12,25 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap
 //= require adminlte
+//= require jquery.inputmask.bundle.min
 //= require pace/pace
+//= require toastr
+//= require rutvalidator
+//= require datatables/jquery.dataTables.min
+//= require datatables/dataTables.bootstrap.min
+//= require turbolinks
 //= require_tree .
+
+$(document).on("turbolinks:load", function(){
+	$.AdminLTE.layout.activate();
+	$('input').inputmask();
+	$('form').validator();
+
+	$('.switch').bootstrapToggle();
+	$('select').select2();
+	$('.datepicker').datepicker({
+		language: 'es'
+	});
+});

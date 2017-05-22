@@ -97,6 +97,12 @@ es:
               greater_than: El monto debe ser un número superior a 0
             description:
               blank: Es necesario definir una descripción
+        client:
+            attributes:
+              clientRut:
+                taken: Este rut se encuentra registrado en el sistema
+              clientEmail:
+                taken: Este correo se encuentra registrado en el sistema
     attributes:
       company:
         name: "Nombre"

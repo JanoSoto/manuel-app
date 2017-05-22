@@ -1,15 +1,15 @@
-<h2>¿Olvidó su contraseña?</h2>
+<p class="login-box-msg">Ingrese su correo para recuperar su contraseña</p>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>  
+  <div class="form-group">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
   </div>
 
-  <div class="actions">
-  	<%= f.submit "Enviar instrucciones de recuperación" %>
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-2">
+      <%= f.submit "Enviar instrucciones de recuperación", class: "btn btn-primary btn-block btn-flat" %>
+    </div>        
   </div>
 <% end %>
 

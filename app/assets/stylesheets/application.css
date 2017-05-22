@@ -11,7 +11,46 @@
  * file per style scope.
  *
  *= require_tree .
- *= require_self
  *= require adminlte
  *= require pace/blue/pace-theme-flash
+ *= require toastr
+ *= require dataTables.bootstrap
+ *= require_self
  */
+textarea {
+	resize: vertical;
+}
+.white-text{
+	color: #fff;
+}
+.table-pad{
+	margin-left: 5px;
+}
+.content-header{
+	padding: 15px;
+}
+.error-container p {
+	font-size: 1.5rem;
+}
+
+.error-code {
+	margin: 5px 0 20px 0;
+	font-size: 6rem;
+	display: block;
+}
+
+.error-message {
+	font-size: 1.2rem !important;
+	padding-top: 15px;
+}
+
+.error-link {
+	margin: 10px 0;
+}
+
+.error-contact {
+	margin-top: 10%;
+}
+.toast{
+	width: 100%!important;
+}

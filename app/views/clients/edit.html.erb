@@ -1,0 +1,16 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		Editar Cliente
+		<a class="btn btn-primary btn-xs" href="<%= client_path(@client) %>"><i class="fa fa-eye"></i> Ver</a>
+  	</h1>
+	<ol class="breadcrumb">
+		<li><a href="<%= clients_path %>"></i>Clientes</a></li>
+		<li class="active">Editar Cliente</li>
+	</ol>
+	<a href="<%= clients_path %>"><i class="fa fa-arrow-left"></i> Volver</a>
+
+	<%= render 'form' %>
+	<%= link_to 'Ver', @client %> |
+	<%= link_to 'Atrás', clients_path %>
+</section>

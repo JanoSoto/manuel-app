@@ -1,0 +1,46 @@
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= form_for(@payment) do |f| %>
+            <% if @payment.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+                <ul>
+                <% @payment.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <div class="form-group">
+              <%= f.label :client_id, 'Seleccione cliente' %><br>
+              <%= f.select :client_id, @clients.collect {|u| [u.display_client, u.id]}, {}, {class: 'form-control', id: "client_select"} %>
+            </div>
+            <div class="form-group">
+              <%= f.label :description %><br>
+              <%= f.text_field :description, class: 'form-control', required: true  %>
+            </div>
+            <div class="form-group">
+              <%= f.label :amount %><br>
+              <input   id="payment_amount" class='form-control' required='true' name="payment[amount]" data-inputmask="'alias': 'numeric', 'groupSeparator': '.', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0' , 'removeMaskOnSubmit': true,  'radixPoint': '.'" />
+            </div>
+            <div class="form-group hidden">
+              <%= f.label :pay_date %><br>
+              <%= f.datetime_select :pay_date %>
+            </div>
+            <div class="form-group hidden">
+              <%= f.label :verified %><br>
+              <%= f.check_box :verified %>
+            </div>
+            <%= f.hidden_field :user_id, value: current_user.id %>
+            <div class="actions">
+              <%= f.submit "Guardar", class: "btn btn-primary btn-block btn-flat"  %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
