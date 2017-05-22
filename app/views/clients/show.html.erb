@@ -74,83 +74,11 @@
         </div>
       </div>
       <div class="box-body row">
-        <p>Abonos</p>
-        <%= number_to_currency(@client.payments_total, precision: 0, unit: "$ ", delimiter: ".")%>
       </div>
     </div>
         
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12 col-md-6">
-    <div class="container-fluid box box-warning table-pad">
-      <div class="box-header with-border">
-        <h3>
-          Información de mascotas
-          <small>Listado de las mascotas del cliente registradas en el sistema</small>
-        </h3>
-        <div class="box-tools pull-right">
-          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-      </div>
-      <div class="box-body row">
-        <% if @client.pets.empty? %>
-          <p>Este usuario no tiene mascotas registradas</p>
-        <% else %>
-          <table class="table table-striped">
-            <thead>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Género</th>
-              <th>Raza</th>
-              <th></th>
-            </thead>
-            <tbody>
-              <% counter = 1 %>
-              <% @client.pets.each do |pet| %>
-                <tr>
-                  <td><%= counter %></td>
-                  <td><%= pet.name %></td>
-                  <td><%= pet.genre %></td>
-                  <td><%= pet.race.name %></td>
-                  <td><%= link_to pet do %> <i class="fa fa-eye blue"></i> <% end %></td>
-                </tr>
-                <% counter += 1 %>
-              <% end %>              
-            </tbody>
-          </table>
-        <% end %>
-        <br>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          <i class="fa fa-plus"></i> Agregar mascota
-        </button>
-        <div class="collapse" id="collapseExample">
-          <div class="well">
-            <%= render 'new_pet_form' %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xs-12 col-md-6">
-    
-    <div class="container-fluid box box-success table-pad">
-      <div class="box-header with-border">
-        <h3>
-          Atenciones y servicios consumidos
-          <small>Total de prestaciones que el cliente ha servido</small>
-        </h3>
-        <div class="box-tools pull-right">
-          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-      </div>
-      <div class="box-body row">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere minima quod cum quaerat saepe quam iusto, dolor maxime quia reprehenderit neque possimus, magnam, enim illum sed fugit repellat libero. Asperiores?
-      </div>
-    </div>  
-  </div>
-</div>
-
 <div class="row container-fluid ">
   <div class="col">
   </div>
