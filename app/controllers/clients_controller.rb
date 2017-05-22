@@ -10,6 +10,7 @@ class ClientsController < ApplicationController
   # GET /clients/1
   # GET /clients/1.json
   def show
+    raise
     @pet = Pet.new
     @races = Race.all.map {|race| [race.name, race.id]}
   end
