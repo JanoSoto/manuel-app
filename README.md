@@ -1,10 +1,10 @@
-# El Patio
+# MANUEL App
 
-Sistema de gestión de habitaciones para el hotel de mascotas El Patio
+MAnejador Universal de Encuestas Libres (MANUEL) es un software para la realización de encuestas 360 para trabajo en equipo
 
 ---
 
-##**Versión**: 
+##**Versión**: 1.0
 
 ---
 
