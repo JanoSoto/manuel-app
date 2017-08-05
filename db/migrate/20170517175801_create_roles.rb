@@ -5,5 +5,7 @@ class CreateRoles < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_reference :users, :roles
   end
 end

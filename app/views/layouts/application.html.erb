@@ -59,28 +59,28 @@
 	<!-- ./wrapper -->
 </body>
 <% else %>
-<body class="hold-transition login-page">
-	<% unless flash.empty? %>
-    <script type="text/javascript">
-     	<% flash.each do |f| %>
-      	<% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
-        toastr['<%= type %>']('<%= f[1] %>').attr('style', 'width: 400px; font-size: 1.7rem;');
-      <% end %>
-    </script>
-  <% end %>
-	<div class="login-box">
-	  <div class="login-logo">
-	    	<%= image_tag('logo_elpatio.png', alt: 'Logo El Patio', class: 'logo-navbar')%>    
-	  </div>
-	  <!-- /.login-logo -->
-	  <div class="login-box-body">
-			<%= yield %>		
+	<body class="hold-transition login-page">
+		<% unless flash.empty? %>
+	    <script type="text/javascript">
+	     	<% flash.each do |f| %>
+	      	<% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+	        toastr['<%= type %>']('<%= f[1] %>').attr('style', 'width: 400px; font-size: 1.7rem;');
+	      <% end %>
+	    </script>
+	  <% end %>
+		<div class="login-box">
+		  <div class="login-logo">
+		    	<span>MANUEL APP</span>
+		  </div>
+		  <!-- /.login-logo -->
+		  <div class="login-box-body">
+				<%= yield %>		
 
-	  </div>
-	  <!-- /.login-box-body -->
-	</div>
-	<!-- /.login-box -->
-</body>
+		  </div>
+		  <!-- /.login-box-body -->
+		</div>
+		<!-- /.login-box -->
+	</body>
 <% end %>
 
 </html>
