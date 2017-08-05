@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
-  
-
   def new_user
-    if current_user.admin?
+    if current_user.admin? or current_user.teacher?
       @new_user = User.new
     else
       respond_to do |format|
@@ -23,7 +21,7 @@ class UsersController < ApplicationController
 =end
   	respond_to do |format|
   		if user.save
-  			#user.send_reset_password_instructions
+  			user.send_reset_password_instructions
   			format.html {redirect_to root_path, notice: 'Nuevo usuario creado con éxito'}				
   		else
   			format.html {redirect_to new_user_path, alert: 'Ha ocurrido un error. Intente nuevamente'}
