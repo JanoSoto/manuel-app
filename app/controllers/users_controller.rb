@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
-
   def new_user
-    if current_user.admin?
+    if current_user.admin? or current_user.teacher?
       @new_user = User.new
     else
       respond_to do |format|
@@ -12,14 +10,15 @@ class UsersController < ApplicationController
   end
 
   def create_user
-  	user = User.new(user_params)
+    user = User.new(user_params)
   	user.password = Devise.friendly_token.first(8)
+=begin
     if params[:admin]
       user.roles_id = 1
     else
       user.roles_id = 2
     end
-
+=end
   	respond_to do |format|
   		if user.save
   			user.send_reset_password_instructions
@@ -38,6 +37,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :name, :lastname, :phone)
+      params.require(:user).permit(:email, :name, :lastname, :roles_id)
     end
 end

@@ -16,6 +16,7 @@
  *= require toastr
  *= require dataTables.bootstrap
  *= require sweetalert2.min
+ *= require colors
  *= require_self
  */
 textarea {
