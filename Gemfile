@@ -52,6 +52,9 @@ gem 'paper_trail'
 #Gema para las notificaciones tipo toast
 gem 'toastr-rails'
 
+#Gema para administrar las autorizaciones de acción
+gem 'cancancan', '~> 2.0'
+
 group :development, :test do
   # Capistrano para despliegue de aplicación en servidor remoto
   gem 'capistrano', '~> 3.0'

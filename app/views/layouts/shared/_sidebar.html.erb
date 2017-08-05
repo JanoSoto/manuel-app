@@ -24,7 +24,7 @@
 	        </span>
 	      </a>
 	      <ul class="treeview-menu">
-	      	<% if current_user.admin? %>
+	      	<% if can? :create, User %>
 	        	<li><a href="<%= new_user_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
 	        <% end %>
 	        <li><a href="#">Link in level 2</a></li>
