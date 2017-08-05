@@ -33,16 +33,9 @@
 					    <span class="help-block with-errors"></span>
 					  </div>
 					  <div class="form-group">
-					    <%= f.label :teléfono %><br />
-					    <%= f.text_field :phone, class: 'form-control', required: true, data: {inputmask:'"mask": "+(999) 9999 9999"'} %>
-					    <span class="help-block with-errors"></span>
-					  </div>
-					  <div class="form-group">
-					  	<div class="checkbox">
-							  <label>
-							    <%= check_box_tag(:admin, true, false, class: 'switch', data: {on: "Administrador", off: "Recepcionista"}) %>
-							  </label>
-							</div>
+					  	<%= f.label "Rol de usuario" %><br>
+					  	<%#= f.select(:roles_id, options_for_select(Role.all.map{|role| [role.id, role.name]})) %>
+							<%= f.collection_select(:roles_id, Role.all, :id, :name, {}, {class: 'form-control'}) %>
 					  </div>
 					  <%= f.submit "Guardar", class: "btn btn-primary btn-block btn-flat" %>
 					<% end %>

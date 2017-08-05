@@ -10,17 +10,20 @@ class User < ActiveRecord::Base
   	return self.roles_id == 1
   end
 
-  def receptionist?
+  def teacher?
   	return self.roles_id == 2
   end
 
-  def user_name
+  def student?
+    return self.roles_id == 3
+  end
+
+  def full_name
     if !self.name.nil? && !self.lastname.nil?
-      user_name =  self.name + " " + self.lastname
+      return self.name + " " + self.lastname
     else
-      user_name = self.email
+      return self.email
     end
-    user_name
   end
 
   def created_at
@@ -30,10 +33,13 @@ class User < ActiveRecord::Base
   end
 
   def role
-    if self.roles_id == 1
-      role = "Administrador"
-    else
-      role = "Recepcionista"
+    case self.roles_id
+      when 1
+        return 'Administrador'
+      when 2
+        return 'Profesor'
+      when 3
+        return 'Estudiante'
     end
   end
 end

@@ -4,11 +4,11 @@
 	<a href="<%= root_path %>" class="logo">
 	  <!-- mini logo for sidebar mini 50x50 pixels -->
 	  <span class="logo-mini">
-	  	<%= image_tag('logo_elpatio_mini.png', alt: 'Logo El Patio', class: 'img-responsive')%>
+	  	LOGO MANUEL
 	  </span>
 	  <!-- logo for regular state and mobile devices -->
 	  <span class="logo-lg">
-	  	<%= image_tag('logo_elpatio_mini.png', alt: 'Logo El Patio', class: 'img-responsive')%>
+	  	LOGO MANUEL
 	  </span>
 	</a>
 
@@ -28,7 +28,7 @@
 	          <!-- The user image in the navbar-->
 	          <!--  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
 	          <!-- hidden-xs hides the username on small devices so only the image appears. -->
-	          <span class="hidden-xs"><%= current_user.user_name%></span>
+	          <span class="hidden-xs"><%= current_user.full_name%></span>
 	        </a>
 	        <ul class="dropdown-menu">
 	          <!-- The user image in the menu -->
@@ -36,7 +36,7 @@
 	            <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
 
 	            <p>
-	              <%= current_user.user_name%> - <%= current_user.role%>
+	              <%= current_user.full_name%> - <%= current_user.role%>
 	              <small>Miembro desde <%= current_user.created_at%></small>
 	            </p>
 	          </li>
