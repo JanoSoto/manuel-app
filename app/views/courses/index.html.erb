@@ -35,7 +35,7 @@
                   <td><%= course.status ? 'Activo' : 'Inactivo' %></td>
                   <td><%= course.user.full_name %></td>
                   <td><%= link_to 'Editar', edit_course_path(course) %></td>
-                  <td><%= link_to course.status ? 'Desactivar' : 'Activar', course, method: :delete, data: { confirm: '¿Está seguro de que desea '+(course.status ? 'activar' : 'desactivar')+' este curso?' } %></td>
+                  <td><%= link_to course.status ? 'Desactivar' : 'Activar', course, method: :delete, data: { confirm: '¿Está seguro de que desea '+(course.status ? 'desactivar' : 'activar')+' este curso?' } %></td>
                 </tr>
               <% end %>
             </tbody>

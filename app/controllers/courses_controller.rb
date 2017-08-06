@@ -28,7 +28,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.html { redirect_to courses_url, notice: 'Curso creado satisfactoriamente' }
         format.json { render :show, status: :created, location: @course }
       else
         format.html { render :new }
@@ -54,9 +54,9 @@ class CoursesController < ApplicationController
   # DELETE /courses/1
   # DELETE /courses/1.json
   def destroy
-    @course.destroy
+    @course.update(status: !@course.status)
     respond_to do |format|
-      format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
+      format.html { redirect_to courses_url, notice: 'Curso '+(@course.status ? 'activado' : 'desactivado')+' satisfactoriamente' }
       format.json { head :no_content }
     end
   end
