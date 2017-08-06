@@ -65,12 +65,25 @@ class CoursesController < ApplicationController
   def assign_students
     @assigned_students = CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| User.find(student) }
     @unassigned_students = User.where(roles_id: 3) - @assigned_students
-    @assigned_students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role).map{|student| {id: student[0], email: User.find(student[0]).email, role: student[1]} }
+    #@assigned_students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role).map{|student| {id: student[0], email: User.find(student[0]).email, role: student[1]} }
+    #@group_quantity = CourseStudent.select('COUNT(group_name) as total, group_name').group(:group_name).having('COUNT(group_name) > 0').order(:group_name).count
+    @groups = CourseStudent.where(course_id: @course.id).where.not(group_name: nil).pluck(:user_id, :role, :group_name).map{|student| {id: student[0], email: User.find(student[0]).email, role: student[1], group_name: student[2]} }.group_by{|group| group[:group_name] }
+    @assigned_students = CourseStudent.where(course_id: @course.id, group_name: nil).pluck(:user_id, :role, :group_name).map{|student| {id: student[0], email: User.find(student[0]).email, role: student[1], group_name: student[2]} }.group_by{|group| group[:group_name] }
   end
 
-  def assign_student_to_course
+  def assign_student_to_course    
+    assign = CourseStudent.find_by(course_id: params[:course_id], user_id: params[:student_id])
     respond_to do |format|
-      format.html {render json: CourseStudent.create(course_id: params[:course_id], user_id: params[:student_id], role: params[:role])}
+      if assign.nil?
+        puts '---CREA UNO NUEVO'
+        format.html {render json: CourseStudent.create(course_id: params[:course_id], 
+                                                       user_id: params[:student_id], 
+                                                       role: params[:role], 
+                                                       group_name: params[:group_name])}
+      else
+        puts '----ACTUALIZA'
+        format.html{render json: assign.update(role: params[:role], group_name: params[:group_name])}
+      end
     end
   end
 
