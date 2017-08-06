@@ -10,7 +10,9 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
-    @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role).map{|student| {name: User.find(student[0]).full_name, role: student[1]} }
+    @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role, :group_name).map{|student| {name: User.find(student[0]).full_name, role: student[1], group_name: student[2]} }
+    @color = ["info", "success", "teal", "warning", "danger", 
+              "gray", "navy", "purple", "orange", "maroon"]
   end
 
   # GET /courses/new
