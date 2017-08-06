@@ -31,9 +31,7 @@
     <%= f.label :user_id, 'Profesor' %><br>
     <%= f.select(:user_id, options_for_select((User.where(roles_id: 2)).map{|teacher| [teacher.full_name, teacher.id]}), {}, {class: 'form-control'}) %>
   </div>
-  <%= button_tag type: 'submit', class: 'btn btn-primary btn-block btn-flat' do %>
-    <i class="fa fa-plus"></i> Crear nuevo curso
-  <% end %>
+  <%= f.submit class: 'btn btn-primary btn-block btn-flat' %>
 <% end %>
 
 <script>
