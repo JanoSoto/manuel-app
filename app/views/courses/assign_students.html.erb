@@ -50,7 +50,7 @@
         <div id="unassigned-students">          
           <% unless @assigned_students[nil].nil? %>
             <% @assigned_students[nil].each do |student| %>
-              <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+              <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : student[:role] == 'jefe de grupo' ? 'btn-success' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
             <% end %>
           <% end %>
         </div>
@@ -65,7 +65,7 @@
               </div>
               <div class="box-body" group="<%= group[0] %>" id="group<%= group[0] %>" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <% group[1].each do |student| %>
-                  <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+                  <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : student[:role] == 'jefe de grupo' ? 'btn-success' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
                 <% end %>
               </div>
             </div>
@@ -117,10 +117,26 @@
       selector: '.student-button', 
       callback: function(key, options) {
         var args = $(this).attr('onclick').split('(')[1].split(',');
-        assignStudent(args[0], args[1], 'ayudante');
+        if (key == 'assistant') {
+          assignStudent(args[0], args[1], 'ayudante');
+        }
+        else {
+          $.post('<%= assign_student_to_course_path %>',
+            {
+              course_id: args[1],
+              student_id: args[0],
+              role: 'jefe de grupo',
+              group_name: $(this).parent().attr('group')
+            })
+            .done(function(data){            
+              toastr['info']('Estudiante asignado como jefe de grupo con éxito');
+            });
+          $(this).removeClass('btn-default').addClass('btn-success');
+        }
       },
       items: {
-        "assitant": {name: "Asignar como ayudante"}
+        "assistant": {name: "Asignar como ayudante"},
+        "group leader": {name: "Asignar como jefe de grupo"}
       }
     });
 
