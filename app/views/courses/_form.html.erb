@@ -1,0 +1,48 @@
+<%= form_for(@course) do |f| %>
+  <% if @course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+      <% @course.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class='form-group'>
+    <%= f.label :name, 'Nombre' %><br>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+  <div class='form-group'>
+    <%= f.label :semester, 'Semestre' %><br>
+    <%= f.select(:semester, options_for_select((1..2).map{|semester| [semester, semester]}), {}, {class: 'form-control'}) %>
+    <%#= f.number_field :semester, class: 'form-control' %>
+  </div>
+  <div class='form-group'>
+    <%= f.label :year, 'Año' %><br>
+    <%= f.select(:year, options_for_select((Date.today.year..Date.today.year+5).map{|year| [year, year]}), {}, {class: 'form-control'}) %>
+    <%#= f.number_field :year, class: 'form-control' %>
+  </div>
+  <div class='form-group'>
+    <%= f.label :status, 'Estado' %><br>
+    <input type="checkbox" name="course[status]" checked>
+    <%#= f.check_box :status, class: 'form-control' %>
+  </div>
+  <div class='form-group'>
+    <%= f.label :user_id, 'Profesor' %><br>
+    <%#= f.text_field :user_id, class: 'form-control' %>
+    <%= f.select(:user_id, options_for_select((User.where(roles_id: 2)).map{|teacher| [teacher.full_name, teacher.id]}), {}, {class: 'form-control'}) %>
+  </div>
+  <%= button_tag type: 'submit', class: 'btn btn-primary btn-block btn-flat' do %>
+    <i class="fa fa-plus"></i> Crear nuevo curso
+  <% end %>
+<% end %>
+
+<script>
+  $("[name='course[status]']").bootstrapSwitch({
+    onText: 'Activo',
+    offText: 'Inactivo'
+  });
+</script>
