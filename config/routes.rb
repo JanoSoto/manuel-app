@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
+  post 'assign_student_to_course' => 'courses#assign_student_to_course'
+  post 'remove_student_from_course' => 'courses#remove_student_from_course'
+  get 'courses/:id/assign_students' => 'courses#assign_students', as: 'assign_students'
   resources :courses
+  
   get 'users' => 'users#index'
-  get 'users/:id' => 'users#show'
+  get 'user/:id' => 'users#show'
   get 'users/:id/edit' => 'users#edit_user'
   patch 'users/:id/edit' => 'users#update_user'
   delete 'user/:id' => 'users#destroy'

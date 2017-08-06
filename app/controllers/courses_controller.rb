@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :assign_students]
 
   # GET /courses
   # GET /courses.json
@@ -10,6 +10,8 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
+    @students = Array.new
+    CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| @students << User.find(student) }
   end
 
   # GET /courses/new
@@ -58,6 +60,25 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to courses_url, notice: 'Curso '+(@course.status ? 'activado' : 'desactivado')+' satisfactoriamente' }
       format.json { head :no_content }
+    end
+  end
+
+  def assign_students
+    @assigned_students = Array.new
+    CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| @assigned_students << User.find(student) }
+    @unassigned_students = User.where(roles_id: 3) - @assigned_students
+
+  end
+
+  def assign_student_to_course
+    respond_to do |format|
+      format.html {render json: CourseStudent.create(course_id: params[:course_id], user_id: params[:student_id])}
+    end
+  end
+
+  def remove_student_from_course
+    respond_to do |format|
+      format.html {render json: CourseStudent.find_by(course_id: params[:course_id], user_id: params[:student_id]).destroy}
     end
   end
 
