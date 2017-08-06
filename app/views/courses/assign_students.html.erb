@@ -121,17 +121,20 @@
           assignStudent(args[0], args[1], 'ayudante');
         }
         else {
+          var new_leader = $(this);
+          var group_name = new_leader.parent().attr('group');
           $.post('<%= assign_student_to_course_path %>',
             {
               course_id: args[1],
               student_id: args[0],
               role: 'jefe de grupo',
-              group_name: $(this).parent().attr('group')
+              group_name: group_name
             })
             .done(function(data){            
+              removeOldGroupLeader(group_name);
+              new_leader.removeClass('btn-default').addClass('btn-success');
               toastr['info']('Estudiante asignado como jefe de grupo con éxito');
             });
-          $(this).removeClass('btn-default').addClass('btn-success');
         }
       },
       items: {
@@ -141,6 +144,23 @@
     });
 
   });
+
+  function removeOldGroupLeader(group_name) {
+    var old_leader = $('#group'+group_name).find('.btn-success');
+    if (old_leader.length > 0) {
+      var args = old_leader.attr('onclick').split('(')[1].split(',');
+      $.post('<%= assign_student_to_course_path %>',
+          {
+            course_id: args[1],
+            student_id: args[0],
+            group_name: group_name,
+            role: ''
+          })
+          .done(function(data){            
+            old_leader.removeClass('btn-success').addClass('btn-default');
+          });
+    }
+  }
 
   $('#add-group').click(function(){
     var group_count = $('.box-group').length+1;
