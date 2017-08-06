@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
 
   belongs_to :role
 
+  has_many :course_students
+  has_many :courses, through: :course_students
+
   def admin?
   	return self.roles_id == 1
   end
