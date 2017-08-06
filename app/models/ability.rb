@@ -9,6 +9,7 @@ class Ability
       can :manage, :all
     elsif user.teacher?
       can :manage, User
+      can :read, :all
     else
       can :read, :all
     end
