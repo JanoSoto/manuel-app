@@ -65,9 +65,15 @@
           <% if @students.empty? %>
             <span>No hay estudiantes asignados a este curso</span>
           <% else %>
-            <% @students.each do |student| %>
-              <%= student.inspect %>
-            <% end %>
+            <table class="table">
+              <tbody>
+                <% @students.each do |student| %>
+                  <tr>
+                    <td><%= student.full_name %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
           <% end %>
         </div>
       </div>

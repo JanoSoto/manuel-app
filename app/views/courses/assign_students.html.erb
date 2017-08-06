@@ -15,7 +15,7 @@
 <section class="content">
   <div class="row">
     <div class="col-xs-12">
-      <%= link_to courses_path do %>
+      <%= link_to course_path(@course) do %>
         <i class="fa fa-arrow-left"></i> Volver
       <% end %>
     </div>
@@ -29,7 +29,7 @@
           <p>Haga click sobre los estudiantes que desea asignar al curso</p>
         </div>
         <div class="box-body" id="available-students">
-          <% @students.each do |student| %>
+          <% @unassigned_students.each do |student| %>
             <button id="student<%= student.id %>" class="btn btn-default" onclick="assignStudent(<%= student.id %>, <%= @course.id %>)"><%= student.email %></button>
           <% end %>
         </div>
@@ -42,6 +42,9 @@
           <p>Haga click sobre los estudiantes que desea quitar del curso</p>
         </div>
         <div class="box-body" id="assigned-students">
+          <% @assigned_students.each do |student| %>
+            <button id="student<%= student.id %>" class="btn btn-default" onclick="removeStudent(<%= student.id %>, <%= @course.id %>)"><%= student.email %></button>
+          <% end %>
         </div>
       </div>
     </div>

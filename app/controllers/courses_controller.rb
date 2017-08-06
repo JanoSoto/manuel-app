@@ -64,7 +64,10 @@ class CoursesController < ApplicationController
   end
 
   def assign_students
-    @students = User.where(roles_id: 3)
+    @assigned_students = Array.new
+    CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| @assigned_students << User.find(student) }
+    @unassigned_students = User.where(roles_id: 3) - @assigned_students
+
   end
 
   def assign_student_to_course
