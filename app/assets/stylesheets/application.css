@@ -67,3 +67,7 @@ textarea {
 .student-button {
 	margin-bottom: 3px;
 }
+
+#unassigned-students {
+	padding: 10px 10px 0 10px;
+}

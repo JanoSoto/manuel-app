@@ -73,6 +73,9 @@
                     <% if student[:role] == 'ayudante' %>
                       <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
                     <% end %>
+                    <% if student[:group_name] %>
+                      <td class="pull-right"><span class="label label-<%= @color[student[:group_name].to_i-1] %>">Grupo <%= student[:group_name] %> </span></td>
+                    <% end %>
                   </tr>
                 <% end %>
               </tbody>
