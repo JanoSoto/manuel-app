@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'users/:id' => 'users#show'
   get 'users/:id/edit' => 'users#edit_user'
   patch 'users/:id/edit' => 'users#update_user'
+  delete 'user/:id' => 'users#destroy'
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'
   match "/404", :to => "errors#not_found", :via => :all

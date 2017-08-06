@@ -17,38 +17,29 @@
         <th>Apellido</th>
         <th>Email</th>
         <th>Rol</th>
-        <!-- <th>¿Habilitado?</th> -->
+        <th>Estado</th>
         <th></th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <% @users.each do |user| 
-=begin        
-        unless user.disabled
-          dis_class = "fa fa-user-times red"
-          dis_message = "deshabilitar"
-        else
-          dis_class = "fa fa-user-plus green"
-          dis_message = "habilitar"
+      <% @users.each do |user|     
+        if user.status          
+          dis_message = "desactivar"
+        else          
+          dis_message = "activar"
         end
-=end      %>
+      %>
         <tr>
         	<td><%= user.name %></td>
         	<td><%= user.lastname %></td>
           <td><%= user.email %></td>
         	<td><%= user.role %></td>
-          <!-- <td align="center">
-            <%# unless user.disabled %>
-              <span class="badge label-success"><i class="fa fa-check"></i></span>
-            <%# else %>
-              <span class="badge label-danger"><i class="fa fa-close"></i></span>
-            <%# end %>
-          </td> -->
+          <td><%= user.status ? 'Activo' : 'Desactivado' %></td>
           <td><%= link_to 'Ver más', '/users/'+user.id.to_s  %></td>
-          <td><%= link_to '/users/'+user.id.to_s+'/edit' do %><i class="fa fa-pencil"></i> <% end %></td>
-          <td><%= link_to '/user/'+user.id.to_s, method: :delete, data: { confirm: '¿Estas seguro que desea  a '+user.full_name+'?' } do %><i class="fa fa-user-plus<%#= dis_class %>"></i>  <% end %></td>
+          <td><%= link_to '/users/'+user.id.to_s+'/edit' do %>Editar<% end %></td>
+          <td><%= link_to dis_message.capitalize, '/user/'+user.id.to_s, method: :delete, data: { confirm: '¿Estas seguro que desea '+dis_message+' a '+user.full_name+'?' } %></td>
         </tr>
       <% end %>
     </tbody>
