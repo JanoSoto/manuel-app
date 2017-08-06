@@ -17,6 +17,7 @@
  *= require dataTables.bootstrap
  *= require sweetalert2.min
  *= require colors
+ *= require jquery.contextMenu.min
  *= require_self
  */
 textarea {
@@ -61,4 +62,8 @@ textarea {
    width: auto;
    height: auto;
    margin: auto;
+}
+
+.student-button {
+	margin-bottom: 3px;
 }

@@ -30,7 +30,7 @@
         </div>
         <div class="box-body" id="available-students">
           <% @unassigned_students.each do |student| %>
-            <button id="student<%= student.id %>" class="btn btn-default" onclick="assignStudent(<%= student.id %>, <%= @course.id %>)"><%= student.email %></button>
+            <button id="student<%= student.id %>" class="btn btn-default student-button" onclick="assignStudent(<%= student.id %>, <%= @course.id %>, null)"><%= student.email %></button>
           <% end %>
         </div>
       </div>
@@ -43,8 +43,11 @@
         </div>
         <div class="box-body" id="assigned-students">
           <% @assigned_students.each do |student| %>
-            <button id="student<%= student.id %>" class="btn btn-default" onclick="removeStudent(<%= student.id %>, <%= @course.id %>)"><%= student.email %></button>
+            <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)"><%= student[:email] %></button>
           <% end %>
+        </div>
+        <div class="box-footer">
+          <span class="label label-primary">Ayudante</span>
         </div>
       </div>
     </div>
@@ -53,27 +56,48 @@
 <!-- /.content -->
 
 <script>
-  function assignStudent(student_id, course_id){
+  function assignStudent(student_id, course_id, role){
     $.post('<%= assign_student_to_course_path %>',
           {
             course_id: course_id,
-            student_id: student_id
+            student_id: student_id,
+            role: role
           })
           .done(function(data){
-            $('#assigned-students').append($('#student'+student_id).remove().attr('onclick', 'removeStudent('+student_id+','+course_id+')'));
+            if (role == 'ayudante') {
+              $('#assigned-students').append($('#student'+student_id).remove().attr('onclick', 'removeStudent('+student_id+','+course_id+', null)').removeClass('btn-default').addClass('btn-primary'));
+            }
+            else {
+              $('#assigned-students').append($('#student'+student_id).remove().attr('onclick', 'removeStudent('+student_id+','+course_id+', null)'));
+            }
             toastr['info']('Estudiante asignado con éxito');
           });
   }
 
-  function removeStudent(student_id, course_id){
+  function removeStudent(student_id, course_id, role){
     $.post('<%= remove_student_from_course_path %>',
           {
             course_id: course_id,
-            student_id: student_id
+            student_id: student_id,
+            role: role
           })
           .done(function(data){
-            $('#available-students').append($('#student'+student_id).remove().attr('onclick', 'assignStudent('+student_id+','+course_id+')'));
+            $('#available-students').append($('#student'+student_id).remove().attr('onclick', 'assignStudent('+student_id+','+course_id+', null)'));
             toastr['info']('Estudiante removido con éxito');
           });
   }
+
+  $(function() {
+    $.contextMenu({
+      selector: '.student-button', 
+      callback: function(key, options) {
+        var args = $(this).attr('onclick').split('(')[1].split(',');
+        assignStudent(args[0], args[1], 'ayudante');
+      },
+      items: {
+        "assitant": {name: "Asignar como ayudante"}
+      }
+    });
+  
+  });
 </script>

@@ -69,7 +69,10 @@
               <tbody>
                 <% @students.each do |student| %>
                   <tr>
-                    <td><%= student.full_name %></td>
+                    <td><%= student[:name] %></td>
+                    <% if student[:role] == 'ayudante' %>
+                      <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
+                    <% end %>
                   </tr>
                 <% end %>
               </tbody>
