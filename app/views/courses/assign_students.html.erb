@@ -59,6 +59,9 @@
             <div class="box box-group">
               <div class="box-header with-border">
                 <h3 class="box-title">Grupo <%= group[0] %></h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-danger btn-flat" onclick="removeGroup(<%= group[0] %>)"><i class="fa fa-times"></i> Eliminar grupo</button>
+                </div>
               </div>
               <div class="box-body" group="<%= group[0] %>" id="group<%= group[0] %>" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <% group[1].each do |student| %>
@@ -120,7 +123,7 @@
         "assitant": {name: "Asignar como ayudante"}
       }
     });
-  
+
   });
 
   $('#add-group').click(function(){
@@ -129,6 +132,9 @@
             '<div class="box box-group">'+
               '<div class="box-header with-border">'+
                 '<h3 class="box-title">Grupo '+group_count+'</h3>'+
+                '<div class="box-tools pull-right">'+
+                  '<button class="btn btn-danger btn-flat" onclick="removeGroup('+group_count+')"><i class="fa fa-times"></i> Eliminar grupo</button>'+
+                '</div>'+
               '</div>'+
               '<div class="box-body" group="'+group_count+'" id="group'+group_count+'" ondrop="drop(event)" ondragover="allowDrop(event)">'+
               '</div>'+
@@ -168,5 +174,11 @@
           .done(function(data){            
             toastr['info']('Estudiante asignado con éxito');
           });
+  }
+
+  function removeGroup(group){
+    var students = $('#group'+group).children();
+    $('#group'+group).parent().remove();
+    $('#unassigned-students').append(students);
   }
 </script>
