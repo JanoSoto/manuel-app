@@ -24,10 +24,12 @@
 	        </span>
 	      </a>
 	      <ul class="treeview-menu">
+	      	<% if can? :read, User %>
+						<li><a href="<%= users_url %>"><i class="fa fa-list"></i> Usuarios</a></li>
+	      	<% end %>
 	      	<% if can? :create, User %>
 	        	<li><a href="<%= new_user_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
 	        <% end %>
-	        <li><a href="#">Link in level 2</a></li>
 	      </ul>
 	    </li>
 	    <li class="treeview">
