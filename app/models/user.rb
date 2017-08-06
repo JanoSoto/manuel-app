@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 
   def full_name
     if !self.name.nil? && !self.lastname.nil?
-      return self.name + " " + self.lastname
+      return self.name.capitalize + " " + self.lastname.capitalize
     else
       return self.email
     end

@@ -1,0 +1,50 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Cursos
+    <small>Listado de cursos registrados</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li class="active">Cursos</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Semestre/Año</th>
+                <th>Estado</th>
+                <th>Profesor</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @courses.each do |course| %>
+                <tr>
+                  <td><%= course.name %></td>
+                  <td><%= course.semester %>/<%= course.year %></td>
+                  <td><%= course.status ? 'Activo' : 'Inactivo' %></td>
+                  <td><%= course.user.full_name %></td>
+                  <td><%= link_to 'Editar', edit_course_path(course) %></td>
+                  <td><%= link_to course.status ? 'Desactivar' : 'Activar', course, method: :delete, data: { confirm: '¿Está seguro de que desea '+(course.status ? 'activar' : 'desactivar')+' este curso?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>      
+          <%= will_paginate @courses, param_name: 'page', renderer: BootstrapPagination::Rails %>
+          <%= link_to 'Nuevo curso', new_course_path, class: 'btn btn-primary btn-flat' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->

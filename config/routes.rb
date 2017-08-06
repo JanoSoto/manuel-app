@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :courses
   get 'new_user' => 'users#new_user'
   post 'users/create_user' => 'users#create_user'
   match "/404", :to => "errors#not_found", :via => :all
