@@ -50,7 +50,7 @@
         <div id="unassigned-students">          
           <% unless @assigned_students[nil].nil? %>
             <% @assigned_students[nil].each do |student| %>
-              <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+              <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : student[:role] == 'jefe de grupo' ? 'btn-success' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
             <% end %>
           <% end %>
         </div>
@@ -65,7 +65,7 @@
               </div>
               <div class="box-body" group="<%= group[0] %>" id="group<%= group[0] %>" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <% group[1].each do |student| %>
-                  <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+                  <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : student[:role] == 'jefe de grupo' ? 'btn-success' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
                 <% end %>
               </div>
             </div>
@@ -117,14 +117,50 @@
       selector: '.student-button', 
       callback: function(key, options) {
         var args = $(this).attr('onclick').split('(')[1].split(',');
-        assignStudent(args[0], args[1], 'ayudante');
+        if (key == 'assistant') {
+          assignStudent(args[0], args[1], 'ayudante');
+        }
+        else {
+          var new_leader = $(this);
+          var group_name = new_leader.parent().attr('group');
+          $.post('<%= assign_student_to_course_path %>',
+            {
+              course_id: args[1],
+              student_id: args[0],
+              role: 'jefe de grupo',
+              group_name: group_name
+            })
+            .done(function(data){            
+              removeOldGroupLeader(group_name);
+              new_leader.removeClass('btn-default').addClass('btn-success');
+              toastr['info']('Estudiante asignado como jefe de grupo con éxito');
+            });
+        }
       },
       items: {
-        "assitant": {name: "Asignar como ayudante"}
+        "assistant": {name: "Asignar como ayudante"},
+        "group leader": {name: "Asignar como jefe de grupo"}
       }
     });
 
   });
+
+  function removeOldGroupLeader(group_name) {
+    var old_leader = $('#group'+group_name).find('.btn-success');
+    if (old_leader.length > 0) {
+      var args = old_leader.attr('onclick').split('(')[1].split(',');
+      $.post('<%= assign_student_to_course_path %>',
+          {
+            course_id: args[1],
+            student_id: args[0],
+            group_name: group_name,
+            role: ''
+          })
+          .done(function(data){            
+            old_leader.removeClass('btn-success').addClass('btn-default');
+          });
+    }
+  }
 
   $('#add-group').click(function(){
     var group_count = $('.box-group').length+1;
@@ -156,17 +192,19 @@
   function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("id");
+    var student = document.getElementById(data);
+    student.className = 'btn btn-default student-button';
     if (ev.target.tagName == 'BUTTON') {
-      ev.target.parentElement.appendChild(document.getElementById(data));
+      ev.target.parentElement.appendChild(student);
     }
     else{
-      ev.target.appendChild(document.getElementById(data));
+      ev.target.appendChild(student);
     }
     $.post('<%= assign_student_to_course_path %>',
           {
             course_id: ev.dataTransfer.getData("course_id"),
             student_id: ev.dataTransfer.getData("student_id"),
-            role: null,
+            role: '',
             group_name: ev.target.getAttribute('group')
           })
           .done(function(data){            

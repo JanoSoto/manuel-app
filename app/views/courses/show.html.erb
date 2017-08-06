@@ -70,12 +70,15 @@
                 <% @students.each do |student| %>
                   <tr>
                     <td><%= student[:name] %></td>
+                    <% if student[:group_name] %>
+                      <td class="pull-right"><span class="label label-<%= @color[(student[:group_name].to_i-1)%@color.count] %>">Grupo <%= student[:group_name] %> </span></td>
+                    <% end %>
                     <% if student[:role] == 'ayudante' %>
                       <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
+                    <% elsif student[:role] == 'jefe de grupo' %>
+                      <td class="pull-right"><span class="label label-success">Jefe de grupo</span></td>
                     <% end %>
-                    <% if student[:group_name] %>
-                      <td class="pull-right"><span class="label label-<%= @color[student[:group_name].to_i-1] %>">Grupo <%= student[:group_name] %> </span></td>
-                    <% end %>
+
                   </tr>
                 <% end %>
               </tbody>
