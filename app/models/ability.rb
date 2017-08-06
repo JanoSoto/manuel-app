@@ -8,7 +8,7 @@ class Ability
     if user.admin?
       can :manage, :all
     elsif user.teacher?
-      can :manage, :all
+      can :manage, User
     else
       can :read, :all
     end
