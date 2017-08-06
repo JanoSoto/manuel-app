@@ -192,17 +192,19 @@
   function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("id");
+    var student = document.getElementById(data);
+    student.className = 'btn btn-default student-button';
     if (ev.target.tagName == 'BUTTON') {
-      ev.target.parentElement.appendChild(document.getElementById(data));
+      ev.target.parentElement.appendChild(student);
     }
     else{
-      ev.target.appendChild(document.getElementById(data));
+      ev.target.appendChild(student);
     }
     $.post('<%= assign_student_to_course_path %>',
           {
             course_id: ev.dataTransfer.getData("course_id"),
             student_id: ev.dataTransfer.getData("student_id"),
-            role: null,
+            role: '',
             group_name: ev.target.getAttribute('group')
           })
           .done(function(data){            
