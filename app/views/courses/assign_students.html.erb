@@ -154,10 +154,8 @@
   }
 
   function drop(ev) {
-    console.log(ev.target.getAttribute('group'));
     ev.preventDefault();
     var data = ev.dataTransfer.getData("id");
-    console.log(ev.target.tagName);
     if (ev.target.tagName == 'BUTTON') {
       ev.target.parentElement.appendChild(document.getElementById(data));
     }
@@ -180,5 +178,20 @@
     var students = $('#group'+group).children();
     $('#group'+group).parent().remove();
     $('#unassigned-students').append(students);
+    var success = true;
+    students.each(function(){
+      var args = $(this).attr('onclick').split('(')[1].split(',');
+      $.post('<%= assign_student_to_course_path %>',
+        {
+          course_id: args[1],
+          student_id: args[0]
+        })
+        .fail(function(){
+          success = false;
+        });
+    });
+    if (success) {
+      toastr['info']('Grupo eliminado con éxito');
+    }
   }
 </script>
