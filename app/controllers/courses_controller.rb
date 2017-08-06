@@ -10,8 +10,7 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
-    @students = Array.new
-    CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| @students << User.find(student) }
+    @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role).map{|student| {name: User.find(student[0]).full_name, role: student[1]} }
   end
 
   # GET /courses/new
@@ -64,15 +63,14 @@ class CoursesController < ApplicationController
   end
 
   def assign_students
-    @assigned_students = Array.new
-    CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| @assigned_students << User.find(student) }
+    @assigned_students = CourseStudent.where(course_id: @course.id).pluck(:user_id).map{|student| User.find(student) }
     @unassigned_students = User.where(roles_id: 3) - @assigned_students
-
+    @assigned_students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role).map{|student| {id: student[0], email: User.find(student[0]).email, role: student[1]} }
   end
 
   def assign_student_to_course
     respond_to do |format|
-      format.html {render json: CourseStudent.create(course_id: params[:course_id], user_id: params[:student_id])}
+      format.html {render json: CourseStudent.create(course_id: params[:course_id], user_id: params[:student_id], role: params[:role])}
     end
   end
 
