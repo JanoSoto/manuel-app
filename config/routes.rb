@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   post 'add_answer_option_ajax' => 'answer_options#add_answer_option_ajax'
   resources :answer_options
+  get 'questions/:id/edit/:survey_id' => 'questions#edit'
   get 'questions/new/:survey_id' => 'questions#new'
   resources :questions
   resources :surveys
