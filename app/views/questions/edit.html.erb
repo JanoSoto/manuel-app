@@ -7,8 +7,7 @@
   <ol class="breadcrumb">
   	<li><a href="<%= surveys_path %>">Encuestas</a></li>
   	<li><a href="<%= survey_path(@question.survey.id) %>"><%= @question.survey.name %></a></li>
-  	<li><a href="<%= question_path(@question) %>">Pregunta</a></li>
-    <li class="active">Editar pregunta</li>
+  	<li class="active">Editar pregunta</li>
   </ol>
 </section>
 
@@ -16,7 +15,7 @@
 <section class="content">
   <div class="row">
   	<div class="col-xs-12">
-  		<%= link_to question_path(@question)  do %>
+  		<%= link_to survey_path(@question.survey)  do %>
   			<i class="fa fa-arrow-left"></i> Volver
   		<% end %>
   	</div>
