@@ -1,0 +1,139 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Editar pregunta
+    <small>Edite la pregunta o agregue opciones de respuesta</small>
+  </h1>
+  <ol class="breadcrumb">
+  	<li><a href="<%= surveys_path %>">Encuestas</a></li>
+  	<li><a href="<%= survey_path(@question.survey.id) %>"><%= @question.survey.name %></a></li>
+  	<li><a href="<%= question_path(@question) %>">Pregunta</a></li>
+    <li class="active">Editar pregunta</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+  	<div class="col-xs-12">
+  		<%= link_to question_path(@question)  do %>
+  			<i class="fa fa-arrow-left"></i> Volver
+  		<% end %>
+  	</div>
+	</div>
+	<div class="row">
+		<br>
+    <div class="col-xs-12 col-md-5">
+    	<div class="box box-primary">
+    		<div class="box-header with-border">
+    			<h3 class="box-title">Editar pregunta</h3>
+    		</div>
+	    	<div class="box-body">
+					<%= render 'form' %>
+	    	</div>
+    	</div>
+    </div>
+    <div class="col-xs-12 col-md-7">
+    	<div class="box box-success">
+    		<div class="box-header with-border">
+    			<h3 class="box-title">Opciones de respuesta</h3>
+					<div class="box-tools pull-right">
+						<button class="btn btn-primary btn-flat" id="add-answer-btn"><i class="fa fa-plus"></i> Agregar opciones de respuesta</button>
+					</div>
+    		</div>
+    		<div class="box-body">
+    			<div id="new-answer" class="hidden">
+    				<div class="box">
+    					<div class="box-header with-border">
+    						<h3 class="box-title">Agregar opción de respuesta</h3>
+    						<div class="box-tools pull-right">
+    							<i class="fa fa-times" id="close-new-answer"></i>
+								</div>
+    					</div>
+    					<div class="box-body">
+    						<div class="form-group">
+							    <%= label_tag :answer, 'Respuesta' %><br>
+							    <%= text_field_tag :answer, '', id: 'new-answer-def', class: 'form-control' %>
+							  </div>
+							  <div class="form-group">
+							    <%= label_tag :score, 'Puntaje' %><br>
+							    <%= number_field_tag :score, 1, min: 1, step: 1, id: 'new-answer-score', class: 'form-control' %>
+							  </div>
+						    <%= hidden_field_tag :question_id, @question.id, id: 'new-answer-question', class: 'form-control' %>
+							  <button class="btn btn-primary btn-flat btn-block" id="new-answer-btn" disabled><i class="fa fa-plus"></i> Agregar</button>
+    					</div>	
+    				</div>
+    			</div>
+    			<% unless @question.answer_options.empty? %>
+    				<table class="table">
+    					<thead>
+    						<th>Respuesta</th>
+    						<th>Puntaje</th>
+    					</thead>
+    					<tbody id="answer-options">
+  							<% @question.answer_options.each do |answer| %>
+    							<tr>
+			    					<td><%= answer.answer %></td>
+			    					<td><%= answer.score %></td>
+    							</tr>
+		    				<% end %>
+    					</tbody>
+    				</table>
+    			<% else %>
+    				<p>Esta pregunta no tiene opciones de respuesta asignadas</p>
+    			<% end %>
+    		</div>
+    	</div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->
+
+<script>
+	var new_answer = $('#new-answer');
+	$(document).ready(function(){
+		new_answer.hide().removeClass('hidden');
+	});
+	
+	$('#add-answer-btn').click(function(){
+		new_answer.show(300);
+	});
+
+	$('#close-new-answer').click(function(){
+		new_answer.hide(300);
+	});
+
+	$('#new-answer-def').blur(function(){
+		if (this.value) {
+			$('#new-answer-btn').removeAttr('disabled');
+		}
+	});
+
+	$('#new-answer-btn').click(function(){
+		$.post('<%= add_answer_option_ajax_path %>',
+      {
+        answer: $('#new-answer-def').val(),
+        score: $('#new-answer-score').val(),
+        question_id: $('#new-answer-question').val()
+      })
+      .done(function(data){            
+      	clearForm();
+      	data = JSON.parse(data)
+      	$('#answer-options').append(
+      			'<tr>'+
+							'<td>'+data.answer+'</td>'+
+							'<td>'+data.score+'</td>'+
+						'</tr>'
+      		)
+        toastr['info']('Opción de respuesta agregada con éxito');
+      });
+	});
+
+	function clearForm(){
+		$('#new-answer-def').val();
+		$('#new-answer-score').val();
+		$('#new-answer-question').val();
+		$('#new-answer-btn').attr('disabled', 'disabled');
+		new_answer.hide();
+	}
+</script>

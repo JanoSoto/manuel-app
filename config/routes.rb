@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  post 'add_answer_option_ajax' => 'answer_options#add_answer_option_ajax'
+  resources :answer_options
+  get 'questions/new/:survey_id' => 'questions#new'
+  resources :questions
+  resources :surveys
   post 'assign_student_to_course' => 'courses#assign_student_to_course'
   post 'remove_student_from_course' => 'courses#remove_student_from_course'
   get 'courses/:id/assign_students' => 'courses#assign_students', as: 'assign_students'

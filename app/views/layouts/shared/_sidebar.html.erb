@@ -45,6 +45,19 @@
 	        <% end %>
 	      </ul>
 	    </li>
+	    <li class="treeview">
+	      <a href="#"><i class="fa fa-check-square-o"></i> <span>Encuestas</span>
+	        <span class="pull-right-container">
+	          <i class="fa fa-angle-left pull-right"></i>
+	        </span>
+	      </a>
+	      <ul class="treeview-menu">
+	      	<li><a href="<%= surveys_path %>"><i class="fa fa-list"></i> Encuestas</a></li>
+	      	<% if can? :create, Survey %>
+	        	<li><a href="<%= new_survey_path %>"><i class="fa fa-plus"></i> Nueva encuesta</a></li>
+	        <% end %>
+	      </ul>
+	    </li>
 	    <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
 	  	<li><%= link_to destroy_user_session_path, method: :delete do %><i class="fa fa-sign-out"></i> <span>Cerrar Sesión</span><%end%></li>
 	  
