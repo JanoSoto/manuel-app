@@ -1,0 +1,112 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Ver encuesta
+    <small>Ver toda la información de un encuesta</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= surveys_path %>">Encuestas</a></li>
+    <li class="active">Ver encuesta</li>
+  </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link_to surveys_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <br>
+    <div class="col-xs-12 col-md-4">
+      <div class="box box-primary">
+        <div class="box-header">
+          <h3 class="box-title">Información general</h3>
+          <div class="box-tools pull-right">
+            <%= link_to 'Editar', edit_survey_path(@survey), class: 'btn btn-primary btn-flat' %> 
+          </div>
+        </div>
+        <div class="box-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Nombre</th>
+                <td><%= @survey.name %></td>
+              </tr>
+              <tr>
+                <th>Descripción</th>
+                <td><%= @survey.description %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">Preguntas</h3>
+          <div class="box-tools pull-right">
+            <%= link_to new_question_path+'/'+@survey.id.to_s, class: 'btn btn-primary btn-flat' do %>
+            	<i class="fa fa-plus"></i> Agregar pregunta
+            <% end %>
+          </div>
+        </div>
+        <div class="box-body">
+        	<% unless @survey.questions.empty? %>
+        		<% @survey.questions.each do |question| %>
+        			<div class="box collapsed-box">
+        				<div class="box-header with-border">
+        					<div>
+        						<h3 class="box-title question-title">
+	        						<%= question.statement %>
+	      							<span class="label label-success">  <%= question.score %> Puntos</span>	
+	        					</h3>
+        					</div>
+        					<div class="box-tools pull-right">
+        						<%= link_to 'Editar', edit_question_path(question), class: 'btn btn-primary btn-flat' %>
+        						<button class="btn btn-primary btn-flat" data-widget="collapse">
+        							<i class="fa fa-plus"></i> Ver respuestas (<%= question.answer_options.count %>)
+        						</button>
+        					</div>
+        					<span><%= question.hint %></span>
+        				</div>
+        				<div class="box-body">
+        					<% unless question.answer_options.empty? %> 
+        						<table class="table">
+        							<thead>
+        								<th>#</th>
+        								<th>Respuesta</th>
+        								<th>Puntaje</th>
+        							</thead>
+        							<tbody>
+        								<% count = 1 %>
+        								<% question.answer_options.each do |answer| %>
+		        							<tr>
+		        								<td><%= count %></td>
+		        								<td><%= answer.answer %></td>
+		        								<td><%= answer.score %></td>
+		        							</tr>
+		        							<% count += 1 %>
+		        						<% end %>
+        							</tbody>
+        						</table>
+        						<ol>
+	        					</ol>
+        					<% else %>
+        						<p>Esta pregunta no tiene opciones de respuesta asignadas</p>
+        					<% end %>
+        				</div>
+        			</div>
+        		<% end %>
+        	<% else %>
+        		<p>Esta encuesta no tiene preguntas asociadas</p>
+        	<% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->
