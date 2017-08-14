@@ -16,6 +16,9 @@
       <%= link_to surveys_path do %>
         <i class="fa fa-arrow-left"></i> Volver
       <% end %>
+      <div class="pull-right">
+        <a href="<%= survey_preview_path(@survey) %>" class="btn btn-primary btn-flat btn-lg"><i class="fa fa-eye"></i> Previsualizar encuesta</a>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -69,7 +72,7 @@
         						<div class="pull-right">
         							<%= link_to 'Editar', edit_question_path(question)+'/'+@survey.id.to_s, class: 'btn btn-primary btn-flat' %>
 	        						<button class="btn btn-primary btn-flat" data-widget="collapse">
-	        							<i class="fa fa-plus"></i> Ver respuestas (<%= question.answer_options.count %>)
+	        							Ver respuestas (<%= question.answer_options.count %>)
 	        						</button>
         						</div>
         					</div>

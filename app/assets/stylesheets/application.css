@@ -75,3 +75,12 @@ textarea {
 #close-new-answer {
 	cursor: pointer;
 }
+
+.question{
+	padding: 10px 0 10px 10px;
+	border-bottom: 1px solid #EFEFEF;
+}
+
+.answer{
+	padding-left: 10px;
+}
