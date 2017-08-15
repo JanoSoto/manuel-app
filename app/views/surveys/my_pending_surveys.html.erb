@@ -5,8 +5,8 @@
     <small>Ver todas mis encuestas pendientes</small>
   </h1>
   <ol class="breadcrumb">
-    <li><a href="<%= my_surveys_path %>"></a>Mis encuesta</li>
-    <li class="active">Mis encuesta</li>
+    <li><a href="<%= my_surveys_path %>"></a>Mis encuestas</li>
+    <li class="active">Mis encuestas pendientes</li>
   </ol>
 </section>
 
@@ -42,7 +42,7 @@
   								<td><%= survey.course.name %></td>
   								<td><%= survey.course.sem_year %></td>
   								<td>Pendiente</td>
-									<td><%= link_to 'Contestar', '#', class: 'btn btn-warning btn-flat' %></td>
+									<td><%= link_to 'Contestar', answer_survey_path(survey), class: 'btn btn-warning btn-flat' %></td>
                 </tr>
   						<% end %>
   					</tbody>
