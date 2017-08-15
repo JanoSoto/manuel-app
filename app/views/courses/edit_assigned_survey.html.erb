@@ -1,13 +1,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Asignar encuesta
-    <small>Asignar una encuesta un curso</small>
+    Editar encuesta asignada
   </h1>
   <ol class="breadcrumb">
     <li><a href="<%= courses_path %>">Cursos</a></li>
     <li><a href="<%= course_path(@course) %>"><%= @course.name %></a></li>
-    <li class="active">Asignar encuesta</li>
+    <li class="active">Editar encuesta</li>
   </ol>
 </section>
 
@@ -26,7 +25,7 @@
 			<div class="panel">
 				<div class="panel-body">
 					<h3>Asignar encuesta</h3>
-					<%= render 'assign_survey_form', action_path: save_assigned_survey_path, action_button: 'Crear' %>
+					<%= render 'assign_survey_form', action_path: update_assigned_survey_path, action_button: 'Editar' %>
 				</div>
 			</div>
 		</div>
@@ -35,6 +34,7 @@
 				<div class="panel-body">
 					<h3>Preguntas de la encuesta</h3>
 					<div id="survey-questions">
+						<%= render partial: 'surveys/questions', locals: {questions: @assigned_survey.survey.questions} %>
 					</div>
 				</div>
 			</div>
