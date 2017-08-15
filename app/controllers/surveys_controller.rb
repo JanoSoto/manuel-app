@@ -65,7 +65,27 @@ class SurveysController < ApplicationController
   end
 
   def my_surveys
-    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered).where(user_id: current_user.id)
+    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered)
+                                      .where(user_id: current_user.id)
+  end
+
+  def my_pending_surveys
+    @pending_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered)
+                                      .where(user_id: current_user.id, answered: false)
+  end
+
+  def answer_survey
+    @assigned_survey = AssignedSurvey.find(params[:id])
+  end
+
+  def save_survey_answers
+    params[:answers].to_a.each do |answer|
+      SurveyResult.create(assigned_survey_id: params[:assigned_survey], answer_option_id: answer[1])
+    end
+    AssignedSurvey.find(params[:assigned_survey]).update(answered: true)
+    respond_to do |format|
+      format.html {redirect_to my_surveys_path, notice: 'Encuesta contestada con éxito'}
+    end
   end
 
   private

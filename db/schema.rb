@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815031833) do
+ActiveRecord::Schema.define(version: 20170815191919) do
 
   create_table "answer_options", force: :cascade do |t|
     t.string   "answer",      limit: 255
@@ -78,12 +78,14 @@ ActiveRecord::Schema.define(version: 20170815031833) do
   end
 
   create_table "survey_results", force: :cascade do |t|
-    t.integer  "assigned_survey_id", limit: 4
-    t.integer  "question_id",        limit: 4
-    t.integer  "answer_option_id",   limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "assigned_survey_id", limit: 4
+    t.integer  "answer_option_id",   limit: 4
   end
+
+  add_index "survey_results", ["answer_option_id"], name: "index_survey_results_on_answer_option_id", using: :btree
+  add_index "survey_results", ["assigned_survey_id"], name: "index_survey_results_on_assigned_survey_id", using: :btree
 
   create_table "surveys", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -121,4 +123,6 @@ ActiveRecord::Schema.define(version: 20170815031833) do
   add_foreign_key "assigned_surveys", "users"
   add_foreign_key "courses", "users"
   add_foreign_key "questions", "surveys"
+  add_foreign_key "survey_results", "answer_options"
+  add_foreign_key "survey_results", "assigned_surveys"
 end
