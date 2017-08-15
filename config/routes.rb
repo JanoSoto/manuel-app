@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'questions/new/:survey_id' => 'questions#new'
   resources :questions
 
+  get 'my_surveys' => 'surveys#my_surveys'
   get 'surveys/:id/preview' => 'surveys#preview', as: 'survey_preview'
   resources :surveys
   

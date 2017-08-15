@@ -1,0 +1,55 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Mis encuestas
+    <small>Ver todas mis encuestas</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li class="active">Mis encuesta</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+    <div class="col-xs-12">
+      <%= link_to root_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+  	<div class="col-xs-12">
+  		<div class="box box-primary">
+  			<div class="box-header">
+  				<h3 class="box-title">Mis encuestas</h3>
+  			</div>
+  			<div class="box-body">
+  				<table class="table">
+  					<thead>
+  						<th>Encuesta</th>
+  						<th>Asignatura</th>
+  						<th>Semestre/Año</th>
+  						<th>Estado</th>
+  						<th></th>
+  					</thead>
+  					<tbody>
+  						<% @assigned_surveys.each do |survey| %>
+  							<tr>
+  								<td><%= survey.name %></td>
+  								<td><%= survey.course.name %></td>
+  								<td><%= survey.course.sem_year %></td>
+  								<td><%= survey.answered ? 'Contestada' : 'Pendiente' %></td>
+  								<% unless survey.answered %>
+  									<td><%= link_to 'Contestar', '#', class: 'btn btn-warning btn-flat' %></td>
+  								<% end %>
+  							</tr>
+  						<% end %>
+  					</tbody>
+  				</table>
+  			</div>
+  		</div>
+  	</div>	
+  </div>
+</section>

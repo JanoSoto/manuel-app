@@ -5,9 +5,15 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, except: [:not_found, 
                                               :internal_server_error
                                              ]
-
+  before_action :get_pending_surveys
 
   private
+
+    def get_pending_surveys
+      if user_signed_in? and current_user.student?
+        @pending_surveys = AssignedSurvey.where(user_id: current_user.id, answered: false).count
+      end
+    end
 
     def render_404
       respond_to do |format|
