@@ -103,16 +103,19 @@
             <thead>
               <th>Nombre</th>
               <th>Plantilla</th>
+              <th>% Contestadas</th>
+              <th></th>
               <th></th>
               <th></th>
             </thead>
             <tbody>
               <% @assigned_surveys.each do |survey| %>
                 <tr>
-                  <td><%= survey.name %></td>
-                  <td><%= survey.survey.name %></td>
-                  <td><%= link_to 'Ver detalles', assigned_survey_details_path(@course, survey.name) %></td>
-                  <td><%= link_to 'Editar', edit_assigned_survey_path(@course, survey.id) %></td>
+                  <td><%= survey[:name] %></td>
+                  <td><%= survey[:template] %></td>
+                  <td><%= number_to_percentage(survey[:percentage], strip_insignificant_zeros: true) %></td>
+                  <td><%= link_to 'Ver detalles', assigned_survey_details_path(@course, survey[:name]) %></td>
+                  <td><%= link_to 'Editar', edit_assigned_survey_path(@course, survey[:id]) %></td>
                   <td>
                     <%= link_to '#' do %>
                       <i class="fa fa-paper-plane"></i> Notificar
