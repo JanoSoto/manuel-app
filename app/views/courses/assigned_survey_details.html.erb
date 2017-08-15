@@ -31,14 +31,16 @@
 					<table class="table">
 						<thead>
 							<th>Estudiante</th>
+							<th>Grupo</th>
 							<th>Estado</th>
 							<th></th>
 						</thead>
 						<tbody>
 							<% @assigned_survey.each do |survey| %>
 								<tr>
-									<td><%= survey.user.full_name %></td>
-									<% if survey.answered %>
+									<td><%= survey[:student] %></td>
+									<td><%= survey[:group] %></td>
+									<% if survey[:answered] %>
                     <td class="text-green"><i class="fa fa-check"></i> Contestada</td>
                     <td><%= link_to 'Ver respuestas', '#', class: 'btn btn-success btn-flat' %></td>
                   <% else %>
@@ -59,6 +61,31 @@
 				</div>
 				<div class="box-body">
 					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">Porcentaje de encuestas contestadas por grupo</h3>
+				</div>
+				<div class="box-body">
+					<table class="table">
+						<thead>
+							<th>Grupo</th>
+							<th>% Contestadas</th>
+						</thead>
+						<tbody>
+							<% @groups_percentage.each do |group| %>
+								<tr>
+									<td>Grupo <%= group[:name] %></td>
+									<td><%= number_to_percentage(group[:percentage], strip_insignificant_zeros: true) %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
