@@ -12,7 +12,16 @@ class CoursesController < ApplicationController
   def show
     @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role, :group_name).map{|student| {name: User.find(student[0]).full_name, role: student[1], group_name: student[2]} }
     @color = ["info", "warning", "danger", "gray", "navy", "purple", "orange", "maroon"]
-    @assigned_surveys = AssignedSurvey.select(:id, :name, :survey_id).where(course_id: params[:id]).group(:name)
+    surveys = AssignedSurvey.select(:id, :name, :survey_id).where(course_id: params[:id]).group(:name)
+    @assigned_surveys = []
+    surveys.each do |survey|
+      answered = AssignedSurvey.where(answered: true, name: survey.name).count
+      pending = AssignedSurvey.where(answered: false, name: survey.name).count
+      @assigned_surveys << {id: survey.id,
+                            name: survey.name, 
+                            template: survey.survey.name, 
+                            percentage: (answered.to_f/(answered + pending).to_f)*100}
+    end
   end
 
   # GET /courses/new
