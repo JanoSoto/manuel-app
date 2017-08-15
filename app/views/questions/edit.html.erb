@@ -63,24 +63,24 @@
     					</div>	
     				</div>
     			</div>
-    			<% unless @question.answer_options.empty? %>
-    				<table class="table">
-    					<thead>
-    						<th>Respuesta</th>
-    						<th>Puntaje</th>
-    					</thead>
-    					<tbody id="answer-options">
-  							<% @question.answer_options.each do |answer| %>
-    							<tr>
-			    					<td><%= answer.answer %></td>
-			    					<td><%= answer.score %></td>
-    							</tr>
-		    				<% end %>
-    					</tbody>
-    				</table>
-    			<% else %>
-    				<p>Esta pregunta no tiene opciones de respuesta asignadas</p>
-    			<% end %>
+            <table class="table">
+              <thead>
+                <th>Respuesta</th>
+                <th>Puntaje</th>
+              </thead>
+              <tbody id="answer-options">
+                <% unless @question.answer_options.empty? %>
+    							<% @question.answer_options.each do |answer| %>
+      							<tr>
+  			    					<td><%= answer.answer %></td>
+  			    					<td><%= answer.score %></td>
+      							</tr>
+                  <% end %>
+          			<% else %>
+          				<td id="answer-options-empty">Esta pregunta no tiene opciones de respuesta asignadas</td>
+          			<% end %>
+              </tbody>
+            </table>
     		</div>
     	</div>
     </div>
@@ -117,7 +117,13 @@
       })
       .done(function(data){            
       	clearForm();
-      	data = JSON.parse(data)
+      	data = JSON.parse(data);
+        try{
+          $('#answer-options-empty').remove();
+        }
+        catch(e){
+          
+        }
       	$('#answer-options').append(
       			'<tr>'+
 							'<td>'+data.answer+'</td>'+
