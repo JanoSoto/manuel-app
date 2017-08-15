@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'surveys/:id/preview' => 'surveys#preview', as: 'survey_preview'
   resources :surveys
   
+  post 'update_assigned_survey' => 'courses#update_assigned_survey'
+  get 'courses/:course_id/edit_assigned_survey/:survey_id' => 'courses#edit_assigned_survey', as: 'edit_assigned_survey'
   get 'courses/:course_id/assigned_survey/:survey_name' => 'courses#assigned_survey_details', as: 'assigned_survey_details'
   post 'save_assigned_survey' => 'courses#save_assigned_survey'
   get 'course/:id/assign_survey' => 'courses#assign_survey', as: 'assign_survey'
