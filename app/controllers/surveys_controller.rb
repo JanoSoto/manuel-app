@@ -68,6 +68,11 @@ class SurveysController < ApplicationController
     @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered).where(user_id: current_user.id)
   end
 
+  def my_pending_surveys
+    @pending_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered)
+                                      .where(user_id: current_user.id, answered: false)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_survey
