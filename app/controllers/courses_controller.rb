@@ -4,7 +4,18 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.paginate(page: params[:page], per_page: 30).order('created_at DESC')
+    if current_user.admin?
+      @courses = Course.paginate(page: params[:page], per_page: 30).order('created_at DESC')
+    elsif current_user.teacher?
+      @courses = Course.where(user_id: current_user.id)
+                       .paginate(page: params[:page], per_page: 30)
+                       .order('created_at DESC')
+    else
+      @courses = Course.joins(:course_students)
+                       .where('course_students.user_id' => current_user.id)
+                       .paginate(page: params[:page], per_page: 30)
+                       .order('created_at DESC')
+    end
   end
 
   # GET /courses/1
