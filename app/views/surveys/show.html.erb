@@ -59,53 +59,7 @@
         </div>
         <div class="box-body">
         	<% unless @survey.questions.empty? %>
-        		<% @survey.questions.each do |question| %>
-        			<div class="box collapsed-box">
-        				<div class="box-header with-border row">
-        					<div class="col-xs-12 col-md-7">
-        						<h3 class="box-title question-title">
-	        						<%= question.statement %>
-	      							<span class="label label-success">  <%= question.score %> Puntos</span>	
-	        					</h3>
-        					</div>
-        					<div class="col-xs-12 col-md-5">
-        						<div class="pull-right">
-        							<%= link_to 'Editar', edit_question_path(question)+'/'+@survey.id.to_s, class: 'btn btn-primary btn-flat' %>
-	        						<button class="btn btn-primary btn-flat" data-widget="collapse">
-	        							Ver respuestas (<%= question.answer_options.count %>)
-	        						</button>
-        						</div>
-        					</div>
-        					<div class="col-xs-12"><%= question.hint %></div>
-        				</div>
-        				<div class="box-body">
-        					<% unless question.answer_options.empty? %> 
-        						<table class="table">
-        							<thead>
-        								<th>#</th>
-        								<th>Respuesta</th>
-        								<th>Puntaje</th>
-        							</thead>
-        							<tbody>
-        								<% count = 1 %>
-        								<% question.answer_options.each do |answer| %>
-		        							<tr>
-		        								<td><%= count %></td>
-		        								<td><%= answer.answer %></td>
-		        								<td><%= answer.score %></td>
-		        							</tr>
-		        							<% count += 1 %>
-		        						<% end %>
-        							</tbody>
-        						</table>
-        						<ol>
-	        					</ol>
-        					<% else %>
-        						<p>Esta pregunta no tiene opciones de respuesta asignadas</p>
-        					<% end %>
-        				</div>
-        			</div>
-        		<% end %>
+            <%= render 'questions', questions: @survey.questions %>
         	<% else %>
         		<p>Esta encuesta no tiene preguntas asociadas</p>
         	<% end %>

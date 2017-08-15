@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :assign_students]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :assign_students, :assign_survey]
 
   # GET /courses
   # GET /courses.json
@@ -11,8 +11,8 @@ class CoursesController < ApplicationController
   # GET /courses/1.json
   def show
     @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role, :group_name).map{|student| {name: User.find(student[0]).full_name, role: student[1], group_name: student[2]} }
-    @color = ["info", "warning", "danger", 
-              "gray", "navy", "purple", "orange", "maroon"]
+    @color = ["info", "warning", "danger", "gray", "navy", "purple", "orange", "maroon"]
+    @assigned_surveys = AssignedSurvey.select(:name, :survey_id).where(course_id: params[:id]).group(:name)
   end
 
   # GET /courses/new
@@ -89,6 +89,31 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.html {render json: CourseStudent.find_by(course_id: params[:course_id], user_id: params[:student_id]).destroy}
     end
+  end
+
+  def assign_survey
+    @surveys = Survey.all.map{|survey| [survey.name, survey.id]}
+  end
+
+  def save_assigned_survey
+    students = CourseStudent.select(:user_id).where(course_id: params[:course_id]).where.not(role: 'Ayudante')
+    students.each do |student|
+      AssignedSurvey.create(
+                    survey_id: params[:survey_id],
+                    user_id: student.user_id,
+                    course_id: params[:course_id],
+                    name: params[:name],
+                    answered: false)
+    end
+    respond_to do |format|
+      format.html {redirect_to course_path(params[:course_id]), notice: 'Encuesta asignada con éxito'}
+    end
+  end
+
+  def assigned_survey_details
+    @course = Course.find(params[:course_id])
+    @assigned_survey = AssignedSurvey.select(:answered, :user_id, ).where(course_id: params[:course_id], name: params[:survey_name])
+    #raise @assigned_survey.inspect
   end
 
   private

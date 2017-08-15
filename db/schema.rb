@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807022548) do
+ActiveRecord::Schema.define(version: 20170815031833) do
 
   create_table "answer_options", force: :cascade do |t|
     t.string   "answer",      limit: 255
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(version: 20170807022548) do
   end
 
   add_index "answer_options", ["question_id"], name: "index_answer_options_on_question_id", using: :btree
+
+  create_table "assigned_surveys", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.boolean  "answered"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "users_id",   limit: 4
+    t.integer  "user_id",    limit: 4
+    t.integer  "course_id",  limit: 4
+    t.integer  "survey_id",  limit: 4
+  end
+
+  add_index "assigned_surveys", ["course_id"], name: "index_assigned_surveys_on_course_id", using: :btree
+  add_index "assigned_surveys", ["survey_id"], name: "index_assigned_surveys_on_survey_id", using: :btree
+  add_index "assigned_surveys", ["user_id"], name: "index_assigned_surveys_on_user_id", using: :btree
+  add_index "assigned_surveys", ["users_id"], name: "index_assigned_surveys_on_users_id", using: :btree
 
   create_table "course_students", force: :cascade do |t|
     t.datetime "created_at",             null: false
@@ -61,6 +77,14 @@ ActiveRecord::Schema.define(version: 20170807022548) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "survey_results", force: :cascade do |t|
+    t.integer  "assigned_survey_id", limit: 4
+    t.integer  "question_id",        limit: 4
+    t.integer  "answer_option_id",   limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.text     "description", limit: 65535
@@ -92,6 +116,9 @@ ActiveRecord::Schema.define(version: 20170807022548) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "answer_options", "questions"
+  add_foreign_key "assigned_surveys", "courses"
+  add_foreign_key "assigned_surveys", "surveys"
+  add_foreign_key "assigned_surveys", "users"
   add_foreign_key "courses", "users"
   add_foreign_key "questions", "surveys"
 end

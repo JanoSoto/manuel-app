@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post 'add_answer_option_ajax' => 'answer_options#add_answer_option_ajax'
   resources :answer_options
 
+  post 'questions_by_survey' => 'questions#find_by_survey'
   get 'questions/:id/edit/:survey_id' => 'questions#edit'
   get 'questions/new/:survey_id' => 'questions#new'
   resources :questions
@@ -10,6 +11,9 @@ Rails.application.routes.draw do
   get 'surveys/:id/preview' => 'surveys#preview', as: 'survey_preview'
   resources :surveys
   
+  get 'courses/:course_id/assigned_survey/:survey_name' => 'courses#assigned_survey_details', as: 'assigned_survey_details'
+  post 'save_assigned_survey' => 'courses#save_assigned_survey'
+  get 'course/:id/assign_survey' => 'courses#assign_survey', as: 'assign_survey'
   post 'assign_student_to_course' => 'courses#assign_student_to_course'
   post 'remove_student_from_course' => 'courses#remove_student_from_course'
   get 'courses/:id/assign_students' => 'courses#assign_students', as: 'assign_students'
