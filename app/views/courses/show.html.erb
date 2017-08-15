@@ -71,8 +71,7 @@
                   <tr>
                     <td><%= student[:name] %></td>
                     <% if student[:group_name] %>
-                      <td class="pull-right"><span class="label label-<%= @color[(student[:group_name].to_i-1)/@color.count] %>">Grupo <%= student[:group_name] %> </span></td>
-                      <!-- CAMBIAR DIVISIÓN POR MÓDULO -->
+                      <td class="pull-right"><span class="label label-<%= @color[(student[:group_name].to_i-1)%@color.count] %>">Grupo <%= student[:group_name] %> </span></td>
                     <% end %>
                     <% if student[:role] == 'ayudante' %>
                       <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
