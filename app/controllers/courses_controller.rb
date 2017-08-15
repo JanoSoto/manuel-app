@@ -4,7 +4,18 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.paginate(page: params[:page], per_page: 30).order('created_at DESC')
+    if current_user.admin?
+      @courses = Course.paginate(page: params[:page], per_page: 30).order('created_at DESC')
+    elsif current_user.teacher?
+      @courses = Course.where(user_id: current_user.id)
+                       .paginate(page: params[:page], per_page: 30)
+                       .order('created_at DESC')
+    else
+      @courses = Course.joins(:course_students)
+                       .where('course_students.user_id' => current_user.id)
+                       .paginate(page: params[:page], per_page: 30)
+                       .order('created_at DESC')
+    end
   end
 
   # GET /courses/1
@@ -121,7 +132,28 @@ class CoursesController < ApplicationController
 
   def assigned_survey_details
     @course = Course.find(params[:course_id])
-    @assigned_survey = AssignedSurvey.select(:answered, :user_id, ).where(course_id: params[:course_id], name: params[:survey_name])
+    surveys = AssignedSurvey.select(:answered, :user_id, )
+                                     .where(course_id: params[:course_id], name: params[:survey_name])
+    @assigned_survey = []
+    surveys.each do |survey|
+      @assigned_survey << {student: survey.user.full_name, 
+                           answered: survey.answered, 
+                           group: CourseStudent.find_by(course_id: @course.id, user_id: survey.user_id).group_name}
+    end
+    groups = @assigned_survey.group_by{|survey| survey[:group]}.to_a
+    @groups_percentage = []
+    groups.each do |group|
+      answered = 0
+      pending = 0
+      group[1].each do |student|
+        if student[:answered]
+          answered += 1
+        else
+          pending += 1
+        end
+      end
+      @groups_percentage << {name: group[0], percentage: (answered.to_f/(answered+pending).to_f)*100}
+    end
   end
 
   def edit_assigned_survey
