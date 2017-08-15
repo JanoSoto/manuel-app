@@ -78,6 +78,16 @@ class SurveysController < ApplicationController
     @assigned_survey = AssignedSurvey.find(params[:id])
   end
 
+  def save_survey_answers
+    params[:answers].to_a.each do |answer|
+      SurveyResult.create(assigned_survey_id: params[:assigned_survey], answer_option_id: answer[1])
+    end
+    AssignedSurvey.find(params[:assigned_survey]).update(answered: true)
+    respond_to do |format|
+      format.html {redirect_to my_surveys_path, notice: 'Encuesta contestada con éxito'}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_survey

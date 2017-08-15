@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'questions/new/:survey_id' => 'questions#new'
   resources :questions
 
+  post 'save_survey_answers' => 'surveys#save_survey_answers'
   get 'survey/:id/answer' => 'surveys#answer_survey', as: 'answer_survey'
   get 'my_surveys/pending' => 'surveys#my_pending_surveys', as: 'my_pending_surveys'
   get 'my_surveys' => 'surveys#my_surveys'
