@@ -79,9 +79,11 @@
 	        	<li><a href="<%= my_surveys_path %>"><i class="fa fa-list"></i> Mis encuestas</a></li>
 		      	<li>
 		      		<a href="<%= my_pending_surveys_path %>"><i class="fa fa-exclamation-triangle"></i> Encuestas pendientes 
-		      			<span class="pull-right-container">
-		      				<span class="label label-warning pull-right"><%= @pending_surveys %></span>
-		      			</span>
+		      			<% if get_pending_surveys > 0 %>
+			      			<span class="pull-right-container">
+			      				<span class="label label-warning pull-right"><%= get_pending_surveys %></span>
+			      			</span>
+		      			<% end %>
 	      			</a>
       			</li>
 	        	<li><a href="#<%#= new_survey_path %>"><i class="fa fa-chevron-circle-left"></i> Encuestas anteriores</a></li>

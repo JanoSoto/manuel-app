@@ -40,10 +40,13 @@
   								<td><%= survey.name %></td>
   								<td><%= survey.course.name %></td>
   								<td><%= survey.course.sem_year %></td>
-  								<td><%= survey.answered ? 'Contestada' : 'Pendiente' %></td>
-  								<% unless survey.answered %>
-  									<td><%= link_to 'Contestar', '#', class: 'btn btn-warning btn-flat' %></td>
-  								<% end %>
+                  <% if survey.answered %>
+                    <td class="text-green"><i class="fa fa-check"></i> Contestada</td>
+                    <td><%= link_to 'Ver respuestas', '#', class: 'btn btn-success btn-flat' %></td>
+                  <% else %>
+                    <td class="text-yellow"><i class="fa fa-exclamation-triangle"></i> Pendiente</td>
+  									<td><%= link_to 'Contestar', answer_survey_path(survey), class: 'btn btn-warning btn-flat' %></td>
+                  <% end %>
   							</tr>
   						<% end %>
   					</tbody>
