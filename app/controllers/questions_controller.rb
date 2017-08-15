@@ -62,6 +62,13 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def find_by_survey
+    @questions = Question.where(survey_id: params[:survey_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question

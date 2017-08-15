@@ -71,7 +71,8 @@
                   <tr>
                     <td><%= student[:name] %></td>
                     <% if student[:group_name] %>
-                      <td class="pull-right"><span class="label label-<%= @color[(student[:group_name].to_i-1)%@color.count] %>">Grupo <%= student[:group_name] %> </span></td>
+                      <td class="pull-right"><span class="label label-<%= @color[(student[:group_name].to_i-1)/@color.count] %>">Grupo <%= student[:group_name] %> </span></td>
+                      <!-- CAMBIAR DIVISIÓN POR MÓDULO -->
                     <% end %>
                     <% if student[:role] == 'ayudante' %>
                       <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
@@ -87,16 +88,37 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
     <div class="col-xs-12 col-md-6">
       <div class="box box-warning">
         <div class="box-header with-border">
-          <div class="box-title">Resultados encuestas</div>
+          <h3 class="box-title">Encuestas</h3>
+          <div class="box-tools pull-right">
+            <%= link_to assign_survey_path(@course), class: 'btn btn-primary btn-flat' do %>
+              <i class="fa fa-plus"></i> Agregar encuesta
+            <% end %>
+          </div>
         </div>
         <div class="box-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim ven
+        <% unless @assigned_surveys.empty? %>
+          <table class="table">
+            <thead>
+              <th>Nombre</th>
+              <th>Plantilla</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <% @assigned_surveys.each do |survey| %>
+                <tr>
+                  <td><%= survey.name %></td>
+                  <td><%= survey.survey.name %></td>
+                  <td><%= link_to 'Ver detalles', assigned_survey_details_path(@course, survey.name) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>Este curso no tiene encuestas asignadas</p>
+        <% end %>
         </div>
       </div>
     </div>    

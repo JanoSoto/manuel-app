@@ -62,7 +62,6 @@ class SurveysController < ApplicationController
   end
 
   def preview
-    
   end
 
   private
