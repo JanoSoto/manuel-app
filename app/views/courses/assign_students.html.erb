@@ -50,7 +50,7 @@
         <div id="unassigned-students">          
           <% unless @assigned_students[nil].nil? %>
             <% @assigned_students[nil].each do |student| %>
-              <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : student[:role] == 'jefe de grupo' ? 'btn-success' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+              <button id="student<%= student[:id] %>" class="btn <%= get_role_class(student[:role]) %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
             <% end %>
           <% end %>
         </div>
@@ -65,7 +65,7 @@
               </div>
               <div class="box-body" group="<%= group[0] %>" id="group<%= group[0] %>" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <% group[1].each do |student| %>
-                  <button id="student<%= student[:id] %>" class="btn <%= student[:role] == 'ayudante' ? 'btn-primary' : student[:role] == 'jefe de grupo' ? 'btn-success' : 'btn-default' %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+                  <button id="student<%= student[:id] %>" class="btn <%= get_role_class(student[:role]) %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
                 <% end %>
               </div>
             </div>
@@ -75,6 +75,7 @@
           <i class="fa fa-info-circle primary"></i> 
           <span class="label label-primary">Ayudante</span>
           <span class="label label-success">Jefe de Grupo</span>
+          <span class="label label-warning">Jefe de Proyecto</span>
         </div>
       </div>
     </div>
@@ -122,7 +123,7 @@
         if (key == 'assistant') {
           assignStudent(args[0], args[1], 'ayudante');
         }
-        else {
+        else if (key == 'group leader') {
           var new_leader = $(this);
           var group_name = new_leader.parent().attr('group');
           $.post('<%= assign_student_to_course_path %>',
@@ -138,10 +139,29 @@
               toastr['info']('Estudiante asignado como jefe de grupo con éxito');
             });
         }
+        // Jefe de proyecto
+        else {
+          var new_leader = $(this);
+          var group_name = new_leader.parent().attr('group');
+          $.post('<%= assign_student_to_course_path %>',
+            {
+              course_id: args[1],
+              student_id: args[0],
+              role: 'jefe de proyecto'
+            })
+            .done(function(data){            
+              removeOldProjectLeader();
+              if ($(this).parent().attr('id') != 'unassigned-students') {
+                $('#unassigned-students').append($('#student'+args[0]).remove().attr('onclick', 'removeStudent('+args[0]+','+args[1]+', null)').removeClass('btn-default').addClass('btn-warning'));
+              }
+              toastr['info']('Estudiante asignado como jefe de proyecto con éxito');
+            });
+        }
       },
       items: {
         "assistant": {name: "Asignar como ayudante"},
-        "group leader": {name: "Asignar como jefe de grupo"}
+        "group leader": {name: "Asignar como jefe de grupo"},
+        "project leader": {name: "Asignar como jefe de proyecto"}
       }
     });
 
@@ -160,6 +180,22 @@
           })
           .done(function(data){            
             old_leader.removeClass('btn-success').addClass('btn-default');
+          });
+    }
+  }
+
+  function removeOldProjectLeader() {
+    var old_leader = $('#unassigned-students').find('.btn-warning');
+    if (old_leader.length > 0) {
+      var args = old_leader.attr('onclick').split('(')[1].split(',');
+      $.post('<%= assign_student_to_course_path %>',
+          {
+            course_id: args[1],
+            student_id: args[0],
+            role: ''
+          })
+          .done(function(data){            
+            old_leader.removeClass('btn-warning').addClass('btn-default');
           });
     }
   }
