@@ -65,12 +65,12 @@ class SurveysController < ApplicationController
   end
 
   def my_surveys
-    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered)
+    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id)
                                       .where(user_id: current_user.id)
   end
 
   def my_pending_surveys
-    @pending_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered)
+    @pending_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id)
                                       .where(user_id: current_user.id, answered: false)
   end
 
