@@ -116,14 +116,25 @@ class CoursesController < ApplicationController
   end
 
   def save_assigned_survey
-    students = CourseStudent.select(:user_id).where(course_id: params[:course_id]).where.not(role: 'Ayudante')
+    groups = CourseStudent.select(:user_id, :group_name)
+                           .where(course_id: params[:course_id])
+                           .where.not(group_name: nil)
+                           .group_by{|student| student.group_name }
+                           .sort
+                           .to_h
+    students = CourseStudent.select(:user_id, :group_name).where(course_id: params[:course_id]).where.not(role: 'Ayudante')
     students.each do |student|
-      AssignedSurvey.create(
-                    survey_id: params[:survey_id],
-                    user_id: student.user_id,
-                    course_id: params[:course_id],
-                    name: params[:name],
-                    answered: false)
+      groups[student.group_name].each do |evaluate_user|
+        if student.user_id != evaluate_user.user_id
+          AssignedSurvey.create(
+                        survey_id: params[:survey_id],
+                        user_id: student.user_id,
+                        evaluated_user_id: evaluate_user.user_id,
+                        course_id: params[:course_id],
+                        name: params[:name],
+                        answered: false)
+        end
+      end
     end
     respond_to do |format|
       format.html {redirect_to course_path(params[:course_id]), notice: 'Encuesta asignada con éxito'}
@@ -132,11 +143,12 @@ class CoursesController < ApplicationController
 
   def assigned_survey_details
     @course = Course.find(params[:course_id])
-    surveys = AssignedSurvey.select(:answered, :user_id, )
+    surveys = AssignedSurvey.select(:answered, :user_id, :evaluated_user_id)
                                      .where(course_id: params[:course_id], name: params[:survey_name])
     @assigned_survey = []
     surveys.each do |survey|
-      @assigned_survey << {student: survey.user.full_name, 
+      @assigned_survey << {student: survey.user.full_name,
+                           evaluated: survey.evaluated_user.full_name, 
                            answered: survey.answered, 
                            group: CourseStudent.find_by(course_id: @course.id, user_id: survey.user_id).group_name}
     end
