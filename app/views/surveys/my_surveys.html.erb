@@ -29,8 +29,8 @@
   				<table class="table">
   					<thead>
   						<th>Encuesta</th>
-  						<th>Asignatura</th>
-  						<th>Semestre/Año</th>
+  						<th>Asignatura (Semestre/Año)</th>
+  						<th>Evalúa a</th>
   						<th>Estado</th>
   						<th></th>
   					</thead>
@@ -38,8 +38,8 @@
   						<% @assigned_surveys.each do |survey| %>
   							<tr>
   								<td><%= survey.name %></td>
-  								<td><%= survey.course.name %></td>
-  								<td><%= survey.course.sem_year %></td>
+  								<td><%= survey.course.name %> (<%= survey.course.sem_year %>)</td>
+                  <td><%= survey.evaluated_user.nil? ? '' : survey.evaluated_user.full_name %></td>
                   <% if survey.answered %>
                     <td class="text-green"><i class="fa fa-check"></i> Contestada</td>
                     <td><%= link_to 'Ver respuestas', '#', class: 'btn btn-success btn-flat' %></td>

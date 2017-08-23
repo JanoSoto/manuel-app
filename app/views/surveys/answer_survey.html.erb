@@ -25,6 +25,9 @@
 				<div class="panel-body">
 					<h2><%= @assigned_survey.name %></h2>
 					<p><%= @assigned_survey.survey.description %></p>
+					<div class="callout callout-primary">
+						<h4>Estas evaluando a <b><%= @assigned_survey.evaluated_user.full_name %></b></h4>
+					</div>
 					<% unless @assigned_survey.survey.questions.empty? %>
 						<%= form_tag save_survey_answers_path do %>
 							<% @assigned_survey.survey.questions.each_with_index do |question, index| %>

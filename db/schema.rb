@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815191919) do
+ActiveRecord::Schema.define(version: 20170823140018) do
 
   create_table "answer_options", force: :cascade do |t|
     t.string   "answer",      limit: 255
@@ -24,17 +24,19 @@ ActiveRecord::Schema.define(version: 20170815191919) do
   add_index "answer_options", ["question_id"], name: "index_answer_options_on_question_id", using: :btree
 
   create_table "assigned_surveys", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",              limit: 255
     t.boolean  "answered"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "users_id",   limit: 4
-    t.integer  "user_id",    limit: 4
-    t.integer  "course_id",  limit: 4
-    t.integer  "survey_id",  limit: 4
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "users_id",          limit: 4
+    t.integer  "user_id",           limit: 4
+    t.integer  "course_id",         limit: 4
+    t.integer  "survey_id",         limit: 4
+    t.integer  "evaluated_user_id", limit: 4
   end
 
   add_index "assigned_surveys", ["course_id"], name: "index_assigned_surveys_on_course_id", using: :btree
+  add_index "assigned_surveys", ["evaluated_user_id"], name: "index_assigned_surveys_on_evaluated_user_id", using: :btree
   add_index "assigned_surveys", ["survey_id"], name: "index_assigned_surveys_on_survey_id", using: :btree
   add_index "assigned_surveys", ["user_id"], name: "index_assigned_surveys_on_user_id", using: :btree
   add_index "assigned_surveys", ["users_id"], name: "index_assigned_surveys_on_users_id", using: :btree
@@ -121,6 +123,7 @@ ActiveRecord::Schema.define(version: 20170815191919) do
   add_foreign_key "assigned_surveys", "courses"
   add_foreign_key "assigned_surveys", "surveys"
   add_foreign_key "assigned_surveys", "users"
+  add_foreign_key "assigned_surveys", "users", column: "evaluated_user_id"
   add_foreign_key "courses", "users"
   add_foreign_key "questions", "surveys"
   add_foreign_key "survey_results", "answer_options"

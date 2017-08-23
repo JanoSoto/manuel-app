@@ -84,3 +84,9 @@ textarea {
 .answer{
 	padding-left: 10px;
 }
+
+.callout-primary {
+	background-color: #3c8dbc;
+	border-left: 5px solid #357ca5 !important;
+	color: #FFF;
+}
