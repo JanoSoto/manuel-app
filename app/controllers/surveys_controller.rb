@@ -89,17 +89,20 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = AssignedSurvey.find_by(user_id: current_user.id, survey_id: params[:id])
+    @survey = AssignedSurvey.find_by(user_id: current_user.id, 
+                                     survey_id: params[:id], 
+                                     course_id: params[:course_id],
+                                     evaluated_user_id: params[:evaluated_user_id],
+                                     name: params[:survey_name])
   end
 
   def results_by_user
-    survey = AssignedSurvey.find_by(user_id: current_user.id, survey_id: params[:survey_id])
+    survey = AssignedSurvey.find(params[:survey_id])
     results = SurveyResult.select(:answer_option_id)
                           .where(assigned_survey_id: survey.id)
     labels = []
     data = []
     results.each_with_index do |result, index|
-      # labels << result.answer_option.question.statement
       labels << 'Pregunta '+(index+1).to_s
       data << result.answer_option.score
     end
@@ -123,6 +126,40 @@ class SurveysController < ApplicationController
     end
   end
 
+  def results_by_group
+    students = CourseStudent.where(group_name: params[:group_name], course_id: params[:course_id])
+                            .pluck(:user_id)
+    surveys = AssignedSurvey.where(course_id: params[:course_id],
+                                    name: params[:survey_name],
+                                    user_id: students)
+    labels = []
+    datasets = []
+    surveys.first.survey_results.each_with_index do |result, index|
+      labels << 'Pregunta '+(index+1).to_s
+    end
+    colors = default_colors
+    total_surveys = surveys.count
+    surveys.each_with_index do |survey, index|
+      datasets << {
+        'label': survey.evaluated_user.full_name,
+        'data': survey.survey_results.map{|result| [result.answer_option.score]},
+        'backgroundColor': colors[index%total_surveys][:background],
+        'borderColor': colors[index%total_surveys][:border],
+        'pointBorderColor': '#FFF',
+        'pointHoverBackgroundColor': '#FFF',
+        'pointHoverBorderColor': colors[index%total_surveys][:border]
+      }
+    end
+    response = {
+      'labels': labels,
+      'datasets': datasets
+    }
+    puts response.to_json
+    respond_to do |format|
+      format.html {render json: response.to_json }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_survey
@@ -132,5 +169,50 @@ class SurveysController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def survey_params
       params.require(:survey).permit(:name, :description)
+    end
+
+    def default_colors
+      return [
+        {
+          background: 'rgba(244, 67, 54, 0.5)',
+          border: 'rgba(244, 67, 54, 1)'
+        },
+        {
+          background: 'rgba(156, 39, 176, 0.5)',
+          border: 'rgba(156, 39, 176, 1)'
+        },
+        {
+          background: 'rgba(255, 64, 129, 0.5)',
+          border: 'rgba(255, 64, 129, 1)'
+        },
+        {
+          background: 'rgba(33, 150, 243, 0.5)',
+          border: 'rgba(33, 150, 243, 1)'
+        },
+        {
+          background: 'rgba(41, 182, 246, 0.5)',
+          border: 'rgba(41, 182, 246, 1)'
+        },
+        {
+          background: 'rgba(0, 137, 123, 0.5)',
+          border: 'rgba(0, 137, 123, 1)'
+        },
+        {
+          background: 'rgba(139, 195, 74, 0.5)',
+          border: 'rgba(139, 195, 74, 1)'
+        },
+        {
+          background: 'rgba(205, 220, 57, 0.5)',
+          border: 'rgba(205, 220, 57, 1)'
+        },
+        {
+          background: 'rgba(255, 152, 0, 0.5)',
+          border: 'rgba(255, 152, 0, 1)'
+        },
+        {
+          background: 'rgba(255, 255, 0, 0.5)',
+          border: 'rgba(255, 255, 0, 1)'
+        }
+      ]
     end
 end

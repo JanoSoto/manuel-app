@@ -44,7 +44,7 @@
 									<td><%= survey[:group] %></td>
 									<% if survey[:answered] %>
                     <td class="text-green"><i class="fa fa-check"></i> Contestada</td>
-                    <td><%= link_to 'Ver respuestas', '#', class: 'btn btn-success btn-flat' %></td>
+                    <td><%#= link_to 'Ver respuestas', survey_results_path(survey[:survey_id], @course.id, params[:survey_name], survey[:evaluated_user_id]), class: 'btn btn-success btn-flat' %></td>
                   <% else %>
                     <td class="text-yellow"><i class="fa fa-exclamation-triangle"></i> Pendiente</td>
   									<td>
@@ -82,12 +82,18 @@
 						<thead>
 							<th>Grupo</th>
 							<th>% Contestadas</th>
+							<th></th>
 						</thead>
 						<tbody>
 							<% @groups_percentage.each do |group| %>
 								<tr>
 									<td>Grupo <%= group[:name] %></td>
 									<td><%= number_to_percentage(group[:percentage], strip_insignificant_zeros: true) %></td>
+									<td>
+										<% if group[:percentage] > 0 %>
+											<%= link_to 'Ver resultados', survey_group_results_path(@course.id, params[:survey_name], group[:name]), class: 'btn btn-success btn-flat' %>
+										<% end %>
+									</td>
 								</tr>
 							<% end %>
 						</tbody>

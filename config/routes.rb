@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   get 'questions/new/:survey_id' => 'questions#new'
   resources :questions
 
+  get 'results_by_group/:course_id/:survey_name/:group_name' => 'surveys#results_by_group', as: 'results_by_group'
   get 'results_by_user/:survey_id' => 'surveys#results_by_user', as: 'results_by_user'
-  get 'my_surveys/:id/results' => 'surveys#results', as: 'survey_results'
+  get 'my_surveys/:id/results/:course_id/:survey_name/:evaluated_user_id' => 'surveys#results', as: 'survey_results'
   post 'save_survey_answers' => 'surveys#save_survey_answers'
   get 'survey/:id/answer' => 'surveys#answer_survey', as: 'answer_survey'
   get 'my_surveys/pending' => 'surveys#my_pending_surveys', as: 'my_pending_surveys'
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   get 'surveys/:id/preview' => 'surveys#preview', as: 'survey_preview'
   resources :surveys
   
+  get 'couses/:course_id/results/:survey_name/group/:group_name' => 'courses#survey_results_by_group', as: 'survey_group_results'
   post 'update_assigned_survey' => 'courses#update_assigned_survey'
   get 'courses/:course_id/edit_assigned_survey/:survey_id' => 'courses#edit_assigned_survey', as: 'edit_assigned_survey'
   get 'courses/:course_id/assigned_survey/:survey_name' => 'courses#assigned_survey_details', as: 'assigned_survey_details'
