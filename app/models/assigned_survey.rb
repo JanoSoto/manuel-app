@@ -3,4 +3,5 @@ class AssignedSurvey < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :survey
 	belongs_to :evaluated_user, class_name: "User"
+	has_many :survey_results
 end
