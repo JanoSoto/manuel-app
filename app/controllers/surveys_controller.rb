@@ -65,7 +65,7 @@ class SurveysController < ApplicationController
   end
 
   def my_surveys
-    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id)
+    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id, :survey_id)
                                       .where(user_id: current_user.id)
   end
 
@@ -85,6 +85,41 @@ class SurveysController < ApplicationController
     AssignedSurvey.find(params[:assigned_survey]).update(answered: true)
     respond_to do |format|
       format.html {redirect_to my_surveys_path, notice: 'Encuesta contestada con éxito'}
+    end
+  end
+
+  def results
+    @survey = AssignedSurvey.find_by(user_id: current_user.id, survey_id: params[:id])
+  end
+
+  def results_by_user
+    survey = AssignedSurvey.find_by(user_id: current_user.id, survey_id: params[:survey_id])
+    results = SurveyResult.select(:answer_option_id)
+                          .where(assigned_survey_id: survey.id)
+    labels = []
+    data = []
+    results.each_with_index do |result, index|
+      # labels << result.answer_option.question.statement
+      labels << 'Pregunta '+(index+1).to_s
+      data << result.answer_option.score
+    end
+    response = {
+      'labels': labels,
+      'datasets': [
+        {
+          'label': survey.evaluated_user.full_name,
+          'data': data,
+          'backgroundColor': 'rgba(0, 167, 208, 0.5)',
+          'borderColor': 'rgba(0, 167, 208, 1)',
+          'pointBorderColor': '#FFF',
+          'pointHoverBackgroundColor': '#FFF',
+          'pointHoverBorderColor': 'rgba(0, 167, 208, 1)'
+        }
+      ]
+    }
+    puts response.to_json
+    respond_to do |format|
+      format.html {render json: response.to_json }
     end
   end
 

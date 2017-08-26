@@ -1,0 +1,71 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Ver respuestas de un encuesta "<%= @survey.name %>"
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= my_surveys_path %>">Mis encuestas</a></li>
+    <li class="active">Resultados de <%= @survey.name %></li>
+  </ol>
+</section>
+
+<section class="content">
+	<div class="row">
+    <div class="col-xs-12">
+      <%= link_to my_surveys_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+  	<div class="col-xs-12 col-md-6">
+  		<div class="box box-success">
+  			<div class="box-header with-border">
+  				<h3 class="box-title">Gráfico de resultado</h3>
+          <p>La etiqueta del gráfico indica el estudiante evaluado</p>
+        </div>
+				<div class="box-body">
+					<canvas id="chart"></canvas>
+				</div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Preguntas</h3>
+        </div>
+        <div class="box-body">
+          <% @survey.survey.questions.each_with_index do |question, index| %>
+            <b>Pregunta <%= index + 1 %>:</b>
+            <p><%= question.statement %></p>
+          <% end %>          
+        </div>
+      </div>
+    </div>	
+  </div>
+</section>
+
+<script>
+	$(document).ready(function(){
+		var ctx = document.getElementById('chart').getContext('2d');
+    $.get('<%= results_by_user_path(@survey.survey_id) %>')
+      .done(function(data){
+    		var myRadarChart = new Chart(ctx, {
+    	    type: 'radar',
+    	    data: JSON.parse(data),
+    	    options: {
+                    scale: {
+                      ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 5,
+                        stepSize: 1
+                      }
+                    } 
+
+                  }
+    		});
+      });
+	});
+</script>

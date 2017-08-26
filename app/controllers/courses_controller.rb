@@ -124,15 +124,17 @@ class CoursesController < ApplicationController
                            .to_h
     students = CourseStudent.select(:user_id, :group_name).where(course_id: params[:course_id]).where.not(role: 'Ayudante')
     students.each do |student|
-      groups[student.group_name].each do |evaluate_user|
-        if student.user_id != evaluate_user.user_id
-          AssignedSurvey.create(
-                        survey_id: params[:survey_id],
-                        user_id: student.user_id,
-                        evaluated_user_id: evaluate_user.user_id,
-                        course_id: params[:course_id],
-                        name: params[:name],
-                        answered: false)
+      unless student.group_name.nil?
+        groups[student.group_name].each do |evaluate_user|
+          if student.user_id != evaluate_user.user_id
+            AssignedSurvey.create(
+                          survey_id: params[:survey_id],
+                          user_id: student.user_id,
+                          evaluated_user_id: evaluate_user.user_id,
+                          course_id: params[:course_id],
+                          name: params[:name],
+                          answered: false)
+          end
         end
       end
     end
@@ -148,7 +150,7 @@ class CoursesController < ApplicationController
     @assigned_survey = []
     surveys.each do |survey|
       @assigned_survey << {student: survey.user.full_name,
-                           evaluated: survey.evaluated_user.full_name, 
+                           evaluated: survey.evaluated_user.nil? ? '' : survey.evaluated_user.full_name, 
                            answered: survey.answered, 
                            group: CourseStudent.find_by(course_id: @course.id, user_id: survey.user_id).group_name}
     end
