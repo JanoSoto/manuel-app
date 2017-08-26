@@ -138,17 +138,36 @@ class SurveysController < ApplicationController
     end
     colors = default_colors
     total_surveys = surveys.count
+
+    #Resultado promedio
+    require 'matrix'
+    average = Vector.elements(Array.new(labels.count, 0.0))
+    
     surveys.each_with_index do |survey, index|
+      data = survey.survey_results.map{|result| result.answer_option.score}
+      puts data.to_s
+      average += Vector.elements(data.map{|a| a.to_f})
       datasets << {
         'label': survey.evaluated_user.full_name,
-        'data': survey.survey_results.map{|result| [result.answer_option.score]},
-        'backgroundColor': colors[index%total_surveys][:background],
-        'borderColor': colors[index%total_surveys][:border],
+        'data': data,
+        'backgroundColor': colors[index%colors.count][:background],
+        'borderColor': colors[index%colors.count][:border],
         'pointBorderColor': '#FFF',
         'pointHoverBackgroundColor': '#FFF',
-        'pointHoverBorderColor': colors[index%total_surveys][:border]
+        'pointHoverBorderColor': colors[index%colors.count][:border]
       }
     end
+    surveys_count = surveys.count
+    datasets.unshift({
+                'label': 'Promedio del grupo',
+                'data': average / surveys_count,
+                'backgroundColor': colors[surveys_count%colors.count][:background],
+                'borderColor': colors[surveys_count%colors.count][:border],
+                'pointBorderColor': '#FFF',
+                'pointHoverBackgroundColor': '#FFF',
+                'pointHoverBorderColor': colors[surveys_count%colors.count][:border]
+              })
+
     respond_to do |format|
       format.html {render json: {'labels': labels, 'datasets': datasets}.to_json }
     end
@@ -172,20 +191,20 @@ class SurveysController < ApplicationController
           border: 'rgba(244, 67, 54, 1)'
         },
         {
-          background: 'rgba(156, 39, 176, 0.5)',
-          border: 'rgba(156, 39, 176, 1)'
-        },
-        {
-          background: 'rgba(255, 64, 129, 0.5)',
-          border: 'rgba(255, 64, 129, 1)'
-        },
-        {
-          background: 'rgba(33, 150, 243, 0.5)',
-          border: 'rgba(33, 150, 243, 1)'
+          background: 'rgba(255, 152, 0, 0.5)',
+          border: 'rgba(255, 152, 0, 1)'
         },
         {
           background: 'rgba(41, 182, 246, 0.5)',
           border: 'rgba(41, 182, 246, 1)'
+        },
+        {
+          background: 'rgba(156, 39, 176, 0.5)',
+          border: 'rgba(156, 39, 176, 1)'
+        },
+        {
+          background: 'rgba(33, 150, 243, 0.5)',
+          border: 'rgba(33, 150, 243, 1)'
         },
         {
           background: 'rgba(0, 137, 123, 0.5)',
@@ -200,8 +219,8 @@ class SurveysController < ApplicationController
           border: 'rgba(205, 220, 57, 1)'
         },
         {
-          background: 'rgba(255, 152, 0, 0.5)',
-          border: 'rgba(255, 152, 0, 1)'
+          background: 'rgba(255, 64, 129, 0.5)',
+          border: 'rgba(255, 64, 129, 1)'
         },
         {
           background: 'rgba(255, 255, 0, 0.5)',

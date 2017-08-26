@@ -26,7 +26,9 @@
         <div class="box-header">
           <h3 class="box-title">Información general</h3>
           <div class="box-tools pull-right">
-            <%= link_to 'Editar', edit_course_path(@course), class: 'btn btn-primary btn-flat' %> 
+            <% unless current_user.student? %>
+              <%= link_to 'Editar', edit_course_path(@course), class: 'btn btn-primary btn-flat' %> 
+            <% end %>
           </div>
         </div>
         <div class="box-body">
@@ -58,7 +60,9 @@
         <div class="box-header with-border">
           <h3 class="box-title">Estudiantes asignados</h3>
           <div class="box-tools pull-right">
-            <%= link_to 'Editar', assign_students_path(@course), class: 'btn btn-primary btn-flat' %>
+            <% unless current_user.student? %>
+              <%= link_to 'Editar', assign_students_path(@course), class: 'btn btn-primary btn-flat' %>
+            <% end %>
           </div>
         </div>
         <div class="box-body">
@@ -77,6 +81,8 @@
                       <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
                     <% elsif student[:role] == 'jefe de grupo' %>
                       <td class="pull-right"><span class="label label-success">Jefe de grupo</span></td>
+                    <% elsif student[:role] == 'jefe de proyecto' %>
+                      <td class="pull-right"><span class="label label-warning">Jefe de proyecto</span></td>
                     <% end %>
 
                   </tr>
@@ -103,7 +109,9 @@
             <thead>
               <th>Nombre</th>
               <th>Plantilla</th>
-              <th>% Contestadas</th>
+              <% unless current_user.student? %>
+                <th>% Contestadas</th>
+              <% end %>
               <th></th>
               <th></th>
               <th></th>
@@ -113,7 +121,9 @@
                 <tr>
                   <td><%= survey[:name] %></td>
                   <td><%= survey[:template] %></td>
-                  <td><%= number_to_percentage(survey[:percentage], strip_insignificant_zeros: true) %></td>
+                  <% unless current_user.student? %>
+                    <td><%= number_to_percentage(survey[:percentage], strip_insignificant_zeros: true) %></td>
+                  <% end %>
                   <td><%= link_to 'Ver detalles', assigned_survey_details_path(@course, survey[:name]) %></td>
                   <td><%= link_to 'Editar', edit_assigned_survey_path(@course, survey[:id]) %></td>
                   <td>
