@@ -145,14 +145,17 @@ class CoursesController < ApplicationController
 
   def assigned_survey_details
     @course = Course.find(params[:course_id])
-    surveys = AssignedSurvey.select(:answered, :user_id, :evaluated_user_id)
+    surveys = AssignedSurvey.select(:answered, :user_id, :evaluated_user_id, :survey_id)
                                      .where(course_id: params[:course_id], name: params[:survey_name])
     @assigned_survey = []
     surveys.each do |survey|
       @assigned_survey << {student: survey.user.full_name,
                            evaluated: survey.evaluated_user.nil? ? '' : survey.evaluated_user.full_name, 
                            answered: survey.answered, 
-                           group: CourseStudent.find_by(course_id: @course.id, user_id: survey.user_id).group_name}
+                           group: CourseStudent.find_by(course_id: @course.id, user_id: survey.user_id).group_name,
+                           survey_id: survey.survey_id,
+                           evaluated_user_id: survey.evaluated_user_id
+                         }
     end
     groups = @assigned_survey.group_by{|survey| survey[:group]}.to_a
     @groups_percentage = []
@@ -184,6 +187,12 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.html {redirect_to course_path(params[:course_id]), notice: 'Encuesta editada con éxito'}
     end
+  end
+
+  def survey_results_by_group
+    @course = Course.find(params[:course_id])
+    @survey = AssignedSurvey.find_by(course_id: params[:course_id],
+                                     name: params[:survey_name])
   end
 
   private
