@@ -120,7 +120,6 @@ class SurveysController < ApplicationController
         }
       ]
     }
-    puts response.to_json
     respond_to do |format|
       format.html {render json: response.to_json }
     end
@@ -150,13 +149,8 @@ class SurveysController < ApplicationController
         'pointHoverBorderColor': colors[index%total_surveys][:border]
       }
     end
-    response = {
-      'labels': labels,
-      'datasets': datasets
-    }
-    puts response.to_json
     respond_to do |format|
-      format.html {render json: response.to_json }
+      format.html {render json: {'labels': labels, 'datasets': datasets}.to_json }
     end
   end
 
