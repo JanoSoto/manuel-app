@@ -47,4 +47,12 @@ class User < ActiveRecord::Base
         return 'Estudiante'
     end
   end
+
+  def project_leader?(course_id)
+    return CourseStudent.find_by(user_id: self.id, course_id: course_id).try(:role) == 'jefe de proyecto'
+  end
+
+  def group_leader?(course_id)
+    return CourseStudent.find_by(user_id: self.id, course_id: course_id).try(:role) == 'jefe de grupo'
+  end
 end

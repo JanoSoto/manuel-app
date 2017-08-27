@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
     @color = ["info", "danger", "gray", "navy", "purple", "orange", "maroon"]
     surveys = AssignedSurvey.select(:id, :name, :survey_id).where(course_id: params[:id]).group(:name)
     @assigned_surveys = []
-    unless current_user.student?
+    unless current_user.student? and not current_user.project_leader?(@course.id)
       surveys.each do |survey|
         answered = AssignedSurvey.where(answered: true, name: survey.name).count
         pending = AssignedSurvey.where(answered: false, name: survey.name).count
@@ -37,6 +37,7 @@ class CoursesController < ApplicationController
     else
       @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id, :survey_id)
                                         .where(user_id: current_user.id, course_id: @course.id)
+
     end
   end
 
