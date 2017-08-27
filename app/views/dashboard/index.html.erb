@@ -1,2 +1,41 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<section class="content-header">
+  <h1>
+    Bienvenido a MANUEL
+    <small>Sección de acceso rápido</small>
+  </h1>
+</section>
+
+<div class="board-container">
+	<div class="col-xs-4">
+		<a href="<%= get_survey_path %>">
+			<div class="small-box bg-green">
+				<div class="inner">
+					<h3>
+						Encuestas
+					</h3>
+					<p>Ir a la sección de encuestas</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-check-square-o"></i>
+				</div>
+				<p class="small-box-footer"></p>
+			</div>
+		</a>
+	</div>
+	<div class="col-xs-4">
+		<a href="<%= courses_path %>">
+			<div class="small-box bg-aqua">
+				<div class="inner">
+					<h3>
+						Cursos
+					</h3>
+					<p>Ir a la sección de cursos</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-book"></i>
+				</div>
+				<p class="small-box-footer"></p>
+			</div>
+		</a>
+	</div>
+</div>
