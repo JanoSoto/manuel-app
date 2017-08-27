@@ -19,7 +19,7 @@
 	        <td><%= survey.evaluated_user.nil? ? '' : survey.evaluated_user.full_name %></td>
 	        <% if survey.answered %>
 	          <td class="text-green"><i class="fa fa-check"></i> Contestada</td>
-	          <td><%= link_to 'Ver respuestas', survey_results_path(survey.survey_id, survey.course_id, survey.name, survey.evaluated_user_id), class: 'btn btn-success btn-flat' %></td>
+	          <td><%= link_to 'Ver respuestas', survey_results_path(survey.survey_id, survey.course_id, survey.name, survey.evaluated_user_id, current_user.id), class: 'btn btn-success btn-flat' %></td>
 	        <% else %>
 	          <td class="text-yellow"><i class="fa fa-exclamation-triangle"></i> Pendiente</td>
 						<td><%= link_to 'Contestar', answer_survey_path(survey,), class: 'btn btn-warning btn-flat' %></td>
