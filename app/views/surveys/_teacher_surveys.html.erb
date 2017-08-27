@@ -1,0 +1,39 @@
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<th>Encuesta</th>
+			<% if show_course %>
+				<th class="hidden-xs">Asignatura (Semestre/Año)</th>
+			<% end %>
+			<th>Responsable</th>
+			<th>Evalúa a</th>
+			<th></th>
+			<th></th>
+			<th>Estado</th>
+		</thead>
+		<tbody>
+			<% assigned_surveys.each do |survey| %>
+				<tr>
+					<td><%= survey.name %></td>
+					<% if show_course %>
+						<td class="hidden-xs"><%= survey.course.name %> (<%= survey.course.sem_year %>)</td>
+	        <% end %>
+	        <td><%= survey.user.full_name %></td>
+	        <td><%= survey.evaluated_user.nil? ? '' : survey.evaluated_user.full_name %></td>
+	        <td><%= link_to 'Ver detalles', assigned_survey_details_path(survey.course_id, survey.name) %></td>
+	        <td><%= link_to 'Editar', edit_assigned_survey_path(survey.course_id, survey.id) %></td>
+	        <% if survey.answered %>
+	          <td><%= link_to 'Ver respuestas', survey_results_path(survey.survey_id, survey.course_id, survey.name, survey.evaluated_user_id, survey.user_id), class: 'btn btn-success btn-flat' %></td>
+	        <% else %>
+	          <td>
+	          	<%= link_to '#', class: 'btn btn-warning btn-flat' do %>
+		            <i class="fa fa-paper-plane"></i> Enviar recordatorio
+		          <% end %>    
+	          </td>
+					<% end %>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= will_paginate assigned_surveys, param_name: 'page', renderer: BootstrapPagination::Rails %>
+</div>

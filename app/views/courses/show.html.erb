@@ -110,7 +110,7 @@
           <% unless current_user.student? and not current_user.project_leader?(@course.id) %>
             <%= render 'course_surveys', assigned_surveys: @assigned_surveys %>
           <% else %>
-            <%= render 'surveys/user_surveys', assigned_surveys: @assigned_surveys, show_course: false %>
+            <%= render 'surveys/student_surveys', assigned_surveys: @assigned_surveys, show_course: false %>
           <% end %>
         <% else %>
           <p>Este curso no tiene encuestas asignadas</p>

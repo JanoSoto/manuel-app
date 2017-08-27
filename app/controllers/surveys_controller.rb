@@ -65,8 +65,16 @@ class SurveysController < ApplicationController
   end
 
   def my_surveys
-    @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id, :survey_id)
-                                      .where(user_id: current_user.id)
+    if current_user.student?
+      @assigned_surveys = AssignedSurvey.select(:id, :name, :course_id, :answered, :evaluated_user_id, :survey_id, :user_id)
+                                        .where(user_id: current_user.id)
+    else
+      @assigned_surveys = AssignedSurvey.joins(:course)
+                                        .select(:id, :name, :course_id, :answered, :evaluated_user_id, :survey_id, :user_id)
+                                        .where(courses: {user_id: current_user.id})
+                                        .paginate(page: params[:page], per_page: 7)
+                                        .order('assigned_surveys.created_at DESC')
+    end
   end
 
   def my_pending_surveys
@@ -89,7 +97,7 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = AssignedSurvey.find_by(user_id: current_user.id, 
+    @survey = AssignedSurvey.find_by(user_id: params[:user_id], 
                                      survey_id: params[:id], 
                                      course_id: params[:course_id],
                                      evaluated_user_id: params[:evaluated_user_id],

@@ -37,8 +37,10 @@
 									<div class="answers-options">
 										<% question.answer_options.each do |answer| %>
 											<div class="answer form-group">
-												<%= radio_button_tag '[answers]question'+index.to_s, answer.id, false, required: true %>
-												<%= answer.answer %>
+												<label>
+													<%= radio_button_tag '[answers]question'+index.to_s, answer.id, false, required: true %>
+													<%= answer.answer %>
+												</label>
 											</div>
 										<% end %>
 									</div>	

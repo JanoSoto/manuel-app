@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get 'results_by_group/:course_id/:survey_name/:group_name' => 'surveys#results_by_group', as: 'results_by_group'
   get 'results_by_user/:survey_id' => 'surveys#results_by_user', as: 'results_by_user'
-  get 'my_surveys/:id/results/:course_id/:survey_name/:evaluated_user_id' => 'surveys#results', as: 'survey_results'
+  get 'my_surveys/:id/results/:course_id/:survey_name/:evaluated_user_id/:user_id' => 'surveys#results', as: 'survey_results'
   post 'save_survey_answers' => 'surveys#save_survey_answers'
   get 'survey/:id/answer' => 'surveys#answer_survey', as: 'answer_survey'
   get 'my_surveys/pending' => 'surveys#my_pending_surveys', as: 'my_pending_surveys'

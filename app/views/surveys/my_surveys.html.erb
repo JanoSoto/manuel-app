@@ -26,8 +26,12 @@
   				<h3 class="box-title">Mis encuestas</h3>
   			</div>
   			<div class="box-body">
-  				<%= render 'user_surveys', assigned_surveys: @assigned_surveys, show_course: true %>
-  			</div>
+          <% if current_user.student? %>
+  				  <%= render 'student_surveys', assigned_surveys: @assigned_surveys, show_course: true %>
+          <% elsif current_user.teacher? %>
+            <%= render 'teacher_surveys', assigned_surveys: @assigned_surveys, show_course: true %>
+          <% end %>  
+        </div>
   		</div>
   	</div>	
   </div>

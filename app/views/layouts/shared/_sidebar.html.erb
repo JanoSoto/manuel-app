@@ -70,7 +70,7 @@
 		      </ul>
 	      <% elsif current_user.teacher? %>
 		      <ul class="treeview-menu">
-		      	<li><a href="#<%#= surveys_path %>"><i class="fa fa-list"></i> Encuestas activas</a></li>
+		      	<li><a href="<%= my_surveys_path %>"><i class="fa fa-list"></i> Encuestas activas</a></li>
 	        	<li><a href="#<%#= new_survey_path %>"><i class="fa fa-chevron-circle-left"></i> Encuestas anteriores</a></li>
 	        	<li><a href="#<%#= new_survey_path %>"><i class="fa fa-pie-chart"></i> Resultados</a></li>
 		      </ul>
@@ -86,11 +86,10 @@
 		      			<% end %>
 	      			</a>
       			</li>
-	        	<li><a href="#<%#= new_survey_path %>"><i class="fa fa-chevron-circle-left"></i> Encuestas anteriores</a></li>
+	        	<!-- <li><a href="#<%#= new_survey_path %>"><i class="fa fa-chevron-circle-left"></i> Encuestas anteriores</a></li> -->
 		      </ul>
 	      <% end %>
 	    </li>
-	    <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
 	  	<li><%= link_to destroy_user_session_path, method: :delete do %><i class="fa fa-sign-out"></i> <span>Cerrar Sesión</span><%end%></li>
 	  
 	  </ul>
