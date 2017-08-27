@@ -21,6 +21,7 @@
 //= require datatables/jquery.dataTables.min
 //= require datatables/dataTables.bootstrap.min
 //= require sweetalert2.min
+//= require jquery.contextMenu.min
 //= require core.js
 //= require turbolinks
 //= require_tree .
@@ -31,7 +32,7 @@ $(document).on("turbolinks:load", function(){
 	$('form').validator();
 
 	$('.switch').bootstrapToggle();
-	$('select').select2();
+	//$('select').select2();
 	$('.datepicker').datepicker({
 		language: 'es'
 	});

@@ -6,21 +6,29 @@ class User < ActiveRecord::Base
 
   belongs_to :role
 
+  has_many :course_students
+  has_many :courses, through: :course_students
+  has_many :assigned_surveys
+  has_many :courses, through: :assigned_surveys
+
   def admin?
   	return self.roles_id == 1
   end
 
-  def receptionist?
+  def teacher?
   	return self.roles_id == 2
   end
 
-  def user_name
+  def student?
+    return self.roles_id == 3
+  end
+
+  def full_name
     if !self.name.nil? && !self.lastname.nil?
-      user_name =  self.name + " " + self.lastname
+      return self.name.capitalize + " " + self.lastname.capitalize
     else
-      user_name = self.email
+      return self.email
     end
-    user_name
   end
 
   def created_at
@@ -30,10 +38,21 @@ class User < ActiveRecord::Base
   end
 
   def role
-    if self.roles_id == 1
-      role = "Administrador"
-    else
-      role = "Recepcionista"
+    case self.roles_id
+      when 1
+        return 'Administrador'
+      when 2
+        return 'Profesor'
+      when 3
+        return 'Estudiante'
     end
+  end
+
+  def project_leader?(course_id)
+    return CourseStudent.find_by(user_id: self.id, course_id: course_id).try(:role) == 'jefe de proyecto'
+  end
+
+  def group_leader?(course_id)
+    return CourseStudent.find_by(user_id: self.id, course_id: course_id).try(:role) == 'jefe de grupo'
   end
 end

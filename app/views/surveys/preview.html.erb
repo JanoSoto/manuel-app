@@ -1,0 +1,53 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Previsualización de una encuesta
+    <small>Previsualice como será el despliegue de un encuesta</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= surveys_path %>">Encuestas</a></li>
+    <li><a href="<%= survey_path @survey %>">Ver encuesta</a></li>
+    <li class="active">Previsualización</li>
+  </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<%= link_to survey_path @survey do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+		</div>
+	</div>
+  <br>
+	<div class="row">
+		<div class="col-xs-12 col-md-8 col-md-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<h2><%= @survey.name %></h2>
+					<div>
+						<%= @survey.description %>
+					</div>
+					<% unless @survey.questions.empty? %>
+						<% @survey.questions.each_with_index do |question, index| %>
+							<div class="question">
+								<h4><%= question.statement %></h4>
+								<p><%= question.hint %></p>
+								<div class="answers-options">
+									<% question.answer_options.each do |answer| %>
+										<div class="answer">
+											<%= radio_button_tag 'question'+index.to_s, answer.score %>
+											<%= label_tag answer.score.to_s, answer.answer %>
+										</div>
+									<% end %>
+								</div>	
+							</div>
+						<% end %>
+					<% else %>
+						<p>Esta encuesta no tiene preguntas asociadas</p>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

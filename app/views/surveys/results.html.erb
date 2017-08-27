@@ -1,0 +1,46 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Ver respuestas de la encuesta "<%= @survey.name %>"
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= my_surveys_path %>">Mis encuestas</a></li>
+    <li class="active">Resultados de <%= @survey.name %></li>
+  </ol>
+</section>
+
+<section class="content">
+	<div class="row">
+    <div class="col-xs-12">
+      <%= link_to :back do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <%= render 'survey_result', survey: @survey %>
+</section>
+
+<script>
+	$(document).ready(function(){
+		var ctx = document.getElementById('chart').getContext('2d');
+    $.get('<%= results_by_user_path(@survey.id) %>')
+      .done(function(data){
+    		var myRadarChart = new Chart(ctx, {
+    	    type: 'radar',
+    	    data: JSON.parse(data),
+    	    options: {
+                    scale: {
+                      ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 5,
+                        stepSize: 1
+                      }
+                    } 
+
+                  }
+    		});
+      });
+	});
+</script>

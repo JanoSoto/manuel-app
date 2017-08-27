@@ -1,0 +1,50 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Resultados de la encuesta "<%= params[:survey_name] %>"
+    <p><small>Grupo <%= params[:group_name] %></small></p>    
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= courses_path %>">Cursos</a></li>
+    <li><a href="<%= course_path(@course) %>"><%= @course.name %></a></li>
+    <li>Detalles de encuesta</li>
+    <li><a href="<%= assigned_survey_details_path(@course.id, params[:survey_name]) %>"></a>  <%= params[:survey_name] %></li>
+    <li class="active">Grupo <%= params[:group_name] %></li>
+  </ol>
+</section>
+
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+      <%= link_to assigned_survey_details_path(@course.id, params[:survey_name]) do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+		</div>	
+	</div>
+	<br>
+	<%= render 'surveys/survey_result', survey: @survey %>
+</section>
+
+<script>
+	$(document).ready(function(){
+		var ctx = document.getElementById('chart').getContext('2d');
+    $.get('<%= results_by_group_path(@course.id, params[:survey_name], params[:group_name]) %>')
+      .done(function(data){
+    		var myRadarChart = new Chart(ctx, {
+    	    type: 'radar',
+    	    data: JSON.parse(data),
+    	    options: {
+                    scale: {
+                      ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 5,
+                        stepSize: 1
+                      }
+                    } 
+
+                  }
+    		});
+      });
+	});
+</script>

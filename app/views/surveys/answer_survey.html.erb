@@ -1,0 +1,59 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Contestar encuesta pendiente
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= my_surveys_path %>"></a>Mis encuestas</li>
+    <li class="active">Contestar encuesta</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+      <%= link_to my_surveys_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-xs-12 col-md-8 col-md-offset-2">
+			<div class="panel">
+				<div class="panel-body">
+					<h2><%= @assigned_survey.name %></h2>
+					<p><%= @assigned_survey.survey.description %></p>
+					<div class="callout callout-primary">
+						<h4>Estas evaluando a <b><%= @assigned_survey.evaluated_user.full_name %></b></h4>
+					</div>
+					<% unless @assigned_survey.survey.questions.empty? %>
+						<%= form_tag save_survey_answers_path do %>
+							<% @assigned_survey.survey.questions.each_with_index do |question, index| %>
+								<div class="question">
+									<h4><%= question.statement %></h4>
+									<p><%= question.hint %></p>
+									<div class="answers-options">
+										<% question.answer_options.each do |answer| %>
+											<div class="answer form-group">
+												<label>
+													<%= radio_button_tag '[answers]question'+index.to_s, answer.id, false, required: true %>
+													<%= answer.answer %>
+												</label>
+											</div>
+										<% end %>
+									</div>	
+								</div>
+							<% end %>
+							<%= hidden_field_tag :assigned_survey, @assigned_survey.id %>
+							<%= submit_tag 'Enviar respuesta', class: 'btn btn-primary btn-flat btn-block' %>
+						<% end %>
+					<% else %>
+						<p>Esta encuesta no tiene preguntas asociadas</p>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

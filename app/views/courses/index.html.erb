@@ -1,0 +1,60 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Cursos
+    <small>Listado de cursos registrados</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li class="active">Cursos</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+          <div class="">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Semestre/Año</th>
+                  <th class="hidden-xs">Estado</th>
+                  <th>Profesor</th>
+                  <th></th>
+                  <% unless current_user.student? %>
+                    <th></th>
+                    <th></th>
+                  <% end %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @courses.each do |course| %>
+                  <tr>
+                    <td><%= course.name %></td>
+                    <td><%= course.semester %>/<%= course.year %></td>
+                    <td class="hidden-xs"><%= course.status ? 'Activo' : 'Inactivo' %></td>
+                    <td><%= course.user.full_name %></td>
+                    <td><%= link_to 'Ver más', course %></td>
+                    <% unless current_user.student? %>
+                      <td><%= link_to 'Editar', edit_course_path(course) %></td>
+                      <td><%= link_to course.status ? 'Desactivar' : 'Activar', course, method: :delete, data: { confirm: '¿Está seguro de que desea '+(course.status ? 'desactivar' : 'activar')+' este curso?' } %></td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>      
+          </div>
+          <%= will_paginate @courses, param_name: 'page', renderer: BootstrapPagination::Rails %>
+          <% unless current_user.student? %>
+            <%= link_to 'Nuevo curso', new_course_path, class: 'btn btn-primary btn-flat' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->

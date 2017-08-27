@@ -1,0 +1,52 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Mis encuestas pendientes
+    <small>Ver todas mis encuestas pendientes</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= my_surveys_path %>"></a>Mis encuestas</li>
+    <li class="active">Mis encuestas pendientes</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+    <div class="col-xs-12">
+      <%= link_to my_surveys_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+  	<div class="col-xs-12">
+  		<div class="box box-primary">
+  			<div class="box-header">
+  				<h3 class="box-title">Mis encuestas pendientes</h3>
+  			</div>
+  			<div class="box-body">
+  				<table class="table">
+  					<thead>
+  						<th>Encuesta</th>
+              <th class="hidden-xs">Asignatura (Semestre/Año)</th>
+              <th>Evalúa a</th>
+  						<th></th>
+  					</thead>
+  					<tbody>
+  						<% @pending_surveys.each do |survey| %>
+  							<tr>
+  								<td><%= survey.name %></td>
+  								<td class="hidden-xs"><%= survey.course.name %> (<%= survey.course.sem_year %>)</td>
+  								<td><%= survey.evaluated_user.nil? ? '' : survey.evaluated_user.full_name %></td>
+  								<td><%= link_to 'Contestar', answer_survey_path(survey), class: 'btn btn-warning btn-flat' %></td>
+                </tr>
+  						<% end %>
+  					</tbody>
+  				</table>
+  			</div>
+  		</div>
+  	</div>	
+  </div>
+</section>

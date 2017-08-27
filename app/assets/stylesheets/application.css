@@ -16,6 +16,8 @@
  *= require toastr
  *= require dataTables.bootstrap
  *= require sweetalert2.min
+ *= require colors
+ *= require jquery.contextMenu.min
  *= require_self
  */
 textarea {
@@ -60,4 +62,38 @@ textarea {
    width: auto;
    height: auto;
    margin: auto;
+}
+
+.student-button {
+	margin-bottom: 3px;
+}
+
+#unassigned-students {
+	padding: 10px 10px 0 10px;
+}
+
+#close-new-answer {
+	cursor: pointer;
+}
+
+.question{
+	padding: 10px 0 10px 10px;
+	border-bottom: 1px solid #EFEFEF;
+}
+
+.answer{
+	padding-left: 10px;
+}
+
+.callout-primary {
+	background-color: #3c8dbc;
+	border-left: 5px solid #357ca5 !important;
+	color: #FFF;
+}
+
+.board-container {
+	padding-top: 50px;
+	display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,0 +1,38 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Mis encuestas
+    <small>Ver todas mis encuestas</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li class="active">Mis encuesta</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+    <div class="col-xs-12">
+      <%= link_to root_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+  	<div class="col-xs-12">
+  		<div class="box box-primary">
+  			<div class="box-header">
+  				<h3 class="box-title">Mis encuestas</h3>
+  			</div>
+  			<div class="box-body">
+          <% if current_user.student? %>
+  				  <%= render 'student_surveys', assigned_surveys: @assigned_surveys, show_course: true %>
+          <% elsif current_user.teacher? %>
+            <%= render 'teacher_surveys', assigned_surveys: @assigned_surveys, show_course: true %>
+          <% end %>  
+        </div>
+  		</div>
+  	</div>	
+  </div>
+</section>

@@ -1,0 +1,124 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Ver curso
+    <small>Ver toda la información de un curso</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= courses_path %>">Cursos</a></li>
+    <li class="active">Ver curso</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link_to courses_path do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <div class="box box-primary">
+        <div class="box-header">
+          <h3 class="box-title">Información general</h3>
+          <div class="box-tools pull-right">
+            <% unless current_user.student? %>
+              <%= link_to 'Editar', edit_course_path(@course), class: 'btn btn-primary btn-flat' %> 
+            <% end %>
+          </div>
+        </div>
+        <div class="box-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Nombre</th>
+                <td><%= @course.name %></td>
+              </tr>
+              <tr>
+                <th>Semestre/Año</th>
+                <td><%= @course.sem_year %></td>
+              </tr>
+              <tr>
+                <th>Profesor</th>
+                <td><%= @course.user.full_name %></td>
+              </tr>
+              <tr>
+                <th>Estado</th>
+                <td><%= @course.status ? 'Activo' : 'Desactivado' %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">Estudiantes</h3>
+          <div class="box-tools pull-right">
+            <% unless current_user.student? %>
+              <%= link_to 'Editar', assign_students_path(@course), class: 'btn btn-primary btn-flat' %>
+            <% end %>
+          </div>
+        </div>
+        <div class="box-body">
+          <% if @students.empty? %>
+            <span>No hay estudiantes asignados a este curso</span>
+          <% else %>
+            <table class="table">
+              <tbody>
+                <% @students.each do |student| %>
+                  <tr>
+                    <td><%= student[:name] %></td>
+                    <% if student[:group_name] %>
+                      <td class="pull-right"><span class="label label-<%= @color[(student[:group_name].to_i-1)%@color.count] %>">Grupo <%= student[:group_name] %> </span></td>
+                    <% end %>
+                    <% if student[:role] == 'ayudante' %>
+                      <td class="pull-right"><span class="label label-primary">Ayudante</span></td>
+                    <% elsif student[:role] == 'jefe de grupo' %>
+                      <td class="pull-right"><span class="label label-success">Jefe de grupo</span></td>
+                    <% elsif student[:role] == 'jefe de proyecto' %>
+                      <td class="pull-right"><span class="label label-warning">Jefe de proyecto</span></td>
+                    <% end %>
+
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="box box-warning">
+        <div class="box-header with-border">
+          <h3 class="box-title">Encuestas</h3>
+          <div class="box-tools pull-right">
+            <% unless current_user.student? %>
+              <%= link_to assign_survey_path(@course), class: 'btn btn-primary btn-flat' do %>
+                <i class="fa fa-plus"></i> Agregar encuesta
+              <% end %>              
+            <% end %>
+          </div>
+        </div>
+        <div class="box-body">
+        <% unless @assigned_surveys.empty? %>
+          <% unless current_user.student? and not current_user.project_leader?(@course.id) %>
+            <%= render 'course_surveys', assigned_surveys: @assigned_surveys %>
+          <% else %>
+            <%= render 'surveys/student_surveys', assigned_surveys: @assigned_surveys, show_course: false %>
+          <% end %>
+        <% else %>
+          <p>Este curso no tiene encuestas asignadas</p>
+        <% end %>
+        </div>
+      </div>
+    </div>    
+  </div>
+</section>
+<!-- /.content -->
+

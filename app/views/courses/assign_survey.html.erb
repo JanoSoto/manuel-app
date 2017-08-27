@@ -1,0 +1,50 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Asignar encuesta
+    <small>Asignar una encuesta un curso</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="<%= courses_path %>">Cursos</a></li>
+    <li><a href="<%= course_path(@course) %>"><%= @course.name %></a></li>
+    <li class="active">Asignar encuesta</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+      <%= link_to course_path @course do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+		</div>	
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-xs-12 col-md-4">
+			<div class="panel">
+				<div class="panel-body">
+					<h3>Asignar encuesta</h3>
+					<%= render 'assign_survey_form', action_path: save_assigned_survey_path, action_button: 'Crear' %>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-8">
+			<div class="panel">
+				<div class="panel-body">
+					<h3>Preguntas de la encuesta</h3>
+					<div id="survey-questions">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$('#select-survey').change(function(){
+		$('#survey-questions').empty();
+		$.post('<%= questions_by_survey_path %>', {survey_id: $(this).val()});
+	})
+</script>
