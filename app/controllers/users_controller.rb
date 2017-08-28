@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     user.password = Devise.friendly_token.first(8)
     respond_to do |format|
       if user.save
-        user.send_reset_password_instructions
+        # user.send_reset_password_instructions
         format.html {redirect_to users_url, notice: 'Nuevo usuario creado con éxito'}       
       else
         format.html {redirect_to new_user_path, alert: 'Ha ocurrido un error. Intente nuevamente'}
