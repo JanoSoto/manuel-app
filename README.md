@@ -4,11 +4,11 @@ MAnejador Universal de Encuestas Libres (MANUEL) es un software para la realizac
 
 ---
 
-##**Versión**: 1.0
+## **Versión**: 1.0
 MVP de las encuestas 360.
 ---
 
-##Funcionalidades
+## Funcionalidades
 
 1. Cursos
 	1.1. Creación de cursos
