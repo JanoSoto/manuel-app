@@ -23,13 +23,15 @@ class CoursesController < ApplicationController
   def show
     @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role, :group_name).map{|student| {name: User.find(student[0]).full_name, role: student[1], group_name: student[2]} }
     @color = ["info", "danger", "gray", "navy", "purple", "orange", "maroon"]
-    surveys = AssignedSurvey.select(:id, :name, :survey_id).where(course_id: params[:id]).group(:name, :id)
+    surveys = AssignedSurvey.select(:name, :survey_id)
+                            .where(course_id: params[:id])
+                            .group(:name, :survey_id)
     @assigned_surveys = []
     unless current_user.student? and not current_user.project_leader?(@course.id)
       surveys.each do |survey|
         answered = AssignedSurvey.where(answered: true, name: survey.name).count
         pending = AssignedSurvey.where(answered: false, name: survey.name).count
-        @assigned_surveys << {id: survey.id,
+        @assigned_surveys << {#id: survey[:survey_id], #survey.id,
                               name: survey.name, 
                               template: survey.survey.name, 
                               percentage: (answered.to_f/(answered + pending).to_f)*100}
@@ -132,15 +134,13 @@ class CoursesController < ApplicationController
     students.each do |student|
       unless student.group_name.nil?
         groups[student.group_name].each do |evaluate_user|
-          if student.user_id != evaluate_user.user_id
-            AssignedSurvey.create(
-                          survey_id: params[:survey_id],
-                          user_id: student.user_id,
-                          evaluated_user_id: evaluate_user.user_id,
-                          course_id: params[:course_id],
-                          name: params[:name],
-                          answered: false)
-          end
+          AssignedSurvey.create(
+                        survey_id: params[:survey_id],
+                        user_id: student.user_id,
+                        evaluated_user_id: evaluate_user.user_id,
+                        course_id: params[:course_id],
+                        name: params[:name],
+                        answered: false)
         end
       end
     end

@@ -275,5 +275,4 @@ begin
 	puts 'Encuesta 360 creada con éxito'
 rescue Exception => e
 	puts 'La encuesta 360 ya ha sido agregada al sistema'
-	puts e.to_s
 end
