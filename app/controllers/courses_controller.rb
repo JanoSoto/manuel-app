@@ -23,7 +23,7 @@ class CoursesController < ApplicationController
   def show
     @students = CourseStudent.where(course_id: @course.id).pluck(:user_id, :role, :group_name).map{|student| {name: User.find(student[0]).full_name, role: student[1], group_name: student[2]} }
     @color = ["info", "danger", "gray", "navy", "purple", "orange", "maroon"]
-    surveys = AssignedSurvey.select(:id, :name, :survey_id).where(course_id: params[:id]).group(:name)
+    surveys = AssignedSurvey.select(:id, :name, :survey_id).where(course_id: params[:id]).group(:name, :id)
     @assigned_surveys = []
     unless current_user.student? and not current_user.project_leader?(@course.id)
       surveys.each do |survey|
