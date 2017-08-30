@@ -138,7 +138,8 @@ class SurveysController < ApplicationController
                             .pluck(:user_id)
     surveys = AssignedSurvey.where(course_id: params[:course_id],
                                     name: params[:survey_name],
-                                    user_id: students)
+                                    user_id: students,
+                                    answered: true)
     labels = []
     datasets = []
     surveys.first.survey_results.each_with_index do |result, index|
@@ -150,10 +151,10 @@ class SurveysController < ApplicationController
     #Resultado promedio
     require 'matrix'
     average = Vector.elements(Array.new(labels.count, 0.0))
-    
+    puts '-----'+surveys.inspect
     surveys.each_with_index do |survey, index|
       data = survey.survey_results.map{|result| result.answer_option.score}
-      puts data.to_s
+      puts '-----'+data.inspect
       average += Vector.elements(data.map{|a| a.to_f})
       datasets << {
         'label': survey.evaluated_user.full_name,
