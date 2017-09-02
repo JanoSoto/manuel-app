@@ -57,6 +57,9 @@
 							<% end %>
 						</tbody>
 					</table>
+					<div class="paginate">
+						<%= will_paginate @assigned_survey, renderer: BootstrapPagination::Rails %>
+					</div>
 				</div>
 			</div>
 		</div>

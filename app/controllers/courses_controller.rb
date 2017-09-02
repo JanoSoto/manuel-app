@@ -164,6 +164,7 @@ class CoursesController < ApplicationController
                          }
     end
     groups = @assigned_survey.group_by{|survey| survey[:group]}.to_a
+    @assigned_survey = @assigned_survey.paginate(page: params[:page], per_page: 5)
     @groups_percentage = []
     groups.each do |group|
       answered = 0
