@@ -146,17 +146,12 @@ class SurveysController < ApplicationController
       labels << 'Pregunta '+(index+1).to_s
     end
     colors = default_colors
-    total_surveys = surveys.count
-
-    #### CALCULAR EL RESULTADO PROMEDIO PARA CADA ESTUDIANTE
-    #### Ya que ahora se está mostrando su resultado más de una vez (uno por cada encueseta)
 
     #Resultado promedio
     require 'matrix'
 
     average = Vector.elements(Array.new(labels.count, 0.0))
     students_average = Hash.new
-    debug = []
     surveys.each_with_index do |survey, index|
       data = Vector.elements(survey.survey_results.map{|result| result.answer_option.score.to_f})
       if students_average[survey.evaluated_user_id].nil?
