@@ -182,10 +182,9 @@ class CoursesController < ApplicationController
     ##Cálculo de los módulos resultados por estudiante
     require 'matrix'
     surveys = AssignedSurvey.where(name: params[:survey_name], course_id: params[:course_id], answered: true)
-
-    average = Vector.elements(Array.new(surveys.first.survey_results.count, 0.0))
     students_average = Hash.new
     module_results = Hash.new
+    average = Hash.new
 
     surveys.each_with_index do |survey, index|
       data = Vector.elements(survey.survey_results.map{|result| result.answer_option.score.to_f})
@@ -193,24 +192,34 @@ class CoursesController < ApplicationController
         students_average[survey.evaluated_user_id] = Hash.new
         students_average[survey.evaluated_user_id][:data] = data
         students_average[survey.evaluated_user_id][:count] = 1
-        students_average[survey.evaluated_user_id][:group] = nil
+        students_average[survey.evaluated_user_id][:group] = CourseStudent.find_by(course_id: @course.id, 
+                                                                                   user_id: survey.user_id)
+                                                                          .group_name
         students_average[survey.evaluated_user_id][:module] = 0
         students_average[survey.evaluated_user_id][:student] = survey.evaluated_user.full_name
       else
         students_average[survey.evaluated_user_id][:data] += data
         students_average[survey.evaluated_user_id][:count] += 1
       end
-      average += data
-    end
 
-    average /= surveys.count
+      if average[students_average[survey.evaluated_user_id][:group]].nil?
+        average[students_average[survey.evaluated_user_id][:group]] = Hash.new
+        average[students_average[survey.evaluated_user_id][:group]][:sum] = data
+        average[students_average[survey.evaluated_user_id][:group]][:count] = 1
+      else
+        average[students_average[survey.evaluated_user_id][:group]][:sum] += data
+        average[students_average[survey.evaluated_user_id][:group]][:count] += 1
+      end
+    end
 
     @group_result = Hash.new
     students_average.each do |student|
+      puts '---ESTUDIANTE: '+student[1][:student]
       student[1][:data].each_with_index do |a, i|
-        student[1][:module] += a/student[1][:count] - average[i]
+        puts a.to_s+'/'+student[1][:count].to_s+'-'+average[student[1][:group]][:sum][i].to_s+'/'+average[student[1][:group]][:count].to_s+': '+(a/student[1][:count] - average[student[1][:group]][:sum][i]/average[student[1][:group]][:count]).to_s
+        student[1][:module] += a/student[1][:count] - average[student[1][:group]][:sum][i]/average[student[1][:group]][:count]
       end
-      student[1][:module] /= average.size
+      student[1][:module] /= student[1][:data].size
 
       group_name = CourseStudent.find_by(course_id: params[:course_id], user_id: student[0]).group_name
       if @group_result[group_name].nil?
