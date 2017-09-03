@@ -214,9 +214,7 @@ class CoursesController < ApplicationController
 
     @group_result = Hash.new
     students_average.each do |student|
-      puts '---ESTUDIANTE: '+student[1][:student]
       student[1][:data].each_with_index do |a, i|
-        puts a.to_s+'/'+student[1][:count].to_s+'-'+average[student[1][:group]][:sum][i].to_s+'/'+average[student[1][:group]][:count].to_s+': '+(a/student[1][:count] - average[student[1][:group]][:sum][i]/average[student[1][:group]][:count]).to_s
         student[1][:module] += a/student[1][:count] - average[student[1][:group]][:sum][i]/average[student[1][:group]][:count]
       end
       student[1][:module] /= student[1][:data].size
