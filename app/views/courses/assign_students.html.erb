@@ -30,7 +30,7 @@
         </div>
         <div class="box-body" id="available-students">
           <% @unassigned_students.each do |student| %>
-            <button id="student<%= student.id %>" class="btn btn-default student-button" onclick="assignStudent(<%= student.id %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student.email %></button>
+            <span id="student<%= student.id %>" class="btn btn-default student-button" onclick="assignStudent(<%= student.id %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag_start(event)"><%= student.email %></span>
           <% end %>
         </div>
         <div class="box-footer">
@@ -50,7 +50,7 @@
         <div id="unassigned-students">          
           <% unless @assigned_students[nil].nil? %>
             <% @assigned_students[nil].each do |student| %>
-              <button id="student<%= student[:id] %>" class="btn <%= get_role_class(student[:role]) %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+              <span id="student<%= student[:id] %>" class="btn <%= get_role_class(student[:role]) %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag_start(event)"><%= student[:email] %></span>
             <% end %>
           <% end %>
         </div>
@@ -60,12 +60,12 @@
               <div class="box-header with-border">
                 <h3 class="box-title">Grupo <%= group[0] %></h3>
                 <div class="box-tools pull-right">
-                  <button class="btn btn-danger btn-flat" onclick="removeGroup(<%= group[0] %>)"><i class="fa fa-times"></i> Eliminar grupo</button>
+                  <span class="btn btn-danger btn-flat" onclick="removeGroup(<%= group[0] %>)"><i class="fa fa-times"></i> Eliminar grupo</span>
                 </div>
               </div>
-              <div class="box-body" group="<%= group[0] %>" id="group<%= group[0] %>" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="box-body" group="<%= group[0] %>" id="group<%= group[0] %>" ondrop="drop(event)"  ondragover="allowDrop(event)">
                 <% group[1].each do |student| %>
-                  <button id="student<%= student[:id] %>" class="btn <%= get_role_class(student[:role]) %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag(event)"><%= student[:email] %></button>
+                  <span id="student<%= student[:id] %>" class="btn <%= get_role_class(student[:role]) %> student-button" onclick="removeStudent(<%= student[:id] %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag_start(event)"><%= student[:email] %></span>
                 <% end %>
               </div>
             </div>
@@ -84,6 +84,39 @@
 <!-- /.content -->
 
 <script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag_start(ev) {
+    var args = ev.target.getAttribute('onclick').split('(')[1].split(',');
+    ev.dataTransfer.setData("id", ev.target.id);
+    ev.dataTransfer.setData("student_id", args[0]);
+    ev.dataTransfer.setData("course_id", args[1]);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("id");
+    var student = document.getElementById(data);
+    student.className = 'btn btn-default student-button';
+    if (ev.target.tagName == 'BUTTON') {
+      ev.target.parentElement.appendChild(student);
+    }
+    else{
+      ev.target.appendChild(student);
+    }
+    $.post('<%= assign_student_to_course_path %>',
+          {
+            course_id: ev.dataTransfer.getData("course_id"),
+            student_id: ev.dataTransfer.getData("student_id"),
+            role: '',
+            group_name: ev.target.getAttribute('group')
+          })
+          .done(function(data){            
+            toastr['info']('Estudiante asignado con éxito');
+          });
+  }
   function assignStudent(student_id, course_id, role){
     $.post('<%= assign_student_to_course_path %>',
           {
@@ -215,40 +248,6 @@
             '</div>'
             )
   });
-
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
-
-  function drag(ev) {
-    var args = ev.target.getAttribute('onclick').split('(')[1].split(',');
-    ev.dataTransfer.setData("id", ev.target.id);
-    ev.dataTransfer.setData("student_id", args[0]);
-    ev.dataTransfer.setData("course_id", args[1]);
-  }
-
-  function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("id");
-    var student = document.getElementById(data);
-    student.className = 'btn btn-default student-button';
-    if (ev.target.tagName == 'BUTTON') {
-      ev.target.parentElement.appendChild(student);
-    }
-    else{
-      ev.target.appendChild(student);
-    }
-    $.post('<%= assign_student_to_course_path %>',
-          {
-            course_id: ev.dataTransfer.getData("course_id"),
-            student_id: ev.dataTransfer.getData("student_id"),
-            role: '',
-            group_name: ev.target.getAttribute('group')
-          })
-          .done(function(data){            
-            toastr['info']('Estudiante asignado con éxito');
-          });
-  }
 
   function removeGroup(group){
     var students = $('#group'+group).children();

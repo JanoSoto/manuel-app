@@ -57,6 +57,9 @@
 							<% end %>
 						</tbody>
 					</table>
+					<div class="paginate">
+						<%= will_paginate @assigned_survey, renderer: BootstrapPagination::Rails %>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -68,7 +71,37 @@
 					<h3 class="box-title">Resultados</h3>
 				</div>
 				<div class="box-body">
-					
+					<div id="group-results">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<% @group_result.size.times do |group| %>
+									<li class="<%= group == 0 ? 'active' : nil %>">
+										<a href="#tab<%= group %>" data-toggle="tab" aria-expanded="true">Grupo <%= group+1 %></a>
+									</li>
+								<% end %>
+							</ul>
+							<div class="tab-content">
+								<% @group_result.size.times do |group| %>
+									<div class="tab-pane <%= group == 0 ? 'active' : nil %>" id="tab<%= group %>">
+										<table class="table table-result">
+											<thead>
+												<th>Estudiante</th>
+												<th>Módulo</th>
+											</thead>
+											<tbody>
+												<% @group_result[(group+1).to_s].each do |result| %>
+													<tr>
+														<td><%= result[:student] %></td>
+														<td class="<%= result[:result] < 0 ? 'red' : 'green' %>"><%= result[:result].round(2) %></td>
+													</tr>
+												<% end %>
+											</tbody>
+										</table>
+									</div>
+								<% end %>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

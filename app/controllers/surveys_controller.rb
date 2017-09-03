@@ -138,35 +138,47 @@ class SurveysController < ApplicationController
                             .pluck(:user_id)
     surveys = AssignedSurvey.where(course_id: params[:course_id],
                                     name: params[:survey_name],
-                                    user_id: students)
+                                    user_id: students,
+                                    answered: true)
     labels = []
     datasets = []
     surveys.first.survey_results.each_with_index do |result, index|
       labels << 'Pregunta '+(index+1).to_s
     end
     colors = default_colors
-    total_surveys = surveys.count
 
     #Resultado promedio
     require 'matrix'
+
     average = Vector.elements(Array.new(labels.count, 0.0))
-    
+    students_average = Hash.new
     surveys.each_with_index do |survey, index|
-      data = survey.survey_results.map{|result| result.answer_option.score}
-      puts data.to_s
-      average += Vector.elements(data.map{|a| a.to_f})
+      data = Vector.elements(survey.survey_results.map{|result| result.answer_option.score.to_f})
+      if students_average[survey.evaluated_user_id].nil?
+        students_average[survey.evaluated_user_id] = Hash.new
+        students_average[survey.evaluated_user_id][:data] = data
+        students_average[survey.evaluated_user_id][:count] = 1
+        students_average[survey.evaluated_user_id][:student] = survey.evaluated_user.full_name
+      else
+        students_average[survey.evaluated_user_id][:data] += data
+        students_average[survey.evaluated_user_id][:count] += 1
+      end
+      average += data
+    end
+    students_average.each_with_index do |student_average, index|
       datasets << {
-        'label': survey.evaluated_user.full_name,
-        'data': data,
-        'backgroundColor': colors[index%colors.count][:background],
+        'label': student_average[1][:student],
+        'data': student_average[1][:data] / student_average[1][:count],
+        'backgroundColor': 'rgba(0,0,0,0)',#colors[index%colors.count][:background],
         'borderColor': colors[index%colors.count][:border],
         'pointBorderColor': '#FFF',
         'pointHoverBackgroundColor': '#FFF',
-        'pointHoverBorderColor': colors[index%colors.count][:border]
+        'pointHoverBorderColor': colors[index%colors.count][:border],
+        'pointStyle': colors[index%colors.count][:pointer]
       }
     end
     surveys_count = surveys.count
-    datasets.unshift({
+    datasets << {
                 'label': 'Promedio del grupo',
                 'data': average / surveys_count,
                 'backgroundColor': colors[surveys_count%colors.count][:background],
@@ -174,7 +186,7 @@ class SurveysController < ApplicationController
                 'pointBorderColor': '#FFF',
                 'pointHoverBackgroundColor': '#FFF',
                 'pointHoverBorderColor': colors[surveys_count%colors.count][:border]
-              })
+              }
 
     respond_to do |format|
       format.html {render json: {'labels': labels, 'datasets': datasets}.to_json }
@@ -196,43 +208,53 @@ class SurveysController < ApplicationController
       return [
         {
           background: 'rgba(244, 67, 54, 0.5)',
-          border: 'rgba(244, 67, 54, 1)'
+          border: 'rgba(244, 67, 54, 1)',
+          pointer: 'triangle'
         },
         {
           background: 'rgba(255, 152, 0, 0.5)',
-          border: 'rgba(255, 152, 0, 1)'
+          border: 'rgba(255, 152, 0, 1)',
+          pointer: 'cross'
         },
         {
           background: 'rgba(41, 182, 246, 0.5)',
-          border: 'rgba(41, 182, 246, 1)'
+          border: 'rgba(41, 182, 246, 1)',
+          pointer: 'star'
         },
         {
           background: 'rgba(156, 39, 176, 0.5)',
-          border: 'rgba(156, 39, 176, 1)'
+          border: 'rgba(156, 39, 176, 1)',
+          pointer: 'rect'
         },
         {
           background: 'rgba(33, 150, 243, 0.5)',
-          border: 'rgba(33, 150, 243, 1)'
+          border: 'rgba(33, 150, 243, 1)',
+          pointer: 'line'
         },
         {
           background: 'rgba(0, 137, 123, 0.5)',
-          border: 'rgba(0, 137, 123, 1)'
+          border: 'rgba(0, 137, 123, 1)',
+          pointer: 'dash'
         },
         {
           background: 'rgba(139, 195, 74, 0.5)',
-          border: 'rgba(139, 195, 74, 1)'
+          border: 'rgba(139, 195, 74, 1)',
+          pointer: 'rectRounded'
         },
         {
           background: 'rgba(205, 220, 57, 0.5)',
-          border: 'rgba(205, 220, 57, 1)'
+          border: 'rgba(205, 220, 57, 1)',
+          pointer: 'rectRot'
         },
         {
           background: 'rgba(255, 64, 129, 0.5)',
-          border: 'rgba(255, 64, 129, 1)'
+          border: 'rgba(255, 64, 129, 1)',
+          pointer: 'crossRot'
         },
         {
           background: 'rgba(255, 255, 0, 0.5)',
-          border: 'rgba(255, 255, 0, 1)'
+          border: 'rgba(255, 255, 0, 1)',
+          pointer: 'circle'
         }
       ]
     end

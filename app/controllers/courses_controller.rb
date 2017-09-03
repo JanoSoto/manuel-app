@@ -164,6 +164,7 @@ class CoursesController < ApplicationController
                          }
     end
     groups = @assigned_survey.group_by{|survey| survey[:group]}.to_a
+    @assigned_survey = @assigned_survey.paginate(page: params[:page], per_page: 5)
     @groups_percentage = []
     groups.each do |group|
       answered = 0
@@ -176,6 +177,48 @@ class CoursesController < ApplicationController
         end
       end
       @groups_percentage << {name: group[0], percentage: (answered.to_f/(answered+pending).to_f)*100}
+    end
+
+    ##Cálculo de los módulos resultados por estudiante
+    require 'matrix'
+    surveys = AssignedSurvey.where(name: params[:survey_name], course_id: params[:course_id], answered: true)
+
+    average = Vector.elements(Array.new(surveys.first.survey_results.count, 0.0))
+    students_average = Hash.new
+    module_results = Hash.new
+
+    surveys.each_with_index do |survey, index|
+      data = Vector.elements(survey.survey_results.map{|result| result.answer_option.score.to_f})
+      if students_average[survey.evaluated_user_id].nil?
+        students_average[survey.evaluated_user_id] = Hash.new
+        students_average[survey.evaluated_user_id][:data] = data
+        students_average[survey.evaluated_user_id][:count] = 1
+        students_average[survey.evaluated_user_id][:group] = nil
+        students_average[survey.evaluated_user_id][:module] = 0
+        students_average[survey.evaluated_user_id][:student] = survey.evaluated_user.full_name
+      else
+        students_average[survey.evaluated_user_id][:data] += data
+        students_average[survey.evaluated_user_id][:count] += 1
+      end
+      average += data
+    end
+
+    average /= surveys.count
+
+    @group_result = Hash.new
+    students_average.each do |student|
+      student[1][:data].each_with_index do |a, i|
+        student[1][:module] += a/student[1][:count] - average[i]
+      end
+      student[1][:module] /= average.size
+
+      group_name = CourseStudent.find_by(course_id: params[:course_id], user_id: student[0]).group_name
+      if @group_result[group_name].nil?
+        @group_result[group_name] = []
+        @group_result[group_name] << {student: student[1][:student], result: student[1][:module]}
+      else
+        @group_result[group_name] << {student: student[1][:student], result: student[1][:module]}
+      end
     end
   end
 
