@@ -1,6 +1,36 @@
-<h1>Editing Answer Option</h1>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Editar opción de respuesta
+    <small>Edite la opción de respuesta</small>
+  </h1>
+  <ol class="breadcrumb">
+  	<li><a href="<%= surveys_path %>">Encuestas</a></li>
+  	<li><a href="<%= survey_path(@answer_option.question.survey.id) %>"><%= @answer_option.question.survey.name %></a></li>
+  	<li><a href="#">Editar Pregunta</a></li>
+  	<li class="active">Editar opción de respuesta</li>
+  </ol>
+</section>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @answer_option %> |
-<%= link_to 'Back', answer_options_path %>
+<section class="content">
+  <div class="row">
+  	<div class="col-xs-12">
+  		<%= link_to :back  do %>
+  			<i class="fa fa-arrow-left"></i> Volver
+  		<% end %>
+  	</div>
+	</div>
+	<div class="row">
+		<br>
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+    	<div class="box box-primary">
+    		<div class="box-header with-border">
+    			<h3 class="box-title">Editar opción de respuesta</h3>
+    		</div>
+	    	<div class="box-body">
+					<%= render 'form' %>
+	    	</div>
+    	</div>
+    </div>
+	</div>
+</section>

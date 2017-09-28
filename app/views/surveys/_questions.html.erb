@@ -13,7 +13,7 @@
 						<%= link_to 'Editar', edit_question_path(question)+'/'+@survey.id.to_s, class: 'btn btn-primary btn-flat' %>
 					<% end %>
 					<button class="btn btn-primary btn-flat" data-widget="collapse">
-						Ver respuestas (<%= question.answer_options.count %>)
+						Ver opciones (<%= question.answer_options.count %>)
 					</button>
 				</div>
 			</div>
