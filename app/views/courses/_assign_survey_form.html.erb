@@ -1,10 +1,10 @@
 <%= form_tag action_path do %>
 	<div class="form-group">
-		<%= label_tag :survey_id, 'Seleccione una encuesta' %>							
+		<%= label_tag :survey_id, 'Seleccione una plantilla de encuesta' %>							
 		<%= select_tag(:survey_id, options_for_select(@surveys, @assigned_survey.try(:survey_id)), include_blank: 'Seleccione una encuesta', class: 'form-control', id: 'select-survey', required: true) %>
 	</div>
 	<div class="form-group">
-		<%= label_tag :name, 'Asígnele un nombre a esta encuesta para su curso' %>
+		<%= label_tag :name, 'Asigne un nombre específico a la encuesta específica' %>
 		<%= text_field_tag :name, @assigned_survey.try(:name), class: 'form-control', required: true %>
 	</div>
 	<%= hidden_field_tag(:course_id, @course.id) %>
