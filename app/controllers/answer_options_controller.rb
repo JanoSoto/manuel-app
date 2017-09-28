@@ -42,7 +42,8 @@ class AnswerOptionsController < ApplicationController
   def update
     respond_to do |format|
       if @answer_option.update(answer_option_params)
-        format.html { redirect_to @answer_option, notice: 'Answer option was successfully updated.' }
+        format.html { redirect_to edit_question_path(@answer_option.question)+'/'+@answer_option.question.survey.id.to_s, 
+                      notice: 'Opción de respuesta actualizada con éxito.' }
         format.json { render :show, status: :ok, location: @answer_option }
       else
         format.html { render :edit }
@@ -54,10 +55,17 @@ class AnswerOptionsController < ApplicationController
   # DELETE /answer_options/1
   # DELETE /answer_options/1.json
   def destroy
-    @answer_option.destroy
-    respond_to do |format|
-      format.html { redirect_to answer_options_url, notice: 'Answer option was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      @answer_option.destroy
+      respond_to do |format|
+        format.html { redirect_to edit_question_path(@answer_option.question)+'/'+@answer_option.question.survey.id.to_s, 
+          notice: 'Opción de respuesta eliminada con éxito.' }
+      end
+    rescue Exception => e
+      respond_to do |format|
+        format.html { redirect_to edit_question_path(@answer_option.question)+'/'+@answer_option.question.survey.id.to_s, 
+          alert: 'No es posible eliminar esta opción de respuesta ya que ha sido utilizada en una encuesta.' }
+      end
     end
   end
 
