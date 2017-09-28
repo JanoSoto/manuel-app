@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Encuestas
-    <small>Listado de encuestas registradas</small>
+    Plantillas de Encuesta
+    <small>Listado de Plantillas de Encuesta registradas</small>
   </h1>
   <ol class="breadcrumb">
-    <li class="active">Encuestas</li>
+    <li class="active">Plantillas de Encuesta</li>
   </ol>
 </section>
 
@@ -13,26 +13,33 @@
 <section class="content">
   <div class="row">
     <div class="col-xs-12">
+      <%= link_to root_path  do %>
+        <i class="fa fa-arrow-left"></i> Volver
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12">
       <div class="panel panel-default">
         <div class="panel-body">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th></th>
-                <th></th>
                 <th></th>
               </tr>
             </thead>
 
             <tbody>
-              <% @surveys.each do |survey| %>
+              <% @surveys.each_with_index do |survey, index| %>
                 <tr>
+                  <td><%= index + 1 %></td>
                   <td><%= survey.name %></td>
                   <td><%= survey.description %></td>
                   <td><%= link_to 'Ver', survey %></td>
-                  <td><%= link_to 'Editar', edit_survey_path(survey) %></td>
                   <!-- <td><%#= link_to 'Eliminar', survey, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
                 </tr>
               <% end %>
