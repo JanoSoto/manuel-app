@@ -42,7 +42,8 @@ class AnswerOptionsController < ApplicationController
   def update
     respond_to do |format|
       if @answer_option.update(answer_option_params)
-        format.html { redirect_to @answer_option, notice: 'Answer option was successfully updated.' }
+        format.html { redirect_to edit_question_path(@answer_option.question, @answer_option.question.survey.id), 
+                      notice: 'Opción de respuesta actualizada con éxito.' }
         format.json { render :show, status: :ok, location: @answer_option }
       else
         format.html { render :edit }

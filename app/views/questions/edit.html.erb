@@ -65,8 +65,10 @@
     			</div>
             <table class="table">
               <thead>
-                <th>Respuesta</th>
+                <th>Opción de respuesta</th>
                 <th>Puntaje</th>
+                <th></th>
+                <th></th>
               </thead>
               <tbody id="answer-options">
                 <% unless @question.answer_options.empty? %>
@@ -74,6 +76,12 @@
       							<tr>
   			    					<td><%= answer.answer %></td>
   			    					<td><%= answer.score %></td>
+                      <td>
+                        <a href="<%= edit_answer_option_path(answer) %>">
+                          <i class="fa fa-pencil blue"></i>
+                        </a>
+                      </td>
+                      <td><i class="fa fa-times red"></i></td>
       							</tr>
                   <% end %>
           			<% else %>

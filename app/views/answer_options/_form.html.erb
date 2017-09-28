@@ -11,19 +11,16 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :answer %><br>
-    <%= f.text_field :answer %>
+  <div class="form-group">
+    <%= f.label :answer, 'Respuesta' %>
+    <%= f.text_field :answer, class: 'form-control' %>
   </div>
-  <div class="field">
-    <%= f.label :score %><br>
-    <%= f.number_field :score %>
-  </div>
-  <div class="field">
-    <%= f.label :question_id %><br>
-    <%= f.text_field :question_id %>
+  <div class="form-group">
+    <%= f.label :score, 'Puntaje' %>
+    <%= f.number_field :score, class: 'form-control' %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.hidden_field :question_id %>
+    <%= f.submit class: 'btn btn-primary btn-block btn-flat' %>
   </div>
 <% end %>
