@@ -5,12 +5,6 @@
 
 	  <!-- Sidebar user panel (optional) -->
 	  <div class="user-panel">
-	    <div class="pull-left white">
-	      <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
-	    </div>
-	    <div class="pull-left info">
-	      <p><%= current_user.full_name%></p>
-	    </div>
 	  </div>
 
 	  <!-- Sidebar Menu -->
@@ -26,7 +20,7 @@
 		      </a>
 		      <ul class="treeview-menu">
 		      	<% if can? :read, User %>
-							<li><a href="<%= users_url %>"><i class="fa fa-list"></i> Usuarios</a></li>
+							<li><a href="<%= users_url %>"><i class="fa fa-list"></i> Todos los usuarios</a></li>
 		      	<% end %>
 		      	<% if can? :create, User %>
 		        	<li><a href="<%= new_user_path %>"><i class="fa fa-plus"></i> Nuevo usuario</a></li>
@@ -42,7 +36,7 @@
 	      </a>
 	      <% if current_user.admin? %>
 		      <ul class="treeview-menu">
-		      	<li><a href="<%= courses_path %>"><i class="fa fa-list"></i> Cursos</a></li>
+		      	<li><a href="<%= courses_path %>"><i class="fa fa-list"></i> Todos los cursos</a></li>
 		      	<% if can? :create, Course %>
 		        	<li><a href="<%= new_course_path %>"><i class="fa fa-plus"></i> Nuevo curso</a></li>
 		        <% end %>
@@ -62,7 +56,7 @@
 	      </a>
 	      <% if current_user.admin? %>
 		      <ul class="treeview-menu">
-		      	<li><a href="<%= surveys_path %>"><i class="fa fa-list"></i> Encuestas</a></li>
+		      	<li><a href="<%= surveys_path %>"><i class="fa fa-list"></i> Todas las encuestas</a></li>
 		      	<% if can? :create, Survey %>
 		        	<li><a href="<%= new_survey_path %>"><i class="fa fa-plus"></i> Nueva encuesta</a></li>
 		        <% end %>
