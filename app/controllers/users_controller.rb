@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   def create_user
     user = User.new(user_params)
     user.password = 123456 #Devise.friendly_token.first(8)
+    user.status = true
     respond_to do |format|
       if user.save
         # user.send_reset_password_instructions
