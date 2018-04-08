@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :assigned_surveys
   has_many :courses, through: :assigned_surveys
 
+  before_save :set_defaults
+
   def admin?
   	return self.roles_id == 1
   end
@@ -59,4 +61,10 @@ class User < ActiveRecord::Base
   def notify_survey(survey)
     NotificationMailer.notify_survey(self, survey).deliver_now
   end
+
+  private 
+    def set_defaults
+      self.status = true
+    end
+
 end
