@@ -55,4 +55,8 @@ class User < ActiveRecord::Base
   def group_leader?(course_id)
     return CourseStudent.find_by(user_id: self.id, course_id: course_id).try(:role) == 'jefe de grupo'
   end
+
+  def notify_survey(survey)
+    NotificationMailer.notify_survey(self, survey).deliver_now
+  end
 end

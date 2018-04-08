@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'questions/new/:survey_id' => 'questions#new'
   resources :questions
 
+  get 'survey/:survey_id/send_notification' => 'courses#send_notification', as: 'send_notification'
   get 'results_by_group/:course_id/:survey_name/:group_name' => 'surveys#results_by_group', as: 'results_by_group'
   get 'results_by_user/:survey_id' => 'surveys#results_by_user', as: 'results_by_user'
   get 'my_surveys/:id/results/:course_id/:survey_name/:evaluated_user_id/:user_id' => 'surveys#results', as: 'survey_results'

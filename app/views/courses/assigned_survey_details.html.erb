@@ -48,7 +48,7 @@
                   <% else %>
                     <td class="text-yellow"><i class="fa fa-exclamation-triangle"></i> Pendiente</td>
   									<td>
-  										<%= link_to '#', class: 'btn btn-warning btn-flat' do %>
+  										<%= link_to send_notification_path(survey_id: survey[:assigned_survey]), class: 'btn btn-warning btn-flat btn-notify' do %>
   											<i class="fa fa-send"></i> Enviar recordatorio
   										<% end %>
   									</td>
@@ -136,3 +136,12 @@
 		</div>
 	</div>
 </section>
+
+<script>
+	$('.btn-notify').click(function(){
+		console.log('sadfas');
+		var parent = $(this).parent();
+		$(this).hide();
+		parent.text('Enviando notificación...');
+	});
+</script>
