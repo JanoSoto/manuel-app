@@ -151,7 +151,7 @@ class CoursesController < ApplicationController
 
   def assigned_survey_details
     @course = Course.find(params[:course_id])
-    surveys = AssignedSurvey.select(:answered, :user_id, :evaluated_user_id, :survey_id)
+    surveys = AssignedSurvey.select(:id, :answered, :user_id, :evaluated_user_id, :survey_id)
                                      .where(course_id: params[:course_id], name: params[:survey_name])
     @assigned_survey = []
     surveys.each do |survey|
@@ -160,7 +160,8 @@ class CoursesController < ApplicationController
                            answered: survey.answered, 
                            group: CourseStudent.find_by(course_id: @course.id, user_id: survey.user_id).group_name,
                            survey_id: survey.survey_id,
-                           evaluated_user_id: survey.evaluated_user_id
+                           evaluated_user_id: survey.evaluated_user_id,
+                           assigned_survey: survey.id
                          }
     end
     groups = @assigned_survey.group_by{|survey| survey[:group]}.to_a
@@ -249,6 +250,14 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:course_id])
     @survey = AssignedSurvey.find_by(course_id: params[:course_id],
                                      name: params[:survey_name])
+  end
+
+  def send_notification
+    survey = AssignedSurvey.find(params[:survey_id])
+    survey.user.notify_survey(survey)
+    respond_to do |format|
+      format.html{redirect_to :back, notice: 'Notificación enviada con éxito'}
+    end
   end
 
   private

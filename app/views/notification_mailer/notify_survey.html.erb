@@ -1,0 +1,5 @@
+Estimado <%= @user.full_name %>
+
+Debe contestar la encuesta <%= @survey.name %> del curso <%= @survey.course.name %>.
+
+Puede acceder a la encuesta en este <%= link_to 'link', answer_survey_path(@survey,) %>
