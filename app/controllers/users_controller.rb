@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   def destroy
     @user.update(status: !@user.status)
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'Curso '+(@user.status ? 'activado' : 'desactivado')+' satisfactoriamente' }
+      format.html { redirect_to users_url, notice: 'Usuario '+(@user.status ? 'activado' : 'desactivado')+' satisfactoriamente' }
       format.json { head :no_content }
     end
   end
