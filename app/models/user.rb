@@ -60,4 +60,8 @@ class User < ActiveRecord::Base
     NotificationMailer.notify_survey(self, survey).deliver_now
   end
 
+  def get_courses
+    return Course.select(:id, :name).where(user: self)
+  end
+
 end
