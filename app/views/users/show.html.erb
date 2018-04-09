@@ -42,8 +42,8 @@
                 <td><%= @user.role %></td>
               </tr>
               <tr>
-                <th>Activo</th>
-                <td></td>
+                <th>Estado</th>
+                <td><%= @user.status ? 'Activo' : 'Desactivado' %></td>
               </tr>
             </tbody>
           </table>
@@ -56,24 +56,26 @@
           <h3 class="box-title">Cursos asignados</h3>
         </div>
         <div class="box-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim ven
+          <table class="table">
+            <thead>
+              <tr>
+                <th colspan="2">Curso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @user.get_courses.each do |course| %>
+                <tr>
+                  <td><%= course.name %></td>
+                  <td>
+                    <%= link_to 'Ver curso', course, class: 'btn btn-primary btn-flat' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-md-6">
-      <div class="box box-warning">
-        <div class="box-header with-border">
-          <div class="box-title">Resultados encuestas</div>
-        </div>
-        <div class="box-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim ven
-        </div>
-      </div>
-    </div>    
   </div>
 </section>
 <!-- /.content -->
