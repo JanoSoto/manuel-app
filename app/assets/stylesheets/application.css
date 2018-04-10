@@ -102,3 +102,6 @@ textarea {
   justify-content: center;
   align-items: center;
 }
+.callout a {
+	text-decoration: none;
+}
