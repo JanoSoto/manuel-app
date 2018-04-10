@@ -9,15 +9,23 @@
     <li><a href="<%= course_path(@course) %>"><%= @course.name %></a></li>
     <li class="active">Asignar encuesta</li>
   </ol>
+  <%= link_to course_path @course do %>
+    <i class="fa fa-arrow-left"></i> Volver
+  <% end %>
 </section>
 
 <!-- Main content -->
 <section class="content">
 	<div class="row">
 		<div class="col-xs-12">
-      <%= link_to course_path @course do %>
-        <i class="fa fa-arrow-left"></i> Volver
-      <% end %>
+			<div class="callout callout-warning">
+				<h4>¿Están correctamente conformados los grupos?</h4>
+				<p>
+					Esta encuesta se creará con los grupos que están conformados actualmente. <br>
+					Cualquier modificación en los grupos no afectará a la encuesta que se está creando en estos momentos.
+				</p>
+				<%= link_to 'Ir a edición de grupos', assign_students_path(@course), class: 'btn btn-primary btn-flat' %>
+			</div>
 		</div>	
 	</div>
 	<br>
