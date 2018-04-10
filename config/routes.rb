@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'surveys/:id/preview' => 'surveys#preview', as: 'survey_preview'
   resources :surveys
   
+  post 'courses/check_students_list' => 'courses#check_students_list', as: 'check_students_list'
   get 'couses/:course_id/results/:survey_name/group/:group_name' => 'courses#survey_results_by_group', as: 'survey_group_results'
   post 'update_assigned_survey' => 'courses#update_assigned_survey'
   get 'courses/:course_id/edit_assigned_survey/:survey_id' => 'courses#edit_assigned_survey', as: 'edit_assigned_survey'

@@ -9,15 +9,15 @@
     <li><a href="<%= course_path(@course) %>"><%= @course.name %></a></li>
     <li class="active">Asignar estudiantes</li>
   </ol>
+  <%= link_to course_path(@course) do %>
+    <i class="fa fa-arrow-left"></i> Volver
+  <% end %>
 </section>
 
 <!-- Main content -->
 <section class="content">
   <div class="row">
     <div class="col-xs-12">
-      <%= link_to course_path(@course) do %>
-        <i class="fa fa-arrow-left"></i> Volver
-      <% end %>
     </div>
   </div>
   <div class="row">
@@ -29,9 +29,21 @@
           <p>Haga click sobre los estudiantes que desea asignar al curso</p>
         </div>
         <div class="box-body" id="available-students">
-          <% @unassigned_students.each do |student| %>
-            <span id="student<%= student.id %>" class="btn btn-default student-button" onclick="assignStudent(<%= student.id %>, <%= @course.id %>, null)" draggable="true" ondragstart="drag_start(event)"><%= student.email %></span>
-          <% end %>
+          <div id="assigned-alert" class="alert alert-dismissible alert-info hidden">
+            <button class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            <b>Los siguientes usuarios ya han sido asignados a un grupo:</b>
+            <ul id="assigned-emails"></ul>
+          </div>
+          <div id="not-created-alert" class="alert alert-dismissible alert-warning hidden">
+            <button class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            <b>Los siguientes usuarios no están registrados en MANUEL:</b>
+            <ul id="not-created-emails"></ul>
+          </div>
+          <div class="form-group" id="students-input">
+            <%= label_tag :students_list, 'Ingrese los correos de los estudiantes separados por comas' %>
+            <%= text_area_tag :students_list, '', class: 'form-control', id: 'students-list' %><br>
+            <button id="upload-students" class="btn btn-primary btn-flat btn-block">Cargar estudiantes</button>
+          </div>
         </div>
         <div class="box-footer">
           <i class="fa fa-info-circle primary"></i> Click derecho para asignar como ayudante
@@ -84,6 +96,35 @@
 <!-- /.content -->
 
 <script>
+  $('#upload-students').click(function(){
+    $.post('<%= check_students_list_path %>', 
+            {
+              students_list: $('#students-list').val(), 
+              course_id: <%= @course.id %>
+          })
+        .done(function(data){
+          $('#students-input').remove();
+          var data = JSON.parse(data);
+          data.unassigned.forEach(function(student){
+            $('#available-students').append(
+                '<span id="student'+student.id+'" class="btn btn-default student-button" onclick="assignStudent('+student.id+', <%= @course.id %>, null)" draggable="true" ondragstart="drag_start(event)">'+ student.email +'</span>'
+              )
+          });
+          if (data.assigned.length > 0) {
+            data.assigned.forEach(function(student){
+              $('#assigned-emails').append('<li>'+student+'</li>')
+            });
+            $('#assigned-alert').removeClass('hidden');
+          }
+          if (data.not_created.length > 0) {
+            data.not_created.forEach(function(student){
+              $('#not-created-emails').append('<li>'+student+'</li>')
+            });
+            $('#not-created-alert').removeClass('hidden');
+          }
+        });
+  });
+
   function allowDrop(ev) {
     ev.preventDefault();
   }
