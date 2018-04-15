@@ -105,3 +105,7 @@ textarea {
 .callout a {
 	text-decoration: none;
 }
+
+.group-students-container {
+	padding: 15px;
+}
