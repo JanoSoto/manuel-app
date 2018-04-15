@@ -38,9 +38,8 @@
                     <td><%= course.semester %>/<%= course.year %></td>
                     <td class="hidden-xs"><%= course.status ? 'Activo' : 'Inactivo' %></td>
                     <td><%= course.user.full_name %></td>
-                    <td><%= link_to 'Ver más', course %></td>
+                    <td><%= link_to 'Ver detalles', course %></td>
                     <% unless current_user.student? %>
-                      <td><%= link_to 'Editar', edit_course_path(course) %></td>
                       <td><%= link_to course.status ? 'Desactivar' : 'Activar', course, method: :delete, data: { confirm: '¿Está seguro de que desea '+(course.status ? 'desactivar' : 'activar')+' este curso?' } %></td>
                     <% end %>
                   </tr>
