@@ -99,7 +99,7 @@
           <h3 class="box-title">Encuestas</h3>
           <div class="box-tools pull-right">
             <% unless current_user.student? %>
-              <%= link_to assign_survey_path(@course), class: 'btn btn-primary btn-flat' do %>
+              <%= link_to assign_survey_path(@course), class: 'btn btn-primary btn-flat '+new_survey_disabled(@course) do %>
                 <i class="fa fa-plus"></i> Agregar encuesta
               <% end %>              
             <% end %>
